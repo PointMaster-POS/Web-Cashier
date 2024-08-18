@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import {
+  HomeOutlined,
+  UsergroupAddOutlined,
   UserOutlined,
-  DashboardOutlined,
-  ShopOutlined,
-  PhoneOutlined,
-  AppstoreOutlined,
-  ProductOutlined,
-  ShoppingCartOutlined,
-  AreaChartOutlined,
-  StopOutlined,
+  SettingOutlined, 
+  HistoryOutlined,
+  AppstoreAddOutlined,
+  PieChartOutlined,
+  DollarOutlined
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -19,29 +18,39 @@ const { Sider } = Layout;
 const items = [
   {
     key: "/",
-    icon: <DashboardOutlined />,
-    label: "Dashboard",
+    icon: < HomeOutlined/>,
+    label: "Home",
   },
   {
-    key: "/stores",
-    icon: <ShopOutlined />,
-    label: "Stores",
+    key: "/customers",
+    icon: <UsergroupAddOutlined />,
+    label: "Customers",
   },
   {
-    key: "/users",
-    icon: <UserOutlined />,
-    label: "Users",
+    key: "/user",
+    icon: < UserOutlined/>,
+    label: "User",
   },
   {
-    key: "/suppliers",
-    icon: <PhoneOutlined />,
-    label: "Suppliers",
+    key: "/logs",
+    icon: <HistoryOutlined />,
+    label: "Logs",
   },
-  { key: "/category", icon: <AppstoreOutlined />, label: "Category" },
-  { key: "/products", icon: <ProductOutlined />, label: "Products" },
-  { key: "/orders", icon: <ShoppingCartOutlined />, label: "Orders" },
-  { key: "/reports", icon: <AreaChartOutlined />, label: "Reports" },
-  { key: "/expired", icon: <StopOutlined />, label: "Expired" },
+  {
+    key: "/salessummary",
+    icon: < PieChartOutlined/>,
+    label: "Sales Summary",
+  },
+  {
+    key: "/cashdrawer",
+    icon: <DollarOutlined />,
+    label: "Cash Drawer",
+  },
+  {
+    key: "/setting",
+    icon: <SettingOutlined />,
+    label: "Setting",
+  },
 ];
 
 const SideBar = ({ onCollapse }) => {
@@ -67,7 +76,7 @@ const SideBar = ({ onCollapse }) => {
     <Sider
       collapsible
       collapsed={collapsed}
-      width={260}
+      width={120}
       onCollapse={handleCollapse}
       theme="light"
       style={{
@@ -79,25 +88,21 @@ const SideBar = ({ onCollapse }) => {
         bottom: 0,
       }}
     >
-      {/* <div className="logo-container">
-        <img src="images/WhatsApp Image 2024-07-15 at 22.03.59_603d8715.jpg" alt="Logo" className="logo" />
-      </div> */}
-
       <Menu
         defaultSelectedKeys={[selectedKey]}
         mode="inline"
         theme="light"
         onClick={onMenuClick}
-        className="custom-menu"
       >
         {items.map((item) => (
-          <Menu.Item
-            key={item.key}
-            icon={item.icon}
-            className="custom-menu-item"
-          >
-            {item.label}
-          </Menu.Item>
+          <div className="tab">
+            <Menu.Item
+              key={item.key}
+              icon={item.icon}
+            >
+              <span>{item.label}</span> 
+            </Menu.Item>
+          </div>
         ))}
       </Menu>
     </Sider>
