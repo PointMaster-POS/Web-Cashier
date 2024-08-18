@@ -15,38 +15,11 @@ const notifications = [
   { title: "Bug Report", description: "A bug report has been filed." }
 ];
 const Header = () => {
-  const navigate = useNavigate();
-
-  const handleProfileClick = () => {
-    navigate("/profile");
-  };
-
-  const notificationContent = (
-    <List
-      dataSource={notifications}
-      renderItem={(item) => (
-        <List.Item>
-          <List.Item.Meta title={item.title} description={item.description} />
-        </List.Item>
-      )}
-    />
-  );
 
   return (
     <div className="header">
-      <Typography.Title level={2} style={{ margin: 0 }}>
-        Welcome to Point Master
-      </Typography.Title>
-      <Space size="large" /* style={{ marginLeft: 'auto' }} */>
-        <Popover content={notificationContent} title="Notifications" trigger="click">
-          <BellFilled style={{ fontSize: 30, cursor: "pointer", marginLeft: 10}} />
-        </Popover>
-        <Avatar
-          icon={<UserOutlined />}
-          style={{ cursor: "pointer" }}
-          onClick={handleProfileClick}
-        />
-      </Space>
+      <h1>Point Master</h1>
+      
     </div>
   );
 };
