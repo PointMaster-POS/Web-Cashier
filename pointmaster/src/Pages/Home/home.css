@@ -1,0 +1,27 @@
+.content {
+    display: grid;
+    grid-template-columns: 60% 40%; /* Adjusted to match 60% and 40% */
+    gap: 16px; 
+    width: 100%;
+    height: calc(100vh - 75px); /* Adjust for header height if necessary */
+    padding: 16px;
+  }
+  
+  .content-left {
+    background-color: #ffffff;
+    border-radius: 4px;
+    height: 100%;
+    display: flex;
+    align-items: center; /* Center content vertically if needed */
+    justify-content: center; /* Center content horizontally if needed */
+  }
+  
+  .content-right {
+    background-color: #ffffff;
+    border-radius: 4px;
+    height: 100%;
+    display: flex;
+    flex-direction: column; /* Ensure content can expand if needed */
+    justify-content: space-between; /* Adjust alignment if needed */
+  }
+  

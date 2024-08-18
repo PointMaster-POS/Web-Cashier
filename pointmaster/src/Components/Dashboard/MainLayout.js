@@ -32,11 +32,11 @@ const MainLayout = () => {
         <SideBar onCollapse={handleCollapse} />
         <Layout
           style={{
-            marginLeft: collapsed ? "80px" : "260px", // Adjust based on collapsed state
+            marginLeft: collapsed ? "80px" : "120px", 
             transition: "margin-left 0.2s",
           }}
         >
-          <AntContent style={{ margin: "16px 16px 0" }}>
+          <AntContent style={{ margin: "16px 16px 0", height: '100%' }}>
             <Content />
           </AntContent>
         </Layout>

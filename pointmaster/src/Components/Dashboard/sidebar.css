@@ -25,6 +25,6 @@
 
 .ant-menu-item-selected, .ant-menu-item:hover {
   background-color: #e6f7ff !important;
-  height: 100%; /* Ensure the background color covers the full height of the menu item */
+  height: 100%; 
 }
 
