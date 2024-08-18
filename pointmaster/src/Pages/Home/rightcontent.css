@@ -1,0 +1,71 @@
+.content-right {
+    background-color: #f5f5f5; /* Light gray background */
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%; /* Full height */
+  }
+  
+  .add-customer {
+    background-color: #ffffff; /* White background for the add customer section */
+    border-radius: 8px;
+    height: 250px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .add-customer button {
+    padding: 12px 24px;
+    background-color: #1890ff;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .selected-items {
+    margin-top: 16px;
+    background-color: #ffffff; /* White background for selected items */
+    border-radius: 8px;
+    padding: 16px;
+    flex-grow: 1;
+    overflow-y: auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .selected-item-card {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  
+  .total-section {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .total-section .total-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .total-section .discount-row {
+    display: flex;
+    justify-content: space-between;
+    color: #ff4d4f;
+    font-size: 16px;
+  }
+  

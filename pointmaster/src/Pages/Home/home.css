@@ -8,12 +8,9 @@
   }
   
   .content-left {
-    background-color: #ffffff;
     border-radius: 4px;
     height: 100%;
     display: flex;
-    align-items: center; /* Center content vertically if needed */
-    justify-content: center; /* Center content horizontally if needed */
   }
   
   .content-right {
@@ -22,6 +19,7 @@
     height: 100%;
     display: flex;
     flex-direction: column; /* Ensure content can expand if needed */
-    justify-content: space-between; /* Adjust alignment if needed */
+    align-items: center;
+    justify-content: center; /* Adjust alignment if needed */
   }
   

@@ -36,7 +36,7 @@ const MainLayout = () => {
             transition: "margin-left 0.2s",
           }}
         >
-          <AntContent style={{ margin: "16px 16px 0", height: '100%' }}>
+          <AntContent style={{ margin: "8px 8px 0", height: '100%' }}>
             <Content />
           </AntContent>
         </Layout>

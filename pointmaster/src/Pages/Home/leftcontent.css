@@ -1,7 +1,65 @@
-.content-left{
+.content-left {
     border-radius: 8px;
-    flex: 1;
-    justify-content: space-between;
-    background-color: #ffffff;
     height: 100%;
-}
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    padding: 8px;
+  }
+  
+  .top-rectangle {
+    width:99%;
+    background-color: #ffffff; /* White background for rectangle */
+    border-radius: 2px;
+    padding: 8px;
+  }
+  
+ .category-buttons button {
+    flex: 1;
+    margin: 0 4px; /* Space between buttons */
+    padding: 12px;
+    border: none;
+    background-color: #ffffff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  
+  .category-buttons button:hover {
+    background-color: #e6f7ff;
+  }
+  
+  .food-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  
+  .food-card {
+    margin-top: 16px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 16px;
+    width: calc(25% - 16px); /* Adjust width for card layout */
+  }
+  
+  .food-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+  }
+  
+  .food-card .food-details {
+    margin-top: 8px;
+  }
+  
+  .food-card .food-name {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .food-card .food-price {
+    color: #ff4d4f;
+    font-size: 16px;
+  }
+  
