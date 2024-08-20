@@ -1,9 +1,9 @@
 .content {
     display: grid;
-    grid-template-columns: 63% 37%; /* Adjusted to match 60% and 40% */
+    grid-template-columns: 63% 37%; 
     gap: 8px; 
     width: 100%;
-    height: calc(100vh - 75px); /* Adjust for header height if necessary */
+    height: calc(100vh - 75px); 
     padding: 16px;
   }
   
