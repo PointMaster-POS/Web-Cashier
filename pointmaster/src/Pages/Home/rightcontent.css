@@ -118,3 +118,37 @@
 .proceed {
   background-color: green;
 }
+
+
+.customer-details {
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.customer-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.customer-name, .customer-phone {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.change-customer {
+  align-self: flex-end;
+  background-color: #1890ff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.change-customer:hover {
+  background-color: #40a9ff;
+}
