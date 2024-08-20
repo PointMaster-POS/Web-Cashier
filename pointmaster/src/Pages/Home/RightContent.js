@@ -28,8 +28,6 @@ export default function RightContent({ selectedItems, setSelectedItems }) {
     setSelectedItems(newItems);
   };
 
-
-
   const increaseQuantity = (index) => {
     const newItems = [...selectedItems];
     newItems[index].quantity = (newItems[index].quantity || 0) + 1;
@@ -49,7 +47,7 @@ export default function RightContent({ selectedItems, setSelectedItems }) {
   };
 
   const handleSearch = () => {
-    // Simulate search or QR code scanning
+    // Simulating search or QR code scanning
     setCustomerDetails({ name: 'John Doe', phoneNumber: searchValue, points: 120 }); // Simulate customer data
     setCustomerSelected(true);
     setIsModalVisible(false);
@@ -62,7 +60,7 @@ export default function RightContent({ selectedItems, setSelectedItems }) {
       setCustomerDetails({ name: 'Jane Smith', phoneNumber: '098-765-4321', points: 85 }); // Simulate customer data
       setCustomerSelected(true);
       setIsModalVisible(false);
-    }, 3000); // Simulate QR code scanning delay
+    }, 3000); // Simulating QR code scanning delay
   };
 
   const handleChangeCustomer = () => {
@@ -128,7 +126,7 @@ export default function RightContent({ selectedItems, setSelectedItems }) {
           </div>
           <div className='summary-row'>
             <span>Tax:</span>
-            <span>$45.00</span> {/* tax calculation */}
+            <span>$45.00</span> {/* tax  */}
           </div>
           <div className='summary-row'>
             <span>Payable Amount:</span>
@@ -140,7 +138,7 @@ export default function RightContent({ selectedItems, setSelectedItems }) {
           <button className='proceed'><CheckOutlined /> Proceed</button>
         </div>
   
-        {/* Customer Selection Modal */}
+        {/* Customer Selection pop up */}
         <Modal
           title="Select Customer"
           visible={isModalVisible}
