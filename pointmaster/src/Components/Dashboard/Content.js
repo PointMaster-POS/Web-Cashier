@@ -1,15 +1,12 @@
-import React from 'react'
-import { Layout } from 'antd';
-
-
-const { Content: AntContent } = Layout;
+import React from 'react';
+import CashierRoutes from '../../Pages/CashierRoutes';
 
 const Content = () => {
   return (
-    <div className='content'>
-      
+    <div>
+      <CashierRoutes/>
     </div>
-  )
-}
+  );
+};
 
 export default Content;
