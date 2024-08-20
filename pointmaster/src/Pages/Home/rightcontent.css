@@ -1,24 +1,24 @@
 .content-right {
   border-radius: 8px;
   display: flex;
-  flex-direction: column; /* Stack items vertically */
+  flex-direction: column; 
   padding: 8px;
 }
 
 .add-customer {
   width: 100%;
-  background-color: #ffffff; /* White background for the add customer section */
+  background-color: #ffffff; 
   border-radius: 2px;
   height: 75px;
   padding: 8px;
   display: flex;
-  align-items: center; /* Vertically center the button */
+  align-items: center; 
 }
 
 .add-customer button {
   padding: 12px 24px;
   background-color: #d2d2d2;
-  color: #000000; /* Ensure the text color is black */
+  color: #000000; 
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -41,7 +41,7 @@
   background-color: #f9f9f9;
   margin-bottom: 8px;
   border-radius: 4px;
-  justify-content: space-between; /* Space between flex items */
+  justify-content: space-between; 
 }
 
 .item-name {
