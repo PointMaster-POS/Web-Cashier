@@ -1,21 +1,24 @@
-.content {
+.home-container {
   display: flex;
-  width: 100%;
-  height: calc(100vh - 75px); 
+  flex-direction: row;
+  height: calc(100vh - 75px); /* Full height minus header */
+  width: 100%; /* Full width */
+}
+
+.left-side {
+  flex: 1; /* Takes up 65% of the width */
+  display: flex;
+  flex-direction: column;
   padding: 16px;
-  gap: 8px;
+  border-right: 1px solid #ddd; /* Optional: Separator */
+  min-height: 100%;
+  box-sizing: border-box;
 }
 
-.content-left {
-  flex: 0 0 63%; /* 65% of the width */
-  border-radius: 4px;
-  height: 100%;
+.right-side {
+  flex: 0 0 37%; /* Takes up 35% of the width */
   display: flex;
-}
-
-.content-right {
-  flex: 0 0 37%; /* 35% of the width */
-  border-radius: 4px;
-  height: 100%;
-  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  box-sizing: border-box;
 }

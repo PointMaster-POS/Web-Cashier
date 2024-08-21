@@ -3,7 +3,6 @@ import RightContent from './RightContent';
 import LeftContent from './LeftContent';
 import './home.css';
 
-
 function Home() {
   const [selectedItems, setSelectedItems] = useState([]);
 
@@ -12,11 +11,11 @@ function Home() {
   };
 
   return (
-    <div className='content'>
-      <div className='content-left'>
+    <div className='home-container'>
+      <div className='left-side'>
         <LeftContent onAddItem={handleAddItem} />
       </div>
-      <div className='content-right'>
+      <div className='right-side'>
         <RightContent selectedItems={selectedItems} setSelectedItems={setSelectedItems} />
       </div>
     </div>

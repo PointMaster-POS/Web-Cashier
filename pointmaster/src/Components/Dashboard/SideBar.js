@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from "react";
-import {
-  HomeOutlined,
-  UsergroupAddOutlined,
-  UserOutlined,
-  SettingOutlined, 
-  HistoryOutlined,
-  AppstoreAddOutlined,
-  PieChartOutlined,
-  DollarOutlined
+import { 
+  HomeOutlined, 
+  UserOutlined, 
+  HistoryOutlined 
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -18,38 +13,18 @@ const { Sider } = Layout;
 const items = [
   {
     key: "/",
-    icon: < HomeOutlined/>,
+    icon: <HomeOutlined />,
     label: "Home",
   },
   {
-    key: "/customers",
-    icon: <UsergroupAddOutlined />,
-    label: "Customers",
-  },
-  {
-    key: "/users",
-    icon: < UserOutlined/>,
+    key: "/user",
+    icon: <UserOutlined />,
     label: "User",
   },
   {
     key: "/logs",
     icon: <HistoryOutlined />,
     label: "Logs",
-  },
-  {
-    key: "/salessummary",
-    icon: < PieChartOutlined/>,
-    label: "Sales Summary",
-  },
-  {
-    key: "/cashdrawer",
-    icon: <DollarOutlined />,
-    label: "Cash Drawer",
-  },
-  {
-    key: "/setting",
-    icon: <SettingOutlined />,
-    label: "Setting",
   },
 ];
 
@@ -64,6 +39,7 @@ const SideBar = ({ onCollapse }) => {
   }, [location.pathname]);
 
   const onMenuClick = (e) => {
+    setSelectedKey(e.key);
     navigate(e.key);
   };
 
@@ -76,33 +52,33 @@ const SideBar = ({ onCollapse }) => {
     <Sider
       collapsible
       collapsed={collapsed}
-      width={120}
+      width={120} // Increased width for better spacing
       onCollapse={handleCollapse}
       theme="light"
       style={{
-        overflow: 'auto',
-        height: '100vh',
-        position: 'fixed',
+        overflow: "auto",
+        height: "100vh",
+        position: "fixed",
         left: 0,
         top: 75,
         bottom: 0,
       }}
     >
       <Menu
-        defaultSelectedKeys={[selectedKey]}
+        selectedKeys={[selectedKey]}
         mode="inline"
         theme="light"
         onClick={onMenuClick}
+        style={{ paddingTop: 20 }} // Adds space at the top
       >
         {items.map((item) => (
-          <div className="tab">
-            <Menu.Item
-              key={item.key}
-              icon={item.icon}
-            >
-              <span>{item.label}</span> 
-            </Menu.Item>
-          </div>
+          <Menu.Item
+            key={item.key}
+            icon={item.icon}
+            style={{ marginBottom: 40 }} // Space between items
+          >
+            <span>{item.label}</span>
+          </Menu.Item>
         ))}
       </Menu>
     </Sider>
