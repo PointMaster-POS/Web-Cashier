@@ -1,21 +1,21 @@
 .content {
-    display: grid;
-    grid-template-columns: 63% 37%; 
-    gap: 8px; 
-    width: 100%;
-    height: calc(100vh - 75px); 
-    padding: 16px;
-  }
-  
-  .content-left {
-    border-radius: 4px;
-    height: 100%;
-    display: flex;
-  }
-  
-  .content-right {
-    border-radius: 4px;
-    height: 100%;
-    display: flex;
-  }
-  
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 75px); 
+  padding: 16px;
+  gap: 8px;
+}
+
+.content-left {
+  flex: 0 0 63%; /* 65% of the width */
+  border-radius: 4px;
+  height: 100%;
+  display: flex;
+}
+
+.content-right {
+  flex: 0 0 37%; /* 35% of the width */
+  border-radius: 4px;
+  height: 100%;
+  display: flex;
+}

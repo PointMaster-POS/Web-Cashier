@@ -14,11 +14,10 @@ function Home() {
   return (
     <div className='content'>
       <div className='content-left'>
-      <LeftContent onAddItem={handleAddItem} />
-      
-      <div className='content-right'>
-      <RightContent selectedItems={selectedItems} setSelectedItems={setSelectedItems} />
+        <LeftContent onAddItem={handleAddItem} />
       </div>
+      <div className='content-right'>
+        <RightContent selectedItems={selectedItems} setSelectedItems={setSelectedItems} />
       </div>
     </div>
   )

@@ -6,3 +6,14 @@
     height: 100%; /* Adjust if needed */
 }
   
+  .content-left {
+    border-radius: 4px;
+    height: 100%;
+    display: flex;
+  }
+  
+  .content-right {
+    border-radius: 4px;
+    height: 100%;
+    display: flex;
+  }
