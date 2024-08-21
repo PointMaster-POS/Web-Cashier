@@ -121,32 +121,33 @@
 
 
 .customer-details {
-  background-color: white;
-  padding: 10px;
-  border-radius: 5px;
+  flex: 1;
+  padding: 0 10px; /* Padding for some space within the white rectangle */
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .customer-info {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
+  align-items: center;
+  gap: 10px;
 }
 
-.customer-name, .customer-phone {
+.customer-name, .customer-phone, .customer-points {
   font-weight: bold;
-  margin-right: 10px;
+  margin-right: 15px;
+  font-size: larger;
 }
 
 .change-customer {
-  align-self: flex-end;
   background-color: #1890ff;
   color: white;
   border: none;
-  padding: 5px 10px;
+  padding: 3px px;
   border-radius: 5px;
   cursor: pointer;
+  align-self: flex-end; /* Aligns button to the bottom right corner */
 }
 
 .change-customer:hover {
