@@ -1,16 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react';
 import RightContent from './RightContent';
 import LeftContent from './LeftContent';
 import './home.css';
 
+
 function Home() {
+  const [selectedItems, setSelectedItems] = useState([]);
+
+  const handleAddItem = (item) => {
+    setSelectedItems([...selectedItems, item]);
+  };
+
   return (
     <div className='content'>
       <div className='content-left'>
-        <LeftContent/>
-      </div>
+      <LeftContent onAddItem={handleAddItem} />
+      
       <div className='content-right'>
-        <RightContent/>
+      <RightContent selectedItems={selectedItems} setSelectedItems={setSelectedItems} />
+      </div>
       </div>
     </div>
   )
