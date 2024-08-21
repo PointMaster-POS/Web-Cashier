@@ -59,7 +59,7 @@ export default function LeftContent({ onAddItem }) {
       </div>
       <div className='food-cards'>
         {foodItems[selectedCategory].map((item, index) => (
-          <div className='food-card' key={index} onClick={() => handleAddItem(item)}>
+          <div className='food-card' key={index} onClick={() => handleAddItem(item)}> {/* appending item to slected item array by handleAddItem function */ }
             <img src={item.imageUrl} alt={item.name} />
             <div className='food-details'>
               <div className='food-name'>{item.name}</div>
