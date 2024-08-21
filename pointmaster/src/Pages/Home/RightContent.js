@@ -138,7 +138,7 @@ export default function RightContent({ selectedItems, setSelectedItems }) {
           <button className='proceed'><CheckOutlined /> Proceed</button>
         </div>
   
-        {/* Customer Selection pop up */}
+        {/* Customer Selection  */}
         <Modal
           title="Select Customer"
           visible={isModalVisible}
