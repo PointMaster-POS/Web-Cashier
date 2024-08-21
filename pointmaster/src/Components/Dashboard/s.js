@@ -5,7 +5,6 @@ import {
   UserOutlined,
   SettingOutlined, 
   HistoryOutlined,
-  AppstoreAddOutlined,
   PieChartOutlined,
   DollarOutlined
 } from "@ant-design/icons";
@@ -18,7 +17,7 @@ const { Sider } = Layout;
 const items = [
   {
     key: "/",
-    icon: < HomeOutlined/>,
+    icon: <HomeOutlined />,
     label: "Home",
   },
   {
@@ -28,7 +27,7 @@ const items = [
   },
   {
     key: "/users",
-    icon: < UserOutlined/>,
+    icon: <UserOutlined />,
     label: "User",
   },
   {
@@ -38,7 +37,7 @@ const items = [
   },
   {
     key: "/salessummary",
-    icon: < PieChartOutlined/>,
+    icon: <PieChartOutlined />,
     label: "Sales Summary",
   },
   {
@@ -64,7 +63,8 @@ const SideBar = ({ onCollapse }) => {
   }, [location.pathname]);
 
   const onMenuClick = (e) => {
-    navigate(e.key);
+    setSelectedKey(e.key); // Update the selected key state
+    navigate(e.key); // Navigate to the selected route
   };
 
   const handleCollapse = (value) => {
@@ -89,20 +89,18 @@ const SideBar = ({ onCollapse }) => {
       }}
     >
       <Menu
-        defaultSelectedKeys={[selectedKey]}
+        selectedKeys={[selectedKey]} // Use selectedKey to control the selected menu item
         mode="inline"
         theme="light"
         onClick={onMenuClick}
       >
         {items.map((item) => (
-          <div className="tab">
-            <Menu.Item
-              key={item.key}
-              icon={item.icon}
-            >
-              <span>{item.label}</span> 
-            </Menu.Item>
-          </div>
+          <Menu.Item
+            key={item.key}
+            icon={item.icon}
+          >
+            <span>{item.label}</span> 
+          </Menu.Item>
         ))}
       </Menu>
     </Sider>

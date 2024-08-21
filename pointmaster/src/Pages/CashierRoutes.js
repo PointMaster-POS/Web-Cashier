@@ -7,7 +7,7 @@ function CashierRoutes() {
   return ( 
     <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/Users" element={<User/>}/>   
+        <Route path="/User" element={<User/>}/>   
     </Routes>
   );
 }
