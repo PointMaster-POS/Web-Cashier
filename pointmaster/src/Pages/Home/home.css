@@ -5,7 +5,7 @@
   width: 100%; /* Full width */
 }
 
-.left-side {
+.home-left-side {
   flex: 1; /* Takes up 65% of the width */
   display: flex;
   flex-direction: column;
@@ -14,7 +14,7 @@
   box-sizing: border-box;
 }
 
-.right-side {
+.home-right-side {
   flex: 0 0 37%; /* Takes up 35% of the width */
   display: flex;
   flex-direction: column;

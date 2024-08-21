@@ -12,10 +12,10 @@ function Home() {
 
   return (
     <div className='home-container'>
-      <div className='left-side'>
+      <div className='home-left-side'>
         <LeftContent onAddItem={handleAddItem} />
       </div>
-      <div className='right-side'>
+      <div className='home-right-side'>
         <RightContent selectedItems={selectedItems} setSelectedItems={setSelectedItems} />
       </div>
     </div>
