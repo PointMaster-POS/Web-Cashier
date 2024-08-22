@@ -3,7 +3,7 @@ import { Modal, Input, Button, Spin } from 'antd';
 import { PlusOutlined, MinusOutlined, CloseOutlined, PauseOutlined, CheckOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import './rightcontent.css';
 
-export default function RightContent({ selectedItems, setSelectedItems }) {
+export default function RightContent({ selectedItems, setSelectedItems, setRightContent, setPaymentInfo }) {
   const [totalAmount, setTotalAmount] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [customerSelected, setCustomerSelected] = useState(false);
@@ -80,6 +80,11 @@ export default function RightContent({ selectedItems, setSelectedItems }) {
     setCustomerSelected(false);
     setIsModalVisible(true);
   };
+  
+  const handleProceed = () => {
+    setPaymentInfo({ totalAmount, discount }); // Pass the total amount and discount
+    setRightContent('Payment'); // Switch to the Payment component
+  };
 
   return (
     <div className='content-right'>
@@ -144,7 +149,7 @@ export default function RightContent({ selectedItems, setSelectedItems }) {
       </div>
       <div className='order-actions'>
         <button className='hold-order'><PauseOutlined /> Hold Order</button>
-        <button className='proceed'><CheckOutlined /> Proceed</button>
+        <button className='proceed' onClick={handleProceed}><CheckOutlined /> Proceed</button>
       </div>
 
       {/* Customer Selection Modal */}

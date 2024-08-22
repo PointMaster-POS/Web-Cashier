@@ -1,63 +1,128 @@
-import React from 'react';
-import './logs.css';
+import React, { useState } from 'react';
+import { Table, Button, Modal, Space } from 'antd';
+import { PrinterOutlined } from '@ant-design/icons';
 
-function Logs() {
-  const transactions = [
-    {
-      billId: 'B001',
-      cashierName: 'John Doe',
-      time: '2024-08-21 14:30',
-      totalAmount: '$150.00',
-      discount: '$10.00',
-    },
-    {
-      billId: 'B002',
-      cashierName: 'Jane Smith',
-      time: '2024-08-21 15:00',
-      totalAmount: '$200.00',
-      discount: '$15.00',
-    },
-    // Add more transactions as needed
-  ];
+const Logs = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedBill, setSelectedBill] = useState(null);
 
-  const handlePrint = (billId) => {
-    // Implement the print functionality here
-    console.log(`Printing bill with ID: ${billId}`);
+  const showModal = (bill) => {
+    setSelectedBill(bill);
+    setIsModalVisible(true);
   };
 
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const handlePrint = (bill) => {
+    // Implement print logic here
+    console.log('Printing bill:', bill);
+  };
+
+  const columns = [
+    {
+      title: 'Bill Number',
+      dataIndex: 'billNumber',
+      key: 'billNumber',
+    },
+    {
+      title: 'Time',
+      dataIndex: 'time',
+      key: 'time',
+    },
+    {
+      title: 'Customer Name',
+      dataIndex: 'customerName',
+      key: 'customerName',
+      render: (text) => text || 'Not Assigned',
+    },
+    {
+      title: 'Total Amount',
+      dataIndex: 'totalAmount',
+      key: 'totalAmount',
+    },
+    {
+      title: 'Discount',
+      dataIndex: 'discount',
+      key: 'discount',
+    },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+      render: (status) => (
+        <span style={{ color: status === 'Completed' ? 'green' : 'orange' }}>
+          {status}
+        </span>
+      ),
+    },
+    {
+      title: 'Actions',
+      key: 'actions',
+      render: (text, record) => (
+        <Space size="middle">
+          <Button icon={<PrinterOutlined />} onClick={() => handlePrint(record)}>
+            Print
+          </Button>
+          <Button type="primary" onClick={() => showModal(record)}>
+            View Details
+          </Button>
+        </Space>
+      ),
+    },
+  ];
+
+  const dataSource = [
+    {
+      key: '1',
+      billNumber: '001',
+      time: '12:00 PM',
+      customerName: 'John Doe',
+      totalAmount: 150.0,
+      discount: 10.0,
+      status: 'Completed',
+    },
+    {
+      key: '2',
+      billNumber: '002',
+      time: '12:30 PM',
+      customerName: null,
+      totalAmount: 200.0,
+      discount: 0.0,
+      status: 'Hold',
+    },
+    // Add more data as needed
+  ];
+
   return (
-    <div className="logs-container">
-      <h2>Transaction Logs</h2>
-      <table className="logs-table">
-        <thead>
-          <tr>
-            <th>Bill ID</th>
-            <th>Cashier Name</th>
-            <th>Time</th>
-            <th>Total Amount</th>
-            <th>Discount</th>
-            <th>Print</th>
-          </tr>
-        </thead>
-        <tbody>
-          {transactions.map((transaction, index) => (
-            <tr key={index}>
-              <td>{transaction.billId}</td>
-              <td>{transaction.cashierName}</td>
-              <td>{transaction.time}</td>
-              <td>{transaction.totalAmount}</td>
-              <td>{transaction.discount}</td>
-              <td>
-                <button onClick={() => handlePrint(transaction.billId)} className="print-btn">
-                  Print
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div style={{ background: '#fff', padding: '20px', borderRadius: '8px' }}>
+      <Table columns={columns} dataSource={dataSource} pagination={false} />
+
+      <Modal
+        title="Bill Details"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        {selectedBill && (
+          <div>
+            <p><strong>Bill Number:</strong> {selectedBill.billNumber}</p>
+            <p><strong>Time:</strong> {selectedBill.time}</p>
+            <p><strong>Customer Name:</strong> {selectedBill.customerName || 'Not Assigned'}</p>
+            <p><strong>Total Amount:</strong> ${selectedBill.totalAmount}</p>
+            <p><strong>Discount:</strong> ${selectedBill.discount}</p>
+            <p><strong>Status:</strong> {selectedBill.status}</p>
+            {/* Display more details as required */}
+          </div>
+        )}
+      </Modal>
     </div>
   );
-}
+};
 
 export default Logs;
