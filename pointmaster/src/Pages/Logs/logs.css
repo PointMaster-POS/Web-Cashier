@@ -1,43 +1,63 @@
 .logs-container {
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .logs-container h2 {
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .logs-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .logs-table th, .logs-table td {
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    text-align: center;
-  }
-  
-  .logs-table th {
-    background-color: #f4f4f4;
-  }
-  
-  .logs-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  .print-btn {
-    padding: 8px 12px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .print-btn:hover {
-    background-color: #0056b3;
-  }
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 4px;
+  width: 98%;
+  margin-top: 16px;
+  margin-left: 16px;
+  height: calc(100vh - 75px); 
+}
+
+.logs-title {
+  text-align: left;
+  margin-bottom: 16px;
+}
+
+.divider {
+  border: none;
+  border-top: 2px solid black;
+  margin-bottom: 16px;
+  width: 98%;
+}
+
+.logs-table {
+  width: 90%;
+}
+ 
+.logs-container h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.logs-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.logs-table th, .logs-table td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.logs-table th {
+  background-color: #f4f4f4;
+}
+
+.logs-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.print-btn {
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.print-btn:hover {
+  background-color: #0056b3;
+}
   

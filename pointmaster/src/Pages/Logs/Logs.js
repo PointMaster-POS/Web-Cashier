@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { Table, Button, Modal, Space } from 'antd';
+import { Table, Button, Modal, Space, Typography } from 'antd';
 import { PrinterOutlined } from '@ant-design/icons';
+import './logs.css';
+
+const { Title } = Typography;
 
 const Logs = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -100,28 +103,33 @@ const Logs = () => {
   ];
 
   return (
-    <div style={{ background: '#fff', padding: '20px', borderRadius: '8px' }}>
-      <Table columns={columns} dataSource={dataSource} pagination={false} />
+    <div className="logs-container">
+      <Title level={2} className="logs-title">Transaction History</Title>
+      <hr className="divider" />
 
-      <Modal
-        title="Bill Details"
-        visible={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        {selectedBill && (
-          <div>
-            <p><strong>Bill Number:</strong> {selectedBill.billNumber}</p>
-            <p><strong>Time:</strong> {selectedBill.time}</p>
-            <p><strong>Customer Name:</strong> {selectedBill.customerName || 'Not Assigned'}</p>
-            <p><strong>Total Amount:</strong> ${selectedBill.totalAmount}</p>
-            <p><strong>Discount:</strong> ${selectedBill.discount}</p>
-            <p><strong>Status:</strong> {selectedBill.status}</p>
-            {/* Display more details as required */}
-          </div>
-        )}
-      </Modal>
-    </div>
+      <div style={{ background: '#fff', padding: '20px', borderRadius: '8px' }}>
+        <Table columns={columns} dataSource={dataSource} pagination={false} />
+
+        <Modal
+          title="Bill Details"
+          visible={isModalVisible}
+          onOk={handleOk}
+          onCancel={handleCancel}
+        >
+          {selectedBill && (
+            <div>
+              <p><strong>Bill Number:</strong> {selectedBill.billNumber}</p>
+              <p><strong>Time:</strong> {selectedBill.time}</p>
+              <p><strong>Customer Name:</strong> {selectedBill.customerName || 'Not Assigned'}</p>
+              <p><strong>Total Amount:</strong> ${selectedBill.totalAmount}</p>
+              <p><strong>Discount:</strong> ${selectedBill.discount}</p>
+              <p><strong>Status:</strong> {selectedBill.status}</p>
+              {/* Display more details as required */}
+            </div>
+          )}
+        </Modal>
+      </div>
+    </div>  
   );
 };
 
