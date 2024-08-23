@@ -11,6 +11,8 @@
 .logs-title {
   text-align: left;
   margin-bottom: 16px;
+  color: #1a3d7c; /* Dark blue color */
+  font-weight: bold; /* Optional: to make the title stand out */
 }
 
 .divider {

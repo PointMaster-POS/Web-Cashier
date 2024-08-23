@@ -25,7 +25,7 @@ export default function RightContent({ selectedItems, setSelectedItems, setRight
       const price = parseFloat(item.price.slice(1)) || 0;
       return acc + (item.quantity || 0) * price;
     }, 0);
-    const discountAmount = amount * 0.1; //10% discount
+    const discountAmount = amount * 0.1; // 10% discount
     setTotalAmount(amount - discountAmount);
     setDiscount(discountAmount);
   }, [selectedItems]);
@@ -79,10 +79,14 @@ export default function RightContent({ selectedItems, setSelectedItems, setRight
     setCustomerSelected(false);
     setIsModalVisible(true);
   };
-  
+
   const handleProceed = () => {
-    setPaymentInfo({ totalAmount, discount }); 
-    setRightContent('PaymentMethods'); 
+    setPaymentInfo({ 
+      customerDetails: customerSelected ? customerDetails : null, // Include customer details if selected
+      totalAmount, 
+      discount 
+    });
+    setRightContent('PaymentMethods');
   };
 
   const taxRate = 0.05; // Example tax rate of 5%

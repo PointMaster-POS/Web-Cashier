@@ -104,7 +104,14 @@ const Logs = () => {
 
   return (
     <div className="logs-container">
-      <Title level={2} className="logs-title">Transaction History</Title>
+      <Title level={2}
+    style={{
+      textAlign: 'left',
+      marginBottom: '16px',
+      color: '#1a3d7c',
+      fontWeight: 'bold', 
+      fontSize: '38px',}}>
+        Transaction History</Title>
       <hr className="divider" />
 
       <div style={{ background: '#fff', padding: '20px', borderRadius: '8px' }}>
