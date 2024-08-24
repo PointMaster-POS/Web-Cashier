@@ -3,7 +3,7 @@ import { Modal, Input, Button, Spin } from 'antd';
 import { PlusOutlined, MinusOutlined, CloseOutlined, PauseOutlined, CheckOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import './rightcontent.css';
 
-export default function RightContent({ selectedItems, setSelectedItems, setRightContent, setPaymentInfo }) {
+export default function RightContent({ selectedItems = [], setSelectedItems, setRightContent, setPaymentInfo }) {
   const [totalAmount, setTotalAmount] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [customerSelected, setCustomerSelected] = useState(false);
@@ -25,7 +25,7 @@ export default function RightContent({ selectedItems, setSelectedItems, setRight
       const price = parseFloat(item.price.slice(1)) || 0;
       return acc + (item.quantity || 0) * price;
     }, 0);
-    const discountAmount = amount * 0.1; //10% discount
+    const discountAmount = amount * 0.1; // 10% discount
     setTotalAmount(amount - discountAmount);
     setDiscount(discountAmount);
   }, [selectedItems]);
@@ -79,10 +79,10 @@ export default function RightContent({ selectedItems, setSelectedItems, setRight
     setCustomerSelected(false);
     setIsModalVisible(true);
   };
-  
+
   const handleProceed = () => {
-    setPaymentInfo({ totalAmount, discount }); 
-    setRightContent('PaymentMethods'); 
+    setPaymentInfo({ totalAmount, discount, customerDetails });
+    setRightContent('PaymentMethods');
   };
 
   const taxRate = 0.05; // Example tax rate of 5%

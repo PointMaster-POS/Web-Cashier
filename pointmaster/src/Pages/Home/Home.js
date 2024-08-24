@@ -32,7 +32,6 @@ function Home() {
             totalAmount={paymentInfo.totalAmount}
             discount={paymentInfo.discount}
             setRightContent={setRightContent}
-            setPaymentInfo={setPaymentInfo}
           />
         )}
       </div>
