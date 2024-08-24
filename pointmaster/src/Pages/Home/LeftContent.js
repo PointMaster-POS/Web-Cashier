@@ -6,28 +6,30 @@ export default function LeftContent({ onAddItem }) {
 
   const foodItems = {
     breakfast: [
-      { name: 'Pancakes', price: '$5.99', imageUrl: `${process.env.PUBLIC_URL}/images/Pancake.jpg` },
-      { name: 'Omelette', price: '$7.99', imageUrl: `${process.env.PUBLIC_URL}/images/Omelette.jpg` },
-      { name: 'French Toast', price: '$6.99', imageUrl: `${process.env.PUBLIC_URL}/images/FrenchToast.jpg` },
-      { name: 'Breakfast Burrito', price: '$8.49', imageUrl: `${process.env.PUBLIC_URL}/images/BreakfastBurrito.jpg` },
-      { name: 'Bagel with Cream Cheese', price: '$3.99', imageUrl: `${process.env.PUBLIC_URL}/images/Bagel.jpg` },
-      { name: 'Avocado Toast', price: '$7.49', imageUrl: `${process.env.PUBLIC_URL}/images/AvocadoToast.jpg` },
-      { name: 'Waffles', price: '$6.99', imageUrl: `${process.env.PUBLIC_URL}/images/Waffles.jpg` },
-      { name: 'Smoothie Bowl', price: '$8.99', imageUrl: `${process.env.PUBLIC_URL}/images/SmoothieBowl.jpg` },
-      { name: 'Granola with Yogurt', price: '$5.99', imageUrl: `${process.env.PUBLIC_URL}/images/Granola.jpg` },
-      { name: 'Eggs Benedict', price: '$9.99', imageUrl: `${process.env.PUBLIC_URL}/images/EggsBenedict.jpg` }
+      { name: 'Waffles', price: '$6.99', imageUrl: `${process.env.PUBLIC_URL}/images/breakfast/Waffles.jpg` },
+      { name: 'Avocado Toast', price: '$7.49', imageUrl: `${process.env.PUBLIC_URL}/images/breakfast/Avocado Toast.jpg` },
+      { name: 'Smoothie Bowl', price: '$8.99', imageUrl: `${process.env.PUBLIC_URL}/images/breakfast/Smoothie Bowl.jpg` },
+      { name: 'French Toast', price: '$6.99', imageUrl: `${process.env.PUBLIC_URL}/images/breakfast/French Toast.jpg` },
+      { name: 'Bagel with Cream Cheese', price: '$3.99', imageUrl: `${process.env.PUBLIC_URL}/images/breakfast/Bagel with Cream Cheese.jpg` },
+      { name: 'Breakfast Burrito', price: '$8.49', imageUrl: `${process.env.PUBLIC_URL}/images/breakfast/Breakfast Burrito.jpg` },
+      { name: 'chocolate waffles', price: '$8.99', imageUrl: `${process.env.PUBLIC_URL}/images/breakfast/chocolate waffles.jpg` },
+      { name: 'Granola with Yogurt', price: '$5.99', imageUrl: `${process.env.PUBLIC_URL}/images/breakfast/Granola with Yogurt.jpg` },
+      { name: 'Eggs Benedict', price: '$9.99', imageUrl: `${process.env.PUBLIC_URL}/images/breakfast/Eggs Benedict.jpg` },
+      { name: 'Pancakes', price: '$5.99', imageUrl: `${process.env.PUBLIC_URL}/images/breakfast/Pancake.jpg` },
+      { name: 'Omelette', price: '$7.99', imageUrl: `${process.env.PUBLIC_URL}/images/breakfast/Omelette.jpg` },
+      { name: 'Breakfast Sandwich', price: '$6.49', imageUrl: `${process.env.PUBLIC_URL}/images/breakfast/Breakfast Sandwich.jpg` }
     ],
     lunch: [
-      { name: 'Burger', price: '$8.99', imageUrl: 'https://via.placeholder.com/150' },
-      { name: 'Salad', price: '$6.99', imageUrl: 'https://via.placeholder.com/150' },
-      { name: 'Grilled Chicken Sandwich', price: '$7.99', imageUrl: 'https://via.placeholder.com/150' },
-      { name: 'BLT Sandwich', price: '$6.49', imageUrl: 'https://via.placeholder.com/150' },
-      { name: 'Club Sandwich', price: '$8.49', imageUrl: 'https://via.placeholder.com/150' },
-      { name: 'Caesar Salad', price: '$7.99', imageUrl: 'https://via.placeholder.com/150' },
-      { name: 'Chicken Caesar Wrap', price: '$8.99', imageUrl: 'https://via.placeholder.com/150' },
-      { name: 'Veggie Wrap', price: '$7.49', imageUrl: 'https://via.placeholder.com/150' },
-      { name: 'Tuna Salad', price: '$6.99', imageUrl: 'https://via.placeholder.com/150' },
-      { name: 'Quesadilla', price: '$7.99', imageUrl: 'https://via.placeholder.com/150' }
+      { name: 'Burger', price: '$8.99', imageUrl: `${process.env.PUBLIC_URL}/images/lunch/Burger.jpg` },
+      { name: 'Salad', price: '$6.99', imageUrl: `${process.env.PUBLIC_URL}/images/lunch/Salad.jpg` },
+      { name: 'Grilled Chicken', price: '$7.99', imageUrl: `${process.env.PUBLIC_URL}/images/lunch/Grilled Chicken.jpg` },
+      { name: 'BLT', price: '$6.49', imageUrl: `${process.env.PUBLIC_URL}/images/lunch/BLT.jpg` },
+      { name: 'Club Sandwich', price: '$8.49', imageUrl: `${process.env.PUBLIC_URL}/images/lunch/Club Sandwich.jpg` },
+      { name: 'Caesar Salad', price: '$7.99', imageUrl: `${process.env.PUBLIC_URL}/images/lunch/Caesar Salad.jpg` },
+      { name: 'Chicken Caesar Wrap', price: '$8.99', imageUrl: `${process.env.PUBLIC_URL}/images/lunch/ChickenCaesarWrap.jpg` },
+      { name: 'Veggie Wrap', price: '$7.49', imageUrl: `${process.env.PUBLIC_URL}/images/lunch/VeggieWrap.jpg` },
+      { name: 'Tuna Salad', price: '$6.99', imageUrl: `${process.env.PUBLIC_URL}/images/lunch/TunaSalad.jpg` },
+      { name: 'Quesadilla', price: '$7.99', imageUrl: `${process.env.PUBLIC_URL}/images/lunch/Quesadilla.jpg` }
     ],
     dinner: [
       { name: 'Steak', price: '$14.99', imageUrl: 'https://via.placeholder.com/150' },
