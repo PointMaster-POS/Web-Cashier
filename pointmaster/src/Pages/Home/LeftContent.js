@@ -7,36 +7,90 @@ export default function LeftContent({ onAddItem }) {
   const foodItems = {
     breakfast: [
       { name: 'Pancakes', price: '$5.99', imageUrl: `${process.env.PUBLIC_URL}/images/Pancake.jpg` },
-      { name: 'Omelette', price: '$7.99', imageUrl: `${process.env.PUBLIC_URL}/images/omlette.jpg` },
-      { name: 'Pancakes', price: '$5.99', imageUrl: `${process.env.PUBLIC_URL}/images/Pancake.jpg` },
-      { name: 'Omelette', price: '$7.99', imageUrl: `${process.env.PUBLIC_URL}/images/omlette.jpg` },
-      { name: 'Pancakes', price: '$5.99', imageUrl: `${process.env.PUBLIC_URL}/images/Pancake.jpg` },
-      { name: 'Omelette', price: '$7.99', imageUrl: `${process.env.PUBLIC_URL}/images/omlette.jpg` },
-      { name: 'Pancakes', price: '$5.99', imageUrl: `${process.env.PUBLIC_URL}/images/Pancake.jpg` },
-      { name: 'Omelette', price: '$7.99', imageUrl: `${process.env.PUBLIC_URL}/images/omlette.jpg` },
-      { name: 'Pancakes', price: '$5.99', imageUrl: `${process.env.PUBLIC_URL}/images/Pancake.jpg` },
-      { name: 'Omelette', price: '$7.99', imageUrl: `${process.env.PUBLIC_URL}/images/omlette.jpg` },
-      { name: 'Pancakes', price: '$5.99', imageUrl: `${process.env.PUBLIC_URL}/images/Pancake.jpg` },
-      { name: 'Omelette', price: '$7.99', imageUrl: `${process.env.PUBLIC_URL}/images/omlette.jpg` },
-
+      { name: 'Omelette', price: '$7.99', imageUrl: `${process.env.PUBLIC_URL}/images/Omelette.jpg` },
+      { name: 'French Toast', price: '$6.99', imageUrl: `${process.env.PUBLIC_URL}/images/FrenchToast.jpg` },
+      { name: 'Breakfast Burrito', price: '$8.49', imageUrl: `${process.env.PUBLIC_URL}/images/BreakfastBurrito.jpg` },
+      { name: 'Bagel with Cream Cheese', price: '$3.99', imageUrl: `${process.env.PUBLIC_URL}/images/Bagel.jpg` },
+      { name: 'Avocado Toast', price: '$7.49', imageUrl: `${process.env.PUBLIC_URL}/images/AvocadoToast.jpg` },
+      { name: 'Waffles', price: '$6.99', imageUrl: `${process.env.PUBLIC_URL}/images/Waffles.jpg` },
+      { name: 'Smoothie Bowl', price: '$8.99', imageUrl: `${process.env.PUBLIC_URL}/images/SmoothieBowl.jpg` },
+      { name: 'Granola with Yogurt', price: '$5.99', imageUrl: `${process.env.PUBLIC_URL}/images/Granola.jpg` },
+      { name: 'Eggs Benedict', price: '$9.99', imageUrl: `${process.env.PUBLIC_URL}/images/EggsBenedict.jpg` }
     ],
     lunch: [
       { name: 'Burger', price: '$8.99', imageUrl: 'https://via.placeholder.com/150' },
-      { name: 'Salad', price: '$6.99', imageUrl: 'https://via.placeholder.com/150' }
+      { name: 'Salad', price: '$6.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Grilled Chicken Sandwich', price: '$7.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'BLT Sandwich', price: '$6.49', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Club Sandwich', price: '$8.49', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Caesar Salad', price: '$7.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Chicken Caesar Wrap', price: '$8.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Veggie Wrap', price: '$7.49', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Tuna Salad', price: '$6.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Quesadilla', price: '$7.99', imageUrl: 'https://via.placeholder.com/150' }
     ],
     dinner: [
       { name: 'Steak', price: '$14.99', imageUrl: 'https://via.placeholder.com/150' },
-      { name: 'Pasta', price: '$12.99', imageUrl: 'https://via.placeholder.com/150' }
+      { name: 'Pasta', price: '$12.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Grilled Salmon', price: '$15.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Chicken Alfredo', price: '$13.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'BBQ Ribs', price: '$16.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Lasagna', price: '$11.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Chicken Stir-Fry', price: '$12.49', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Vegetarian Pizza', price: '$10.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Shrimp Scampi', price: '$14.49', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Lamb Chops', price: '$18.99', imageUrl: 'https://via.placeholder.com/150' }
     ],
     beverages: [
       { name: 'Coffee', price: '$2.99', imageUrl: 'https://via.placeholder.com/150' },
-      { name: 'Juice', price: '$3.99', imageUrl: 'https://via.placeholder.com/150' }
+      { name: 'Juice', price: '$3.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Tea', price: '$2.49', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Soda', price: '$1.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Smoothie', price: '$4.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Milkshake', price: '$5.49', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Hot Chocolate', price: '$3.49', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Iced Coffee', price: '$3.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Lemonade', price: '$3.29', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Iced Tea', price: '$2.99', imageUrl: 'https://via.placeholder.com/150' }
     ],
     desserts: [
       { name: 'Ice Cream', price: '$4.99', imageUrl: 'https://via.placeholder.com/150' },
-      { name: 'Cake', price: '$5.99', imageUrl: 'https://via.placeholder.com/150' }
+      { name: 'Cake', price: '$5.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Brownie', price: '$3.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Cheesecake', price: '$6.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Apple Pie', price: '$4.49', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Chocolate Chip Cookies', price: '$3.49', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Cupcake', price: '$2.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Pudding', price: '$3.49', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Mousse', price: '$4.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Fruit Tart', price: '$5.49', imageUrl: 'https://via.placeholder.com/150' }
+    ],
+    appetizers: [
+      { name: 'Spring Rolls', price: '$5.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Chicken Wings', price: '$7.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Mozzarella Sticks', price: '$6.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Stuffed Mushrooms', price: '$7.49', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Nachos', price: '$8.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Bruschetta', price: '$5.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Potato Skins', price: '$6.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Garlic Bread', price: '$4.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Fried Calamari', price: '$9.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Onion Rings', price: '$4.99', imageUrl: 'https://via.placeholder.com/150' }
+    ],
+    soups: [
+      { name: 'Tomato Soup', price: '$4.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Chicken Noodle Soup', price: '$5.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Minestrone', price: '$6.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Clam Chowder', price: '$7.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Beef Stew', price: '$8.49', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'French Onion Soup', price: '$6.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Lentil Soup', price: '$5.49', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Broccoli Cheddar Soup', price: '$6.99', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Chicken Tortilla Soup', price: '$7.49', imageUrl: 'https://via.placeholder.com/150' },
+      { name: 'Butternut Squash Soup', price: '$5.99', imageUrl: 'https://via.placeholder.com/150' }
     ]
   };
+  
   
 
   const handleAddItem = (item) => {
