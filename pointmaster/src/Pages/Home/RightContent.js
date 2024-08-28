@@ -3,7 +3,7 @@ import { Modal, Input, Button, Spin } from 'antd';
 import { PlusOutlined, MinusOutlined, CloseOutlined, PauseOutlined, CheckOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import './rightcontent.css';
 
-export default function RightContent({ selectedItems, setSelectedItems }) {
+export default function RightContent({ selectedItems = [], setSelectedItems, setRightContent, setPaymentInfo }) {
   const [totalAmount, setTotalAmount] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [customerSelected, setCustomerSelected] = useState(false);
@@ -12,12 +12,20 @@ export default function RightContent({ selectedItems, setSelectedItems }) {
   const [isQRCodeWaiting, setIsQRCodeWaiting] = useState(false);
   const [searchValue, setSearchValue] = useState('');
 
+  // Mock customer data
+  const customers = [
+    { name: 'John Doe', phoneNumber: '123-456-7890', points: 120 },
+    { name: 'Jane Smith', phoneNumber: '098-765-4321', points: 85 },
+    { name: 'Alice Johnson', phoneNumber: '555-123-4567', points: 200 },
+    { name: 'Bob Brown', phoneNumber: '444-555-6666', points: 60 },
+  ];
+
   useEffect(() => {
     const amount = selectedItems.reduce((acc, item) => {
       const price = parseFloat(item.price.slice(1)) || 0;
       return acc + (item.quantity || 0) * price;
     }, 0);
-    const discountAmount = amount * 0.1; //10% discount
+    const discountAmount = amount * 0.1; // 10% discount
     setTotalAmount(amount - discountAmount);
     setDiscount(discountAmount);
   }, [selectedItems]);
@@ -27,8 +35,6 @@ export default function RightContent({ selectedItems, setSelectedItems }) {
     newItems.splice(index, 1);
     setSelectedItems(newItems);
   };
-
-
 
   const increaseQuantity = (index) => {
     const newItems = [...selectedItems];
@@ -49,20 +55,24 @@ export default function RightContent({ selectedItems, setSelectedItems }) {
   };
 
   const handleSearch = () => {
-    // Simulate search or QR code scanning
-    setCustomerDetails({ name: 'John Doe', phoneNumber: searchValue, points: 120 }); // Simulate customer data
-    setCustomerSelected(true);
-    setIsModalVisible(false);
+    const customer = customers.find(c => c.phoneNumber === searchValue);
+    if (customer) {
+      setCustomerDetails(customer);
+      setCustomerSelected(true);
+      setIsModalVisible(false);
+    } else {
+      alert('Customer not found');
+    }
   };
 
   const handleQRCodeWait = () => {
     setIsQRCodeWaiting(true);
     setTimeout(() => {
       setIsQRCodeWaiting(false);
-      setCustomerDetails({ name: 'Jane Smith', phoneNumber: '098-765-4321', points: 85 }); // Simulate customer data
+      setCustomerDetails(customers[1]); // Simulate customer selection based on QR code
       setCustomerSelected(true);
       setIsModalVisible(false);
-    }, 3000); // Simulate QR code scanning delay
+    }, 3000); // Simulating QR code scanning delay
   };
 
   const handleChangeCustomer = () => {
@@ -70,10 +80,18 @@ export default function RightContent({ selectedItems, setSelectedItems }) {
     setIsModalVisible(true);
   };
 
+  const handleProceed = () => {
+    setPaymentInfo({ totalAmount, discount, customerDetails });
+    setRightContent('PaymentMethods');
+  };
+
+  const taxRate = 0.05; // Example tax rate of 5%
+  const taxAmount = (totalAmount + discount) * taxRate;
+
   return (
     <div className='content-right'>
       <div className='add-customer'>
-        {customerSelected ? (
+        {customerSelected && customerDetails.name ? (
           <div className='customer-details'>
             <div className='customer-info'>
               <span className='customer-name'>Name: {customerDetails.name}</span>
@@ -108,67 +126,51 @@ export default function RightContent({ selectedItems, setSelectedItems }) {
                   <span>{quantity}</span>
                   <button onClick={() => increaseQuantity(index)}><PlusOutlined /></button>
                 </div>
-                <span className='item-discount'>
-                  {isNaN(discount) ? 'Invalid Discount' : `$${discount.toFixed(2)}`}
-                </span>
                 <span className='item-total'>
-                  {isNaN(total) ?
-                  'Invalid Total' : `$${total}`}
-                  </span>
-                </div>
-                <button className='remove-item' onClick={() => removeItem(index)}><CloseOutlined /></button>
+                  {isNaN(total) ? 'Invalid Total' : `$${total}`}
+                </span>
               </div>
-            );
-          })}
-        </div>
-        <div className='order-summary'>
-          <div className='summary-row'>
-            <span>Subtotal:</span>
-            <span>${(totalAmount + discount).toFixed(2)}</span>
-          </div>
-          <div className='summary-row'>
-            <span>Tax:</span>
-            <span>$45.00</span> {/* tax calculation */}
-          </div>
-          <div className='summary-row'>
-            <span>Payable Amount:</span>
-            <span>${totalAmount.toFixed(2)}</span>
-          </div>
-        </div>
-        <div className='order-actions'>
-          <button className='hold-order'><PauseOutlined /> Hold Order</button>
-          <button className='proceed'><CheckOutlined /> Proceed</button>
-        </div>
-  
-        {/* Customer Selection Modal */}
-        <Modal
-          title="Select Customer"
-          visible={isModalVisible}
-          onCancel={() => setIsModalVisible(false)}
-          footer={null}
-        >
-          {!isQRCodeWaiting ? (
-            <div>
-              <Input
-                placeholder="Enter phone number"
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-              />
-              <Button type="primary" onClick={handleSearch} style={{ marginTop: '10px' }}>
-                Search by Phone Number
-              </Button>
-              <Button type="default" onClick={handleQRCodeWait} style={{ marginTop: '10px', marginLeft: '10px' }}>
-                Scan QR Code
-              </Button>
+              <button className='remove-item' onClick={() => removeItem(index)}><CloseOutlined /></button>
             </div>
-          ) : (
-            <div style={{ textAlign: 'center', padding: '20px' }}>
-              <Spin size="large" />
-              <p>Waiting for QR Code scan...</p>
-            </div>
-          )}
-        </Modal>
+          );
+        })}
       </div>
-    );
-  }
-  
+      <div className='order-summary'>
+        <div className='summary-row'>
+          <span>Subtotal:</span>
+          <span>${(totalAmount + discount).toFixed(2)}</span>
+        </div>
+        <div className='summary-row'>
+          <span>Tax:</span>
+          <span>${taxAmount.toFixed(2)}</span> {/* Calculated tax amount */}
+        </div>
+        <div className='summary-row'>
+          <span>Payable Amount:</span>
+          <span>${(totalAmount + taxAmount).toFixed(2)}</span>
+        </div>
+      </div>
+      <div className='order-actions'>
+        {/* <button className='hold-order'><PauseOutlined /> Hold Order</button> */}
+        <button className='proceed' onClick={handleProceed}><CheckOutlined /> Proceed</button>
+      </div>
+
+      {/* Customer Selection Modal */}
+      <Modal
+        title="Select Customer"
+        visible={isModalVisible}
+        onCancel={() => setIsModalVisible(false)}
+        footer={null}
+      >
+        <Input
+          placeholder="Enter phone number"
+          value={searchValue}
+          onChange={e => setSearchValue(e.target.value)}
+          style={{ marginBottom: '10px' }}
+        />
+        <Button type="primary" onClick={handleSearch}>Search by phone number</Button>
+        <Button onClick={handleQRCodeWait} style={{ marginLeft: '10px' }}>QR Code</Button>
+        {isQRCodeWaiting && <Spin style={{ marginLeft: '10px' }} />}
+      </Modal>
+    </div>
+  );
+}

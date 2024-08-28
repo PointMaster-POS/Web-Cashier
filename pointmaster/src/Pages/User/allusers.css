@@ -1,0 +1,55 @@
+.all-users-container {
+    padding: 20px;
+    background-color: #f0f2f5;
+    height: 100%;
+  }
+  
+  .all-users-container h2, .all-users-container h3 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .cashier-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .cashier-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .small-photo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+  }
+  
+  .switch-cashier input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+  }
+  
+  .switch-cashier button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    background-color: #1890ff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .switch-cashier button:hover {
+    background-color: #40a9ff;
+  }
+  
