@@ -29,7 +29,7 @@ function CashierDetails() {
           <p><strong>Email:</strong> {cashier.email}</p>
         </div>
         <button className="change-cashier-btn" onClick={togglePopup}>
-          Change Cashier
+           Logout
         </button>
       </div>
 

@@ -150,7 +150,7 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
         </div>
       </div>
       <div className='order-actions'>
-        <button className='hold-order'><PauseOutlined /> Hold Order</button>
+        {/* <button className='hold-order'><PauseOutlined /> Hold Order</button> */}
         <button className='proceed' onClick={handleProceed}><CheckOutlined /> Proceed</button>
       </div>
 
