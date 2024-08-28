@@ -1,0 +1,24 @@
+.payment-methods-container {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+  }
+  
+  .customer-details {
+    margin-bottom: 20px;
+  }
+  
+  .payment-methods {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  .payment-card {
+    width: 150px;
+    text-align: center;
+    margin: 10px;
+    padding: 20px;
+    cursor: pointer;
+  }
+  
