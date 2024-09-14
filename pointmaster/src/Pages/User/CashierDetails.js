@@ -1,61 +1,50 @@
-import React, { useState } from 'react';
-import './cashierdetails.css';
+import React from "react";
+import { Row, Col, Typography, Button, Avatar } from "antd";
+import { UserOutlined } from "@ant-design/icons";
+import "./cashierdetails.css"; 
 
-function CashierDetails() {
-  const [showPopup, setShowPopup] = useState(false);
+const { Title, Text } = Typography;
 
-  const cashier = {
-    name: 'John Doe',
-    branchId: 'B123',
-    address: '123 Main St, City, State, 12345',
-    dateOfBirth: '1990-01-15',
-    email: 'john.doe@example.com',
-    photoUrl: `${process.env.PUBLIC_URL}/images/cashier.jpg`,
+const CashierDetails = ({ cashier = {} }) => {
+  const handleLogout = () => {
+    // Implement logout 
+    console.log("Logging out...");
   };
 
-  const togglePopup = () => {
-    setShowPopup(!showPopup);
-  };
+  // Destructure cashier object with default values
+  const { name = "N/A", address = "N/A", dateOfBirth = "N/A", email = "N/A", photoUrl } = cashier;
 
   return (
     <div className="cashier-details-container">
-      <div className="box">
-        <img src={cashier.photoUrl} alt={cashier.name} className="cashier-photo" />
-        <div className="cashier-info">
-          <p><strong>Name:</strong> {cashier.name}</p>
-          <p><strong>Branch ID:</strong> {cashier.branchId}</p>
-          <p><strong>Address:</strong> {cashier.address}</p>
-          <p><strong>Date of Birth:</strong> {cashier.dateOfBirth}</p>
-          <p><strong>Email:</strong> {cashier.email}</p>
-        </div>
-        <button className="change-cashier-btn" onClick={togglePopup}>
-           Logout
-        </button>
-      </div>
+      <Row gutter={16}>
+        {/* Left Side - Cashier Details */}
+        <Col span={16}>
+          <Title level={4}>{name}</Title>
+          <Text strong>Address:</Text>
+          <Text>{address}</Text>
+          <br />
+          <Text strong>Date of Birth:</Text>
+          <Text>{dateOfBirth}</Text>
+          <br />
+          <Text strong>Email:</Text>
+          <Text>{email}</Text>
+          <br />
+          <Button type="primary" danger onClick={handleLogout} style={{ marginTop: "20px" }}>
+            Logout
+          </Button>
+        </Col>
 
-      {showPopup && (
-        <div className="popup">
-          <div className="popup-content">
-            <h3>Switch Cashier</h3>
-            <form>
-              <div className="form-group">
-                <label>Email:</label>
-                <input type="email" required />
-              </div>
-              <div className="form-group">
-                <label>Password:</label>
-                <input type="password" required />
-              </div>
-              <div className="form-actions">
-                <button type="submit" className="submit-btn">Login</button>
-                <button type="button" className="cancel-btn" onClick={togglePopup}>Cancel</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+        {/* Right Side - Cashier Image */}
+        <Col span={8} className="cashier-avatar">
+          <Avatar
+            size={120}
+            src={photoUrl || null} // Display profile image if available
+            icon={<UserOutlined />}
+          />
+        </Col>
+      </Row>
     </div>
   );
-}
+};
 
 export default CashierDetails;
