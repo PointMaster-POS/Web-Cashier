@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import MainLayout from './MainLayout';
-import Login from './components/Login'; // Assuming your Login component is inside the components folder
+import MainLayout from './Components/Dashboard/MainLayout';
+import Login from './Components/Login/Login.js'; // Assuming your Login component is inside the components folder
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 
 const App = () => {
@@ -32,3 +32,9 @@ const App = () => {
 };
 
 export default App;
+
+
+
+
+
+
