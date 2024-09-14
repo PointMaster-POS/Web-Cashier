@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Login({ isAuthenticated, setIsAuthenticated }) {
   const [messageApi, contextHolder] = message.useMessage();
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate(); 
 
   const onFinish = (values) => {
     const url = "http://localhost:3002/employee/login";
@@ -22,8 +22,17 @@ export default function Login({ isAuthenticated, setIsAuthenticated }) {
         password: values.password,
       })
       .then((response) => {
+        console.log("API Response:", response);  // Log the full response to inspect it
+  
         if (response.status === 200) {
-          localStorage.setItem("accessToken", JSON.stringify(response.data));
+          // Access token might not be in `response.data.accessToken`, so let's check the whole response object
+          console.log("Response Data:", response.data);
+  
+          // Assuming token is inside response.data (check this from the log)
+          const accessToken = response.data.accessToken || response.data.token || response.data; 
+          console.log("Access Token:", accessToken);  // Log the access token
+  
+          localStorage.setItem("accessToken", JSON.stringify(accessToken));
           setIsAuthenticated(true);
           navigate("/");  // Redirect to MainLayout after successful login
         } else {
@@ -33,13 +42,16 @@ export default function Login({ isAuthenticated, setIsAuthenticated }) {
           });
         }
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error("Login failed:", error);  // Log error for debugging
         messageApi.open({
           type: "error",
           content: "Login failed",
         });
       });
   };
+  
+  
 
   return (
     <div className="login-container">
