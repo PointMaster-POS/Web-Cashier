@@ -7,11 +7,18 @@ export default function LeftContent({ onAddItem }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [foodItems, setFoodItems] = useState([]);
 
-  // Fetch categories from the API
+  // Get the access token from localStorage
+  const token = JSON.parse(localStorage.getItem('accessToken'));
+
+  // Fetch categories from the API with the access token
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://localhost:3003/cashier/inventory/categories');
+        const response = await axios.get('http://localhost:3003/cashier/inventory/categories', {
+          headers: {
+            Authorization: `Bearer ${token}` // Include the token in the headers
+          }
+        });
         setCategories(response.data);
         if (response.data.length > 0) {
           // Automatically select the first category
@@ -22,14 +29,18 @@ export default function LeftContent({ onAddItem }) {
       }
     };
     fetchCategories();
-  }, []);
+  }, [token]);
 
   // Fetch products for the selected category
   useEffect(() => {
     if (selectedCategory) {
       const fetchProducts = async () => {
         try {
-          const response = await axios.get(`http://localhost:3003/cashier/inventory/products/2076ef49-7188-11ef-8928-0242ac120002`);
+          const response = await axios.get(`http://localhost:3003/cashier/inventory/products/${selectedCategory}`, {
+            headers: {
+              Authorization: `Bearer ${token}` // Include the token in the headers
+            }
+          });
           setFoodItems(response.data);
         } catch (error) {
           console.error('Error fetching products:', error);
@@ -37,7 +48,7 @@ export default function LeftContent({ onAddItem }) {
       };
       fetchProducts();
     }
-  }, [selectedCategory]);
+  }, [selectedCategory, token]);
 
   const handleCategoryClick = (category_id) => {
     setSelectedCategory(category_id);
