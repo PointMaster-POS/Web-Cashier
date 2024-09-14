@@ -8,14 +8,14 @@ import {
   EyeTwoTone,
 } from "@ant-design/icons";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom"; 
 
 export default function Login({ isAuthenticated, setIsAuthenticated }) {
   const [messageApi, contextHolder] = message.useMessage();
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const onFinish = (values) => {
     console.log("Success:", values);
-    //call api to check if the password is correct
     const url = "http://localhost:3002/employee/login";
     axios
       .post(url, {
@@ -23,14 +23,13 @@ export default function Login({ isAuthenticated, setIsAuthenticated }) {
         password: values.password,
       })
       .then((response) => {
-        // console.log(response.status === 200);
         if (response.status === 200) {
           localStorage.setItem("accessToken", JSON.stringify(response.data));
           if (!isAuthenticated) {
             setIsAuthenticated(true);
           }
+          navigate("/home"); // Redirect to Home.js on successful login
         } else {
-          
           messageApi.open({
             type: "error",
             content: "Entered password is incorrect",
@@ -46,9 +45,6 @@ export default function Login({ isAuthenticated, setIsAuthenticated }) {
         });
         console.log(error);
       });
-
-
-
   };
 
   return (
