@@ -15,7 +15,6 @@ export default function Login({ isAuthenticated, setIsAuthenticated }) {
   const navigate = useNavigate(); // Initialize useNavigate
 
   const onFinish = (values) => {
-    console.log("Success:", values);
     const url = "http://localhost:3002/employee/login";
     axios
       .post(url, {
@@ -25,25 +24,20 @@ export default function Login({ isAuthenticated, setIsAuthenticated }) {
       .then((response) => {
         if (response.status === 200) {
           localStorage.setItem("accessToken", JSON.stringify(response.data));
-          if (!isAuthenticated) {
-            setIsAuthenticated(true);
-          }
-          navigate("/home"); // Redirect to Home.js on successful login
+          setIsAuthenticated(true);
+          navigate("/");  // Redirect to MainLayout after successful login
         } else {
           messageApi.open({
             type: "error",
-            content: "Entered password is incorrect",
-            duration: 5,
+            content: "Invalid credentials",
           });
         }
       })
-      .catch((error) => {
+      .catch(() => {
         messageApi.open({
           type: "error",
-          content: "Entered password is incorrect",
-          duration: 5,
+          content: "Login failed",
         });
-        console.log(error);
       });
   };
 
