@@ -1,13 +1,13 @@
 import React from "react";
 import { Row, Col, Typography, Button, Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import "./cashierdetails.css"; // Custom styling for layout
+import "./cashierdetails.css"; 
 
 const { Title, Text } = Typography;
 
 const CashierDetails = ({ cashier = {} }) => {
   const handleLogout = () => {
-    // Implement logout functionality
+    // Implement logout 
     console.log("Logging out...");
   };
 

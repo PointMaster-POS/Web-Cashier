@@ -31,9 +31,11 @@ const Header = () => {
       </Typography.Title>
       <Avatar
         icon={<UserOutlined />}
-        style={{ cursor: "pointer" }}
+        size={48}
+        style={{ cursor: "pointer", marginRight: "20px" }} // Combine styles into one object
         onClick={handleProfileClick}
       />
+
       {/* Modal for displaying CashierDetails */}
       <Modal
         title="Cashier Details"
