@@ -1,0 +1,45 @@
+/* LandingPage.css */
+.landing-page {
+    height: 100vh;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  
+  .overlay {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: white;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background for text */
+    padding: 40px;
+    border-radius: 10px;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+  }
+  
+  .login-button {
+    background-color: black;
+    color: white;
+    border: none;
+    height: 50px;
+    width: 200px;
+    font-size: 1.2rem;
+  }
+  
+  .login-button:hover {
+    background-color: #333;
+  }
+  
