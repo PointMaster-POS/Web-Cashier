@@ -75,10 +75,16 @@ export default function LeftContent({ onAddItem }) {
       <div className='food-cards'>
         {foodItems.map((item, index) => (
           <div className='food-card' key={index} onClick={() => handleAddItem(item)}>
-            <img src={item.imageUrl} alt={item.name} />
+            {/* Correct field names */}
+            <img 
+              src={item.image_url ? item.image_url : 'placeholder.png'}  // Handle missing image URL
+              alt={item.item_name} 
+            />
             <div className='food-details'>
-              <div className='food-name'>{item.name}</div>
-              <div className='food-price'>{item.price}</div>
+              <div className='food-name'>{item.item_name}</div>
+              <div className='food-price'>
+                {item.price ? `$${item.price}` : 'Price not available'}
+              </div>
             </div>
           </div>
         ))}
