@@ -7,7 +7,7 @@ import Logs from "./Logs/Logs";
 function CashierRoutes() {
   return ( 
     <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/user" element={<User/>}/>   
         <Route path="/logs" element={<Logs />} />
     </Routes>

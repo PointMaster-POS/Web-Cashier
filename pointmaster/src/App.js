@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import MainLayout from './Components/Dashboard/MainLayout';
-import Login from './Components/Login/Login.js'; // Assuming your Login component is inside the components folder
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import MainLayout from './Components/Dashboard/MainLayout';
+import Login from './Components/Login/Login';
+import Landing from './Pages/Landing/Landing'; // Import the Landing component
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -17,11 +18,16 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        {/* If the user is authenticated, show MainLayout; otherwise, show Login */}
+        {/* Display Landing Page first */}
+        <Route path="/" element={<Landing />} />
+
+        {/* After successful login, navigate to MainLayout */}
         <Route
-          path="/"
+          path="/dashboard"
           element={isAuthenticated ? <MainLayout /> : <Navigate to="/login" />}
         />
+
+        {/* Login Route */}
         <Route
           path="/login"
           element={<Login isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />}
@@ -32,9 +38,3 @@ const App = () => {
 };
 
 export default App;
-
-
-
-
-
-
