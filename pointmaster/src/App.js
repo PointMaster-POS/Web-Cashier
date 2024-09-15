@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import MainLayout from './Components/Dashboard/MainLayout';
 import Login from './Components/Login/Login';
-import Landing from './Pages/Landing/Landing'; // Import the Landing component
+import Landing from './Pages/Landing/Landing'; 
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    // Check if the user is already authenticated (e.g., from localStorage)
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
       setIsAuthenticated(true);
@@ -21,17 +20,20 @@ const App = () => {
         {/* Display Landing Page first */}
         <Route path="/" element={<Landing />} />
 
-        {/* After successful login, navigate to MainLayout */}
-        <Route
-          path="/dashboard"
-          element={isAuthenticated ? <MainLayout /> : <Navigate to="/login" />}
+        {/* Redirect to /login if not authenticated */}
+        <Route 
+          path="/login" 
+          element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login setIsAuthenticated={setIsAuthenticated} />} 
         />
 
-        {/* Login Route */}
-        <Route
-          path="/login"
-          element={<Login isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />}
+        {/* After successful login, navigate to /dashboard */}
+        <Route 
+          path="/dashboard/*" 
+          element={isAuthenticated ? <MainLayout /> : <Navigate to="/login" />} 
         />
+
+        {/* Redirect to landing if user tries to access other paths */}
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
   );

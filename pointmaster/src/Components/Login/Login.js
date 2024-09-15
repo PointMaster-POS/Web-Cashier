@@ -22,7 +22,7 @@ export default function Login({ isAuthenticated, setIsAuthenticated }) {
         password: values.password,
       })
       .then((response) => {
-        console.log("API Response:", response);  // Log the full response to inspect it
+        console.log("API Response:", response);  
   
         if (response.status === 200) {
           // Access token might not be in `response.data.accessToken`, so let's check the whole response object
@@ -34,7 +34,7 @@ export default function Login({ isAuthenticated, setIsAuthenticated }) {
   
           localStorage.setItem("accessToken", JSON.stringify(accessToken));
           setIsAuthenticated(true);
-          navigate("/");  // Redirect to MainLayout after successful login
+          navigate("/dashboard"); 
         } else {
           messageApi.open({
             type: "error",
