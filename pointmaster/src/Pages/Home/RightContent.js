@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Input, Button, Spin } from 'antd';
-import { PlusOutlined, MinusOutlined, CloseOutlined, PauseOutlined, CheckOutlined, ArrowRightOutlined } from "@ant-design/icons";
+import { PlusOutlined, MinusOutlined, CloseOutlined, CheckOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import './rightcontent.css';
 
 export default function RightContent({ selectedItems = [], setSelectedItems, setRightContent, setPaymentInfo }) {
@@ -12,7 +12,7 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
   const [isQRCodeWaiting, setIsQRCodeWaiting] = useState(false);
   const [searchValue, setSearchValue] = useState('');
 
-  // Mock customer data
+  
   const customers = [
     { name: 'John Doe', phoneNumber: '123-456-7890', points: 120 },
     { name: 'Jane Smith', phoneNumber: '098-765-4321', points: 85 },

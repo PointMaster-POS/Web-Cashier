@@ -57,7 +57,7 @@ export default function Login({ isAuthenticated, setIsAuthenticated }) {
     <div className="login-container">
       {contextHolder}
       <div className="image-section">
-        <img src={`${process.env.PUBLIC_URL}images/LogIn.png`} alt="Welcome" />
+        <img src={`${process.env.PUBLIC_URL}Images/LogIn.png`} alt="Welcome" />
       </div>
       <div className="form-section">
         <h1>

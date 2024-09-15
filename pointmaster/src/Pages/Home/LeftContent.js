@@ -16,7 +16,7 @@ export default function LeftContent({ onAddItem }) {
       try {
         const response = await axios.get('http://localhost:3003/cashier/inventory/categories', {
           headers: {
-            Authorization: `Bearer ${token}` // Include the token in the headers
+            Authorization: `Bearer ${token}` 
           }
         });
         setCategories(response.data);
@@ -84,7 +84,7 @@ export default function LeftContent({ onAddItem }) {
             <div className='food-details'>
               <div className='food-name'>{item.item_name}</div>
               <div className='food-price'>
-                {item.price ? `$${item.price}` : 'Price not available'}
+                {item.price ? `$${item.price}` : 'Price not available'}  {/* since db missing price now - change later */}
               </div>
             </div>
           </div>
