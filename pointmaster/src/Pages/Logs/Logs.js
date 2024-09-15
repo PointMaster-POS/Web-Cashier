@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table, Button, Modal, Space, Typography } from 'antd';
 import { PrinterOutlined } from '@ant-design/icons';
 import './logs.css';
@@ -8,6 +8,7 @@ const { Title } = Typography;
 const Logs = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedBill, setSelectedBill] = useState(null);
+  const [dataSource, setDataSource] = useState([]);
 
   const showModal = (bill) => {
     setSelectedBill(bill);
@@ -80,27 +81,43 @@ const Logs = () => {
     },
   ];
 
-  const dataSource = [
-    {
-      key: '1',
-      billNumber: '001',
-      time: '12:00 PM',
-      customerName: 'John Doe',
-      totalAmount: 150.0,
-      discount: 10.0,
-      status: 'Completed',
-    },
-    {
-      key: '2',
-      billNumber: '002',
-      time: '12:30 PM',
-      customerName: null,
-      totalAmount: 200.0,
-      discount: 0.0,
-      status: 'Hold',
-    },
-    // Add more data as needed
-  ];
+  
+  const readCashierLogs = () => {
+    const tempDataSource = [
+      {
+        key: '1',
+        billNumber: '001',
+        time: '12:00 PM',
+        customerName: 'John Doe',
+        totalAmount: 150.0,
+        discount: 10.0,
+        status: 'Completed',
+      },
+      {
+        key: '2',
+        billNumber: '002',
+        time: '12:30 PM',
+        customerName: null,
+        totalAmount: 200.0,
+        discount: 0.0,
+        status: 'Hold',
+      },
+    ];
+    setDataSource(tempDataSource);
+  
+  };
+
+  //functions to run in first render
+  useEffect(() => {
+    readCashierLogs();  
+  }, []);
+
+  useEffect(() => {
+    console.log('dataSource:', dataSource);  
+  }, [dataSource]);
+
+
+
 
   return (
     <div className="logs-container">

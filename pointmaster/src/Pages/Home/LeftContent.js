@@ -7,14 +7,21 @@ export default function LeftContent({ onAddItem }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [foodItems, setFoodItems] = useState([]);
 
-  // Fetch categories from the API
+  // Get the access token from localStorage
+  const token = JSON.parse(localStorage.getItem('accessToken'));
+
+  // Fetch categories from the API with the access token
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://localhost:3003/cashier/inventory/categories');
+        const response = await axios.get('http://localhost:3003/cashier/inventory/categories', {
+          headers: {
+            Authorization: `Bearer ${token}` 
+          }
+        });
         setCategories(response.data);
         if (response.data.length > 0) {
-          // Automatically select the first category
+          // select the first category
           setSelectedCategory(response.data[0].category_id);
         }
       } catch (error) {
@@ -22,14 +29,18 @@ export default function LeftContent({ onAddItem }) {
       }
     };
     fetchCategories();
-  }, []);
+  }, [token]);
 
   // Fetch products for the selected category
   useEffect(() => {
     if (selectedCategory) {
       const fetchProducts = async () => {
         try {
-          const response = await axios.get(`http://localhost:3003/cashier/inventory/products/2076ef49-7188-11ef-8928-0242ac120002`);
+          const response = await axios.get(`http://localhost:3003/cashier/inventory/products/${selectedCategory}`, {
+            headers: {
+              Authorization: `Bearer ${token}` 
+            }
+          });
           setFoodItems(response.data);
         } catch (error) {
           console.error('Error fetching products:', error);
@@ -37,7 +48,7 @@ export default function LeftContent({ onAddItem }) {
       };
       fetchProducts();
     }
-  }, [selectedCategory]);
+  }, [selectedCategory, token]);
 
   const handleCategoryClick = (category_id) => {
     setSelectedCategory(category_id);
@@ -64,10 +75,17 @@ export default function LeftContent({ onAddItem }) {
       <div className='food-cards'>
         {foodItems.map((item, index) => (
           <div className='food-card' key={index} onClick={() => handleAddItem(item)}>
-            <img src={item.imageUrl} alt={item.name} />
+            {/* <img 
+              src={item.image_url ? item.image_url : 'placeholder.png'}  // Handle missing image URL
+              alt={item.item_name} 
+            /> */}
+
+            <img src={item.image_url} alt={item.name} />
             <div className='food-details'>
-              <div className='food-name'>{item.name}</div>
-              <div className='food-price'>{item.price}</div>
+              <div className='food-name'>{item.item_name}</div>
+              <div className='food-price'>
+                {item.price ? `$${item.price}` : 'Price not available'}  {/* since db missing price now - change later */}
+              </div>
             </div>
           </div>
         ))}
