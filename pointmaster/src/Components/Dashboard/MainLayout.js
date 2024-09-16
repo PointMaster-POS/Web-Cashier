@@ -2,7 +2,7 @@ import React from 'react';
 import { Layout } from 'antd';
 import Header from './Header';
 import SideBar from './SideBar';
-import CashierRoutes from '../../Pages/CashierRoutes'; // Import CashierRoutes
+import { Outlet } from 'react-router-dom';  // This is important for rendering nested routes
 
 const { Content: AntContent } = Layout;
 
@@ -17,7 +17,7 @@ const MainLayout = () => {
         <Layout style={{ marginLeft: '120px' }}>
           <AntContent style={{ margin: '8px 8px 0', height: '100%' }}>
             <div className="content">
-              <CashierRoutes /> {/* Render CashierRoutes here */}
+              <Outlet /> {/* This renders the nested route component */}
             </div>
           </AntContent>
         </Layout>
