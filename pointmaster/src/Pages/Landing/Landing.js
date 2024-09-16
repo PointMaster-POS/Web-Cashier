@@ -7,7 +7,7 @@ const Landing = () => {
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
-    navigate("/login");
+    navigate("/login"); // Ensure you are just navigating to /login
   };
 
   return (

@@ -10,9 +10,9 @@ import {
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; 
 
-export default function Login({ isAuthenticated, setIsAuthenticated }) {
+export default function Login({ setIsAuthenticated }) {
   const [messageApi, contextHolder] = message.useMessage();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const onFinish = (values) => {
     const url = "http://localhost:3002/employee/login";
@@ -22,19 +22,12 @@ export default function Login({ isAuthenticated, setIsAuthenticated }) {
         password: values.password,
       })
       .then((response) => {
-        console.log("API Response:", response);  
-  
         if (response.status === 200) {
-          // Access token might not be in `response.data.accessToken`, so let's check the whole response object
-          console.log("Response Data:", response.data);
-  
-          // Assuming token is inside response.data (check this from the log)
-          const accessToken = response.data.accessToken || response.data.token || response.data; 
-          console.log("Access Token:", accessToken);  // Log the access token
-  
-          localStorage.setItem("accessToken", JSON.stringify(accessToken));
-          setIsAuthenticated(true);
-          navigate("/dashboard"); 
+          // Access token might be in `response.data` 
+          const accessToken = response.data.accessToken || response.data.token || response.data;
+          localStorage.setItem("accessToken", JSON.stringify(accessToken));  // Store the token
+          setIsAuthenticated(true);  // Set authenticated state
+          navigate("/dashboard");  // Redirect to dashboard after login
         } else {
           messageApi.open({
             type: "error",
@@ -43,15 +36,12 @@ export default function Login({ isAuthenticated, setIsAuthenticated }) {
         }
       })
       .catch((error) => {
-        console.error("Login failed:", error);  // Log error for debugging
         messageApi.open({
           type: "error",
           content: "Login failed",
         });
       });
   };
-  
-  
 
   return (
     <div className="login-container">
@@ -60,11 +50,7 @@ export default function Login({ isAuthenticated, setIsAuthenticated }) {
         <img src={`${process.env.PUBLIC_URL}Images/LogIn.png`} alt="Welcome" />
       </div>
       <div className="form-section">
-        <h1>
-          Welcome Back! <br />
-          Login to your account
-        </h1>
-
+        <h1>Welcome Back! <br /> Login to your account</h1>
         <Form
           name="normal_login"
           className="login-form"
@@ -107,11 +93,7 @@ export default function Login({ isAuthenticated, setIsAuthenticated }) {
           </Form.Item>
 
           <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="login-form-button"
-            >
+            <Button type="primary" htmlType="submit" className="login-form-button">
               Log In
             </Button>
           </Form.Item>
