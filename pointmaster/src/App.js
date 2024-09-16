@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import MainLayout from './Components/Dashboard/MainLayout'; // Main dashboard layout
-import Login from './Components/Login/Login';
+import Login from './Pages/Login/Login';
 import Landing from './Pages/Landing/Landing'; 
 import Home from './Pages/Home/Home'; // Home component
 import User from './Pages/User/User'; // User component
