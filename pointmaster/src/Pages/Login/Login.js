@@ -23,11 +23,14 @@ export default function Login({ setIsAuthenticated }) {
       })
       .then((response) => {
         if (response.status === 200) {
-          // Access token might be in `response.data` 
           const accessToken = response.data.accessToken || response.data.token || response.data;
-          localStorage.setItem("accessToken", JSON.stringify(accessToken));  // Store the token
-          setIsAuthenticated(true);  // Set authenticated state
-          navigate("/dashboard");  // Redirect to dashboard after login
+          const expirationTime = new Date().getTime() + 30 * 60 * 1000; // Token expires in 30 minutes
+          
+          localStorage.setItem("accessToken", JSON.stringify(accessToken));
+          localStorage.setItem("tokenExpiration", expirationTime.toString()); // Store expiration as a string
+          
+          setIsAuthenticated(true);
+          navigate("/dashboard");
         } else {
           messageApi.open({
             type: "error",
@@ -35,13 +38,14 @@ export default function Login({ setIsAuthenticated }) {
           });
         }
       })
-      .catch((error) => {
+      .catch(() => {
         messageApi.open({
           type: "error",
           content: "Login failed",
         });
       });
   };
+  
 
   return (
     <div className="login-container">

@@ -12,7 +12,9 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
   const [isQRCodeWaiting, setIsQRCodeWaiting] = useState(false);
   const [searchValue, setSearchValue] = useState('');
 
-  
+  // Define a fixed unit price for all items
+  const FIXED_UNIT_PRICE = 10.00; // Example fixed price
+
   const customers = [
     { name: 'John Doe', phoneNumber: '123-456-7890', points: 120 },
     { name: 'Jane Smith', phoneNumber: '098-765-4321', points: 85 },
@@ -22,8 +24,8 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
 
   useEffect(() => {
     const amount = selectedItems.reduce((acc, item) => {
-      const price = parseFloat(item.price.slice(1)) || 0;
-      return acc + (item.quantity || 0) * price;
+      const price = FIXED_UNIT_PRICE;
+      return acc + (item.quantity || 1) * price;
     }, 0);
     const discountAmount = amount * 0.1; // 10% discount
     setTotalAmount(amount - discountAmount);
@@ -38,7 +40,7 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
 
   const increaseQuantity = (index) => {
     const newItems = [...selectedItems];
-    newItems[index].quantity = (newItems[index].quantity || 0) + 1;
+    newItems[index].quantity = (newItems[index].quantity || 1) + 1;
     setSelectedItems(newItems);
   };
 
@@ -106,17 +108,13 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
       </div>
       <div className='selected-items'>
         {selectedItems.map((item, index) => {
-          if (!item.quantity) {
-            item.quantity = 1;
-          }
-
-          const price = parseFloat(item.price.slice(1)) || 0;
-          const quantity = item.quantity || 0;
+          const price = FIXED_UNIT_PRICE; // Use the fixed price
+          const quantity = item.quantity || 1;
           const total = (quantity * price).toFixed(2);
 
           return (
             <div className='selected-item-card' key={index}>
-              <div className='item-name'>{item.name}</div>
+              <div className='item-name'>{item.item_name}</div>
               <div className='item-details'>
                 <span className='item-price'>
                   {isNaN(price) ? 'Invalid Price' : `$${price.toFixed(2)} / unit`}
@@ -150,7 +148,6 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
         </div>
       </div>
       <div className='order-actions'>
-        {/* <button className='hold-order'><PauseOutlined /> Hold Order</button> */}
         <button className='proceed' onClick={handleProceed}><CheckOutlined /> Proceed</button>
       </div>
 

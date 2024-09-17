@@ -10,39 +10,54 @@ import Logs from './Pages/Logs/Logs'; // Logs component
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Check localStorage for token on load
   useEffect(() => {
-    const accessToken = localStorage.getItem('accessToken');
-    if (accessToken) {
-      setIsAuthenticated(true);
-    } else {
-      setIsAuthenticated(false);  // Explicitly set false if no token exists
-    }
+    const checkTokenValidity = () => {
+      const accessToken = localStorage.getItem('accessToken');
+      const tokenExpiration = localStorage.getItem('tokenExpiration');
+
+      if (accessToken && tokenExpiration) {
+        const currentTime = new Date().getTime();
+        if (currentTime < parseInt(tokenExpiration, 10)) {
+          setIsAuthenticated(true); // Token is valid
+        } else {
+          // Token expired, clear local storage
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('tokenExpiration');
+          setIsAuthenticated(false);
+        }
+      } else {
+        setIsAuthenticated(false); // No token found
+      }
+    };
+
+    checkTokenValidity();
+
+    // Optional: Re-run token validation on route changes
+    const handleRouteChange = () => checkTokenValidity();
+    window.addEventListener("popstate", handleRouteChange); // Listen for navigation events
+
+    return () => window.removeEventListener("popstate", handleRouteChange); // Cleanup on unmount
   }, []);
 
   return (
     <Router>
       <Routes>
-        {/* Landing Page */}
         <Route path="/" element={<Landing />} />
-
-        {/* Login Page */}
-        <Route 
-          path="/login" 
-          element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login setIsAuthenticated={setIsAuthenticated} />} 
+        
+        <Route
+          path="/login"
+          element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login setIsAuthenticated={setIsAuthenticated} />}
         />
-
-        {/* Dashboard with Nested Routes */}
-        <Route 
-          path="/dashboard" 
+        
+        <Route
+          path="/dashboard"
           element={isAuthenticated ? <MainLayout /> : <Navigate to="/login" />}
         >
-          <Route path="" element={<Home />} />  {/* Default dashboard content */}
+          <Route path="" element={<Home />} />
           <Route path="user" element={<User />} />
           <Route path="logs" element={<Logs />} />
         </Route>
 
-        {/* Redirect other paths to Landing */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
