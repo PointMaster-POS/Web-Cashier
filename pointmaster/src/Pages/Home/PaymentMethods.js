@@ -32,13 +32,31 @@ export default function PaymentMethods({ customerDetails, totalAmount, discount,
       {/* <hr className='payment-underline'/> */}
 
       <div className="payment-container">
+      <div className='payment-info-container'>
+        <h3>Bill Information</h3>
         <div className='payment-info'>
-          <p><strong>Customer:</strong> {customerDetails.name || 'No customer selected'}</p>
-          <p><strong>Total Amount:</strong> ${totalAmount.toFixed(2)}</p>
-          <p><strong>Discount:</strong> ${discount.toFixed(2)}</p>
-          <p><strong>Payable Amount:</strong> ${(totalAmount - discount).toFixed(2)}</p>
-          <p><strong>Points:</strong> {points || 0}</p>
+          <div className='info-item'>
+            <p><strong>Customer:</strong></p>
+            <p>{customerDetails.name || 'No customer selected'}</p>
+          </div>
+          <div className='info-item'>
+            <p><strong>Total Amount:</strong></p>
+            <p>${totalAmount.toFixed(2)}</p>
+          </div>
+          <div className='info-item'>
+            <p><strong>Discount:</strong></p>
+            <p>${discount.toFixed(2)}</p>
+          </div>
+          <div className='info-item'>
+            <p><strong>Payable Amount:</strong></p>
+            <p>${(totalAmount - discount).toFixed(2)}</p>
+          </div>
+          <div className='info-item'>
+            <p><strong>Points:</strong></p>
+            <p>{points || 0}</p>
+          </div>
         </div>
+      </div>
 
         <h3>Payment Methods</h3>
         <div className='payment-method-buttons'>
@@ -72,7 +90,7 @@ export default function PaymentMethods({ customerDetails, totalAmount, discount,
 
         <Button type="primary" style={{ marginTop: '20px' }}>Complete Payment</Button>
       </div>
-      
+
     </div>
   );
 }
