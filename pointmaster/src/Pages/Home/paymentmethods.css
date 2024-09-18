@@ -19,7 +19,7 @@
 .payment-summary{
   font-size: 1.5rem;
   color: #424242;
-  margin-left: 10px;
+  margin-left: 20px;
 }
 
 .back-button {
@@ -37,6 +37,17 @@
   height: 80vh;
   background-color: #ffffff;
   padding: 8px;
+}
+
+.redeem-points-button {
+  background-color: #d2d2d2;
+  color: #000000; 
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 20px;
+  margin-top: 20px;
 }
 
 .payment-info-container {
@@ -86,10 +97,10 @@
 }
 
 .payment-methods-container {
-  background-color: #f8f9fa;
+
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+
 }
 
 h3 {
@@ -105,8 +116,10 @@ h3 {
 }
 
 .payment-button {
-  width: 150px;
+  width: 180px;
   text-align: center;
+  background-color: rgb(226, 168, 59);
+  height: 120px;
 }
 
 .payment-button.selected {
@@ -119,8 +132,6 @@ h3 {
   padding: 15px;
   background-color: #ffffff;
   border-radius: 8px;
-  border: 1px solid #e0e0e0;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .cash-payment h4, .card-payment h4 {

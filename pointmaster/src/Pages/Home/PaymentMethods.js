@@ -1,22 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Input } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import './paymentmethods.css';
 
-export default function PaymentMethods({ customerDetails, totalAmount, discount, points, checkRedeemPointsEligibility, setRightContent }) {
+export default function PaymentMethods({ customerDetails, totalAmount, discount, points, setRightContent }) {
   const [selectedMethod, setSelectedMethod] = useState(null);
   const [cashAmount, setCashAmount] = useState('');
   const [balance, setBalance] = useState(0);
+  const [redeemEligible, setRedeemEligible] = useState(false);
+  const [redeemDiscount, setRedeemDiscount] = useState(0);
+
+  // Function to check redeem points eligibility
+  async function checkRedeemPointsEligibility(customerId) {
+    try {
+      const response = await fetch('http://localhost:3003/cashier/loyalty/eligibility', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ customerId: customerId }),
+      });
+
+      const data = await response.json();
+      return data.isEligible;
+    } catch (error) {
+      console.error('Error checking redeem points eligibility:', error);
+      return false;
+    }
+  }
+
+  // Fetch redeem eligibility when customerDetails changes
+  useEffect(() => {
+    const fetchEligibility = async () => {
+      if (customerDetails?.id) { // Check if customerDetails contains an id
+        const isEligible = await checkRedeemPointsEligibility(customerDetails.id);
+        setRedeemEligible(isEligible);
+      }
+    };
+    fetchEligibility();
+  }, [customerDetails]);
 
   const handleCashPayment = () => {
-    const payable = (totalAmount - discount).toFixed(2);
+    const payable = (totalAmount - discount - redeemDiscount).toFixed(2);
     const cashReceived = parseFloat(cashAmount);
     setBalance((cashReceived - payable).toFixed(2));
   };
 
-  const handleRedeemPoints = async () => {
-    const isEligible = await checkRedeemPointsEligibility();
-    if (isEligible) {
+  const handleRedeemPoints = () => {
+    if (redeemEligible) {
+      const pointsValue = points * 0.01; // Assuming 1 point = $0.01
+      setRedeemDiscount(pointsValue);
       setSelectedMethod('redeemPoints');
     } else {
       alert("Customer is not eligible for redeeming points.");
@@ -30,7 +63,10 @@ export default function PaymentMethods({ customerDetails, totalAmount, discount,
         <Button type="primary"  icon={<ArrowLeftOutlined />} onClick={() => setRightContent('RightContent')} className='back-button'>Back to Items</Button>
       </div>
 
-      <div className="payment-container"> {/* Added missing opening tag */}
+      <div className="payment-container">
+        {/* Redeem Points Section */}
+        <Button className='redeem-points-button' type="primary" onClick={handleRedeemPoints} disabled={!redeemEligible}> Redeem Points</Button>
+
         <div className='payment-info-container'>
           <h3>Bill Information</h3>
           <div className='payment-info'>
@@ -47,12 +83,16 @@ export default function PaymentMethods({ customerDetails, totalAmount, discount,
               <p>${discount.toFixed(2)}</p>
             </div>
             <div className='info-item'>
-              <p><strong>Payable Amount:</strong></p>
-              <p>${(totalAmount - discount).toFixed(2)}</p>
-            </div>
-            <div className='info-item'>
               <p><strong>Points:</strong></p>
               <p>{points || 0}</p>
+            </div>
+            <div className='info-item'>
+              <p><strong>Redeem Discount:</strong></p>
+              <p>${redeemDiscount.toFixed(2)}</p>
+            </div>
+            <div className='info-item'>
+              <p><strong>Payable Amount:</strong></p>
+              <p>${(totalAmount - discount - redeemDiscount).toFixed(2)}</p>
             </div>
           </div>
         </div>
@@ -72,15 +112,15 @@ export default function PaymentMethods({ customerDetails, totalAmount, discount,
               type="primary" 
               onClick={() => setSelectedMethod('card')}
             >
-              Cards
+              Credit/Debit Card
             </Button>
           </div>
 
           {/* Cash Payment Section */}
           {selectedMethod === 'cash' && (
             <div className='cash-payment'>
-              <h4>Cash Payment</h4>
-              <p><strong>Total Amount:</strong> ${(totalAmount - discount).toFixed(2)}</p>
+              <h3>Cash Payment</h3>
+              <p><strong>Total Amount:</strong> ${(totalAmount - discount - redeemDiscount).toFixed(2)}</p>
               <Input
                 type="number"
                 placeholder="Enter amount received"
@@ -108,7 +148,7 @@ export default function PaymentMethods({ customerDetails, totalAmount, discount,
             Complete Payment
           </Button>
         </div>
-      </div> {/* Correct closing for payment-container */}
+      </div>
     </div>
   );
 }
