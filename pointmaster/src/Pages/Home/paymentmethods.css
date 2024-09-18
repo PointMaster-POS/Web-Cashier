@@ -39,9 +39,53 @@
   padding: 8px;
 }
 
-.payment-info {
+.payment-info-container {
+  padding: 20px;
+  border-radius: 8px;
   margin-bottom: 20px;
+  max-width: 98%; /* Adjust to fit the design */
+  margin: 0 auto;
+}
+
+.payment-info-container h3 {
+  text-align: left;
+  color: #333;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.payment-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.info-item p {
+  margin: 0;
+  font-size: 16px;
+  color: #555;
+}
+
+.info-item strong {
+  color: #333;
+}
+
+.payment-info p:last-child {
+  text-align: right;
+}
+
+
   
+
+.payment-info {
+  margin-bottom: 20px;  
 }
 
 .payment-method-buttons {
