@@ -56,6 +56,7 @@ export default function PaymentMethods({ customerDetails, totalAmount, discount,
     }
   };
 
+
   return (
     <div className='payment-methods'>
       <div className='header'>
@@ -68,14 +69,14 @@ export default function PaymentMethods({ customerDetails, totalAmount, discount,
         <Button className='redeem-points-button' type="primary" onClick={handleRedeemPoints} disabled={!redeemEligible}> Redeem Points</Button>
 
         <div className='payment-info-container'>
-          <h3>Bill Information</h3>
+          <h3 className='sub-topic'>Bill Information</h3>
           <div className='payment-info'>
             <div className='info-item'>
               <p><strong>Customer:</strong></p>
               <p>{customerDetails.name || 'No customer selected'}</p>
             </div>
             <div className='info-item'>
-              <p><strong>Total Amount:</strong></p>
+              <p><strong>Bill Total:</strong></p>
               <p>${totalAmount.toFixed(2)}</p>
             </div>
             <div className='info-item'>
@@ -98,7 +99,7 @@ export default function PaymentMethods({ customerDetails, totalAmount, discount,
         </div>
 
         <div className='payment-methods-container'>
-          <h3>Payment Methods</h3>
+          <h3 className='sub-topic'>Payment Methods</h3>
           <div className='payment-method-buttons'>
             <Button 
               className={`payment-button ${selectedMethod === 'cash' ? 'selected' : ''}`} 
@@ -119,7 +120,7 @@ export default function PaymentMethods({ customerDetails, totalAmount, discount,
           {/* Cash Payment Section */}
           {selectedMethod === 'cash' && (
             <div className='cash-info-container'>
-              <h3>Cash Payment</h3>
+              <h3 className='sub-topic'>Cash Payment</h3>
               <div className='payment-info'>
                 
                 {/* Payable Amount */}
@@ -174,10 +175,12 @@ export default function PaymentMethods({ customerDetails, totalAmount, discount,
           {/* Card Payment Section */}
           {selectedMethod === 'card' && (
             <div className='card-payment'>
-              <h4>Card Payment</h4>
-              <p>Please choose Credit or Debit card option at the payment terminal.</p>
+              <h3 className='sub-topic'>Card Payment</h3>
+              <hr className='status-line' />
               <p><strong>Payment Status:</strong> Card</p>
+              <hr className='status-line' />
             </div>
+          
           )}
 
           <Button type="primary" className='complete-payment'>
