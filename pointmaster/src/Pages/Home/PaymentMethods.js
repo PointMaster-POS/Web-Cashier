@@ -118,22 +118,58 @@ export default function PaymentMethods({ customerDetails, totalAmount, discount,
 
           {/* Cash Payment Section */}
           {selectedMethod === 'cash' && (
-            <div className='cash-payment'>
+            <div className='cash-info-container'>
               <h3>Cash Payment</h3>
-              <p><strong>Total Amount:</strong> ${(totalAmount - discount - redeemDiscount).toFixed(2)}</p>
-              <Input
-                type="number"
-                placeholder="Enter amount received"
-                value={cashAmount}
-                onChange={(e) => setCashAmount(e.target.value)}
-              />
-              <Button type="primary" onClick={handleCashPayment} className='calculate-button'>
-                Calculate Balance
-              </Button>
-              {balance !== 0 && <p><strong>Balance to give:</strong> ${balance}</p>}
-              <p><strong>Payment Status:</strong> Cash</p>
+              <div className='payment-info'>
+                
+                {/* Payable Amount */}
+                <div className='info-item'>
+                  <p><strong>Total Amount:</strong></p>
+                  <p>${(totalAmount - discount - redeemDiscount).toFixed(2)}</p>
+                </div>
+                
+                {/* Cash Received */}
+                <div className='info-item'>
+                  <p><strong>Cash Received:</strong></p>
+                  
+                  <div className="input-with-button">
+                    {/* Input field without increase/decrease buttons */}
+                    <Input
+                      type="text" // Changed to "text" to remove the increase/decrease buttons
+                      pattern="[0-9]*" // This keeps it accepting only numbers
+                      placeholder="Enter amount received"
+                      value={cashAmount}
+                      onChange={(e) => setCashAmount(e.target.value)}
+                      className="cash-input"
+                    />
+                    
+                    {/* Enter button */}
+                    <Button
+                      type="primary"
+                      onClick={handleCashPayment} // Validation occurs when the button is clicked
+                      className='enter-button'
+                    >
+                      Enter
+                    </Button>
+                  </div>
+                </div>
+
+
+                {/* Balance to give */}
+                <div className='info-item'>
+                  <p><strong>Balance:</strong></p>
+                  <p>${balance}</p>
+                </div>
+
+                {/* Payment Status */}
+                <div className='info-item'>
+                  <p><strong>Payment Status:</strong></p>
+                  <p>Cash</p>
+                </div>
+              </div>
             </div>
           )}
+
 
           {/* Card Payment Section */}
           {selectedMethod === 'card' && (

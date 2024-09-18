@@ -97,10 +97,9 @@
 }
 
 .payment-methods-container {
-
+  background-color: #f8f9fa;
   padding: 20px;
   border-radius: 8px;
-
 }
 
 h3 {
@@ -118,13 +117,22 @@ h3 {
 .payment-button {
   width: 180px;
   text-align: center;
-  background-color: rgb(226, 168, 59);
+  background-color: rgb(237, 177, 64);
   height: 120px;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
 }
 
 .payment-button.selected {
   background-color: #52c41a;
   border-color: #52c41a;
+}
+
+.cash-info-container{
+  border-radius: 8px;
+  margin-bottom: 20px;
+  max-width: 98%; /* Adjust to fit the design */
+  margin: 0 auto;
 }
 
 .cash-payment, .card-payment {
@@ -134,7 +142,7 @@ h3 {
   border-radius: 8px;
 }
 
-.cash-payment h4, .card-payment h4 {
+.card-payment h4 {
   margin-bottom: 10px;
 }
 
