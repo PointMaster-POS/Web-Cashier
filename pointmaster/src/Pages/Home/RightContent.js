@@ -51,12 +51,17 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
     setIsModalVisible(true);
   };
 
+  const token = JSON.parse(localStorage.getItem('accessToken'));
+
   const handleSearch = async () => {
     console.log('Search value:', searchValue);
     setLoading(true);
     try {
-      // const response = await axios.get(`http://localhost:3003/cashier/customer/123456789`);
-      const response = await axios.get(`http://localhost:3003/cashier/customer/${searchValue}`);
+      const response = await axios.get(`http://localhost:3003/cashier/customer/${searchValue}`, {
+        headers: {  
+          Authorization: `Bearer ${token}`
+        }
+      });
 
       console.log('API Response:', response.data);
       
