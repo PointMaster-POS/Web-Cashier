@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Input, Button, Spin } from 'antd';
 import { PlusOutlined, MinusOutlined, CloseOutlined, CheckOutlined, ArrowRightOutlined } from "@ant-design/icons";
+import axios from 'axios';
 import './rightcontent.css';
 
 export default function RightContent({ selectedItems = [], setSelectedItems, setRightContent, setPaymentInfo }) {
@@ -11,16 +12,10 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isQRCodeWaiting, setIsQRCodeWaiting] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [loading, setLoading] = useState(false);
 
   // Define a fixed unit price for all items
   const FIXED_UNIT_PRICE = 10.00; // Example fixed price
-
-  const customers = [
-    { name: 'John Doe', phoneNumber: '123-456-7890', points: 120 },
-    { name: 'Jane Smith', phoneNumber: '098-765-4321', points: 85 },
-    { name: 'Alice Johnson', phoneNumber: '555-123-4567', points: 200 },
-    { name: 'Bob Brown', phoneNumber: '444-555-6666', points: 60 },
-  ];
 
   useEffect(() => {
     const amount = selectedItems.reduce((acc, item) => {
@@ -56,22 +51,58 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
     setIsModalVisible(true);
   };
 
-  const handleSearch = () => {
-    const customer = customers.find(c => c.phoneNumber === searchValue);
-    if (customer) {
-      setCustomerDetails(customer);
-      setCustomerSelected(true);
-      setIsModalVisible(false);
-    } else {
-      alert('Customer not found');
+  const handleSearch = async () => {
+    console.log('Search value:', searchValue);
+    setLoading(true);
+    try {
+      // const response = await axios.get(`http://localhost:3003/cashier/customer/123456789`);
+      const response = await axios.get(`http://localhost:3003/cashier/customer/${searchValue}`);
+
+      console.log('API Response:', response.data);
+      
+      if (response.data && response.data.customer_name) {
+        setCustomerDetails({
+          name: response.data.customer_name,
+          phoneNumber: response.data.customer_phone,
+          // points: response.data.points,
+        });
+        setCustomerSelected(true);
+        setIsModalVisible(false);  // Close modal after search success
+      } else {
+        alert('Customer not found');
+        setCustomerDetails({});
+      }
+    } catch (error) {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error('Response error:', error.response.data);
+        alert(`Error: ${error.response.statusText}`);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error('Request error:', error.request);
+        alert('No response received from the server.');
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error('Error:', error.message);
+        alert('Error in request setup.');
+      }
+    
+    } finally {
+      setLoading(false);
     }
   };
-
+  
   const handleQRCodeWait = () => {
     setIsQRCodeWaiting(true);
     setTimeout(() => {
       setIsQRCodeWaiting(false);
-      setCustomerDetails(customers[1]); // Simulate customer selection based on QR code
+      // Simulate customer selection based on QR code (you can implement the actual flow)
+      setCustomerDetails({
+        name: 'Jane Smith',
+        phoneNumber: '098-765-4321',
+        points: 85
+      });
       setCustomerSelected(true);
       setIsModalVisible(false);
     }, 3000); // Simulating QR code scanning delay
@@ -98,7 +129,7 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
             <div className='customer-info'>
               <span className='customer-name'>Name: {customerDetails.name}</span>
               <span className='customer-phone'>Phone: {customerDetails.phoneNumber}</span>
-              <span className='customer-points'>Points: {customerDetails.points}</span>
+              {/* <span className='customer-points'>Points: {customerDetails.points}</span> */}
             </div>
             <button className='change-customer' onClick={handleChangeCustomer}><ArrowRightOutlined /> Change Customer</button>
           </div>
@@ -158,13 +189,17 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
         onCancel={() => setIsModalVisible(false)}
         footer={null}
       >
-        <Input
-          placeholder="Enter phone number"
-          value={searchValue}
-          onChange={e => setSearchValue(e.target.value)}
-          style={{ marginBottom: '10px' }}
+      <Input
+        placeholder="Enter phone number"
+        value={searchValue}
+        onChange={e => {
+        setSearchValue(e.target.value);
+          console.log('Updated search value:', e.target.value);
+        }}
+        style={{ marginBottom: '10px' }}
         />
-        <Button type="primary" onClick={handleSearch}>Search by phone number</Button>
+
+        <Button type="primary" onClick={handleSearch} loading={loading}>Search by phone number</Button>
         <Button onClick={handleQRCodeWait} style={{ marginLeft: '10px' }}>QR Code</Button>
         {isQRCodeWaiting && <Spin style={{ marginLeft: '10px' }} />}
       </Modal>
