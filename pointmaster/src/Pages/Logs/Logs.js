@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Modal, Space, Typography } from 'antd';
+import { Table, Button, Modal, Space, Typography, message } from 'antd';
 import { PrinterOutlined } from '@ant-design/icons';
 import './logs.css';
 
@@ -9,7 +9,7 @@ const Logs = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedBill, setSelectedBill] = useState(null);
   const [dataSource, setDataSource] = useState([]);
-
+  
   const showModal = (bill) => {
     setSelectedBill(bill);
     setIsModalVisible(true);
@@ -27,6 +27,47 @@ const Logs = () => {
     // Implement print logic here
     console.log('Printing bill:', bill);
   };
+
+  
+
+  const fetchData = async () => {
+    const token = JSON.parse(localStorage.getItem('accessToken')); // Parse the token from localStorage
+  
+    if (!token) {
+      message.error('Token not found. Please log in.');
+      return;
+    }
+  
+    try {
+      const response = await fetch('http://localhost:3003/cashier/history', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`, // Pass the token in the Authorization header
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to fetch cashier history');
+      }
+  
+      const data = await response.json();
+  
+      const formattedData = data.map((item) => ({
+        key: item.bill_id,
+        billNumber: item.bill_id,
+        time: new Date(item.date_time).toLocaleString(), // Format date and time
+        totalAmount: item.total_price,
+        status: item.status === 1 ? 'Completed' : 'Hold', // Convert status to text
+        customerName: item.customer_id || 'Not Assigned', // Customer name handling
+      }));
+  
+      setDataSource(formattedData);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      message.error('Error fetching cashier history');
+    }
+  };
+  
 
   const columns = [
     {
@@ -49,11 +90,6 @@ const Logs = () => {
       title: 'Total Amount',
       dataIndex: 'totalAmount',
       key: 'totalAmount',
-    },
-    {
-      title: 'Discount',
-      dataIndex: 'discount',
-      key: 'discount',
     },
     {
       title: 'Status',
@@ -81,54 +117,25 @@ const Logs = () => {
     },
   ];
 
-  
-  const readCashierLogs = () => {
-    const tempDataSource = [
-      {
-        key: '1',
-        billNumber: '001',
-        time: '12:00 PM',
-        customerName: 'John Doe',
-        totalAmount: 150.0,
-        discount: 10.0,
-        status: 'Completed',
-      },
-      {
-        key: '2',
-        billNumber: '002',
-        time: '12:30 PM',
-        customerName: null,
-        totalAmount: 200.0,
-        discount: 0.0,
-        status: 'Hold',
-      },
-    ];
-    setDataSource(tempDataSource);
-  
-  };
-
-  //functions to run in first render
+  // Fetch data on component mount
   useEffect(() => {
-    readCashierLogs();  
+    fetchData();
   }, []);
-
-  useEffect(() => {
-    console.log('dataSource:', dataSource);  
-  }, [dataSource]);
-
-
-
 
   return (
     <div className="logs-container">
-      <Title level={2}
-    style={{
-      textAlign: 'left',
-      marginBottom: '16px',
-      color: '#1a3d7c',
-      fontWeight: 'bold', 
-      fontSize: '38px',}}>
-        Transaction History</Title>
+      <Title
+        level={2}
+        style={{
+          textAlign: 'left',
+          marginBottom: '16px',
+          color: '#1a3d7c',
+          fontWeight: 'bold',
+          fontSize: '38px',
+        }}
+      >
+        Transaction History
+      </Title>
       <hr className="divider" />
 
       <div style={{ background: '#fff', padding: '20px', borderRadius: '8px' }}>
@@ -146,14 +153,13 @@ const Logs = () => {
               <p><strong>Time:</strong> {selectedBill.time}</p>
               <p><strong>Customer Name:</strong> {selectedBill.customerName || 'Not Assigned'}</p>
               <p><strong>Total Amount:</strong> ${selectedBill.totalAmount}</p>
-              <p><strong>Discount:</strong> ${selectedBill.discount}</p>
               <p><strong>Status:</strong> {selectedBill.status}</p>
               {/* Display more details as required */}
             </div>
           )}
         </Modal>
       </div>
-    </div>  
+    </div>
   );
 };
 
