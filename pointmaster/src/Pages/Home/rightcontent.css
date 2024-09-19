@@ -51,7 +51,7 @@
 
 .item-details {
   display: flex;
-  flex: 5;
+  flex: 8;
   align-items: center;
   justify-content: space-around; /* Space items evenly within this container */
 }

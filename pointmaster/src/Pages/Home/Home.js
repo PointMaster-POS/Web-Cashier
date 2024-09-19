@@ -30,7 +30,7 @@ function Home() {
           <PaymentMethods
             customerDetails={paymentInfo.customerDetails}
             totalAmount={paymentInfo.totalAmount}
-            discount={paymentInfo.discount}
+            totalDiscount={paymentInfo.totalDiscount}
             setRightContent={setRightContent}
           />
         )}

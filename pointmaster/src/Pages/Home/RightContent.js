@@ -114,8 +114,8 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
     setRightContent('PaymentMethods');
   };
 
-  const taxRate = 0.05; // Example tax rate of 5%
-  const taxAmount = totalAmount * taxRate;
+  // const taxRate = 0.05; // Example tax rate of 5%
+  // const taxAmount = totalAmount * taxRate;
 
   return (
     <div className='content-right'>
@@ -167,20 +167,20 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
       </div>
       <div className='order-summary'>
         <div className='summary-row'>
-          <span>Subtotal:</span>
+          <span>Bill Total:</span>
           <span>${totalAmount.toFixed(2)}</span>
         </div>
         <div className='summary-row'>
           <span>Discount:</span>
           <span>-${totalDiscount.toFixed(2)}</span> {/* Total discount */}
         </div>
-        <div className='summary-row'>
+        {/* <div className='summary-row'>
           <span>Tax:</span>
           <span>${taxAmount.toFixed(2)}</span>
-        </div>
+        </div> */}
         <div className='summary-row'>
-          <span>Payable Amount:</span>
-          <span>${(totalAmount - totalDiscount + taxAmount).toFixed(2)}</span> {/* Final amount */}
+          {/* <span>Payable Amount:</span>
+          <span>${(totalAmount - totalDiscount + taxAmount).toFixed(2)}</span> Final amount */}
         </div>
       </div>
       <div className='order-actions'>

@@ -3,7 +3,7 @@ import { Button, Input } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import './paymentmethods.css';
 
-export default function PaymentMethods({ customerDetails, totalAmount, discount, points, setRightContent }) {
+export default function PaymentMethods({ customerDetails, totalAmount, totalDiscount, points, setRightContent }) {
   const [selectedMethod, setSelectedMethod] = useState(null);
   const [cashAmount, setCashAmount] = useState('');
   const [balance, setBalance] = useState(0);
@@ -41,7 +41,7 @@ export default function PaymentMethods({ customerDetails, totalAmount, discount,
   }, [customerDetails]);
 
   const handleCashPayment = () => {
-    const payable = (totalAmount - discount - redeemDiscount).toFixed(2);
+    const payable = (totalAmount - totalDiscount - redeemDiscount).toFixed(2);
     const cashReceived = parseFloat(cashAmount);
     setBalance((cashReceived - payable).toFixed(2));
   };
@@ -81,7 +81,7 @@ export default function PaymentMethods({ customerDetails, totalAmount, discount,
             </div>
             <div className='info-item'>
               <p><strong>Discount:</strong></p>
-              <p>${discount.toFixed(2)}</p>
+              <p>${totalDiscount.toFixed(2)}</p>
             </div>
             <div className='info-item'>
               <p><strong>Points:</strong></p>
@@ -93,7 +93,7 @@ export default function PaymentMethods({ customerDetails, totalAmount, discount,
             </div>
             <div className='info-item'>
               <p><strong>Payable Amount:</strong></p>
-              <p>${(totalAmount - discount - redeemDiscount).toFixed(2)}</p>
+              <p>${(totalAmount - totalDiscount - redeemDiscount).toFixed(2)}</p>
             </div>
           </div>
         </div>
@@ -126,7 +126,7 @@ export default function PaymentMethods({ customerDetails, totalAmount, discount,
                 {/* Payable Amount */}
                 <div className='info-item'>
                   <p><strong>Total Amount:</strong></p>
-                  <p>${(totalAmount - discount - redeemDiscount).toFixed(2)}</p>
+                  <p>${(totalAmount - totalDiscount - redeemDiscount).toFixed(2)}</p>
                 </div>
                 
                 {/* Cash Received */}
