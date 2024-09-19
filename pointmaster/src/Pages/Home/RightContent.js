@@ -14,12 +14,9 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
   const [searchValue, setSearchValue] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Define a fixed unit price for all items
-  const FIXED_UNIT_PRICE = 10.00; // Example fixed price
-
   useEffect(() => {
     const amount = selectedItems.reduce((acc, item) => {
-      const price = FIXED_UNIT_PRICE;
+      const price = item.price;
       return acc + (item.quantity || 1) * price;
     }, 0);
     const discountAmount = amount * 0.1; // 10% discount
@@ -134,7 +131,7 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
             <div className='customer-info'>
               <span className='customer-name'>Name: {customerDetails.name}</span>
               <span className='customer-phone'>Phone: {customerDetails.phoneNumber}</span>
-              {/* <span className='customer-points'>Points: {customerDetails.points}</span> */}
+              <span className='customer-points'>Points: {customerDetails.points}</span>
             </div>
             <button className='change-customer' onClick={handleChangeCustomer}><ArrowRightOutlined /> Change Customer</button>
           </div>
@@ -144,7 +141,7 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
       </div>
       <div className='selected-items'>
         {selectedItems.map((item, index) => {
-          const price = FIXED_UNIT_PRICE; // Use the fixed price
+          const price = item.price; // Use the fixed price
           const quantity = item.quantity || 1;
           const total = (quantity * price).toFixed(2);
 
