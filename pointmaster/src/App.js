@@ -6,37 +6,28 @@ import Landing from './Pages/Landing/Landing';
 import Home from './Pages/Home/Home'; // Home component
 import User from './Pages/User/User'; // User component
 import Logs from './Pages/Logs/Logs'; // Logs component
+import { HomeProvider } from './Context/HomeContext'; // Import HomeProvider
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const checkTokenValidity = () => {
-      const accessToken = localStorage.getItem('accessToken');
-      const tokenExpiration = localStorage.getItem('tokenExpiration');
-
-      if (accessToken && tokenExpiration) {
-        const currentTime = new Date().getTime();
-        if (currentTime < parseInt(tokenExpiration, 10)) {
-          setIsAuthenticated(true); // Token is valid
-        } else {
-          // Token expired, clear local storage
-          localStorage.removeItem('accessToken');
-          localStorage.removeItem('tokenExpiration');
-          setIsAuthenticated(false);
-        }
+    const accessToken = localStorage.getItem('accessToken');
+    const tokenExpiration = localStorage.getItem('tokenExpiration');
+    
+    // Check if token exists and if it's expired
+    if (accessToken && tokenExpiration) {
+      const currentTime = new Date().getTime();
+      if (currentTime < tokenExpiration) {
+        setIsAuthenticated(true); // Token is valid
       } else {
-        setIsAuthenticated(false); // No token found
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('tokenExpiration');
+        setIsAuthenticated(false); // Token expired, force login
       }
-    };
-
-    checkTokenValidity();
-
-    // Optional: Re-run token validation on route changes
-    const handleRouteChange = () => checkTokenValidity();
-    window.addEventListener("popstate", handleRouteChange); // Listen for navigation events
-
-    return () => window.removeEventListener("popstate", handleRouteChange); // Cleanup on unmount
+    } else {
+      setIsAuthenticated(false); // No token, must log in
+    }
   }, []);
 
   return (
@@ -51,7 +42,11 @@ const App = () => {
         
         <Route
           path="/dashboard"
-          element={isAuthenticated ? <MainLayout /> : <Navigate to="/login" />}
+          element={isAuthenticated ? (
+            <HomeProvider> {/* Wrap MainLayout with HomeProvider */}
+              <MainLayout />
+            </HomeProvider>
+          ) : <Navigate to="/login" />}
         >
           <Route path="" element={<Home />} />
           <Route path="user" element={<User />} />

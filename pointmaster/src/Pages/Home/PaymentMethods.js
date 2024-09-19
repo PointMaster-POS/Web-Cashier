@@ -1,16 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Button, Input } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
+import { HomeContext } from '../../Context/HomeContext';
 import './paymentmethods.css';
 
-export default function PaymentMethods({ customerDetails, totalAmount, totalDiscount, points, setRightContent, selectedItems }) {
+export default function PaymentMethods() {
+  const {
+    customerDetails,
+    totalAmount,
+    totalDiscount,
+    points,
+    selectedItems,
+    setRightContent,
+  } = useContext(HomeContext);
+
   const [selectedMethod, setSelectedMethod] = useState(null);
   const [cashAmount, setCashAmount] = useState('');
   const [balance, setBalance] = useState(0);
   const [redeemEligible, setRedeemEligible] = useState(false);
   const [redeemDiscount, setRedeemDiscount] = useState(0);
 
-  // Function to check redeem points eligibility
   async function checkRedeemPointsEligibility(customerId) {
     try {
       const response = await fetch('http://localhost:3003/cashier/loyalty/eligibility', {
@@ -97,7 +106,6 @@ export default function PaymentMethods({ customerDetails, totalAmount, totalDisc
       alert('Error creating bill');
     }
   };
-
 
   return (
     <div className='payment-methods'>

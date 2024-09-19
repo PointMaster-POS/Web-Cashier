@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import RightContent from './RightContent';
 import LeftContent from './LeftContent';
 import PaymentMethods from './PaymentMethods';
-import { useHomeContext } from '../../Context/HomeContext';
+import { HomeContext } from '../../Context/HomeContext';
 import './home.css';
 
 function Home() {
-  const { rightContent } = useHomeContext(); // Get rightContent from context
+  const { rightContent } = useContext(HomeContext);
 
   return (
     <div className='home-container'>
@@ -14,7 +14,11 @@ function Home() {
         <LeftContent />
       </div>
       <div className='home-right-side'>
-        {rightContent === 'RightContent' ? <RightContent /> : <PaymentMethods />}
+        {rightContent === 'PaymentMethods' ? (
+          <PaymentMethods/>
+        ) : (
+          <RightContent />
+        )}
       </div>
     </div>
   );
