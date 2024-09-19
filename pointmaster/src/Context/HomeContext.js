@@ -10,8 +10,7 @@ export const HomeProvider = ({ children }) => {
   const [totalDiscount, setTotalDiscount] = useState(0);
   const [rightContent, setRightContent] = useState('');
 
-
-  const handleAddItem = item => {
+  const handleAddItem = (item) => {
     setSelectedItems([...selectedItems, item]);
   };
 
@@ -35,7 +34,7 @@ export const HomeProvider = ({ children }) => {
     }
   };
 
-  const handleCustomerSelection = customer => {
+  const handleCustomerSelection = (customer) => {
     setCustomerDetails(customer);
     setCustomerSelected(true);
   };
@@ -49,6 +48,15 @@ export const HomeProvider = ({ children }) => {
     setRightContent(content);
   };
 
+  // Add reset functionality to clear all relevant states
+  const resetTransaction = () => {
+    setSelectedItems([]);
+    setCustomerDetails({});
+    setCustomerSelected(false);
+    setTotalAmount(0);
+    setTotalDiscount(0);
+    setRightContent('');
+  };
 
   return (
     <HomeContext.Provider
@@ -68,7 +76,7 @@ export const HomeProvider = ({ children }) => {
         setTotalDiscount,
         rightContent,
         setRightContent: setRightContentValue,
-
+        resetTransaction,  
       }}
     >
       {children}
