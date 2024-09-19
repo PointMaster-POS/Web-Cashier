@@ -26,6 +26,8 @@
   transition: background-color 0.3s;
 }
 
+
+
 .category-buttons button:hover {
   background-color: #e6f7ff;
 }
@@ -60,12 +62,13 @@
 }
 
 .food-card .food-name {
-  margin-top: 20px;
+  margin-top: 25px;
   font-size: 18px;
   font-weight: bold;
 }
 
 .food-card .food-price {
+  margin-top: 10px;
   color: #ff4d4f;
   font-size: 16px;
 }

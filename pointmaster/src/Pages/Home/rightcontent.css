@@ -51,7 +51,7 @@
 
 .item-details {
   display: flex;
-  flex: 5;
+  flex: 8;
   align-items: center;
   justify-content: space-around; /* Space items evenly within this container */
 }
@@ -141,8 +141,8 @@
 }
 
 .change-customer {
-  background-color: #1890ff;
-  color: white;
+  background-color: #d2d2d2;
+  color: #000000;
   border: none;
   padding: 3px px;
   border-radius: 5px;

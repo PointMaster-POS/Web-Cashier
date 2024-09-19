@@ -1,40 +1,62 @@
 import React, { useState, useEffect } from 'react';
-import MainLayout from './Components/Dashboard/MainLayout';
-import Login from './Components/Login/Login.js'; // Assuming your Login component is inside the components folder
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import MainLayout from './Components/Dashboard/MainLayout'; // Main dashboard layout
+import Login from './Pages/Login/Login';
+import Landing from './Pages/Landing/Landing'; 
+import Home from './Pages/Home/Home'; // Home component
+import User from './Pages/User/User'; // User component
+import Logs from './Pages/Logs/Logs'; // Logs component
+import { HomeProvider } from './Context/HomeContext'; // Import HomeProvider
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    // Check if the user is already authenticated (e.g., from localStorage)
     const accessToken = localStorage.getItem('accessToken');
-    if (accessToken) {
-      setIsAuthenticated(true);
+    const tokenExpiration = localStorage.getItem('tokenExpiration');
+    
+    // Check if token exists and if it's expired
+    if (accessToken && tokenExpiration) {
+      const currentTime = new Date().getTime();
+      if (currentTime < tokenExpiration) {
+        setIsAuthenticated(true); // Token is valid
+      } else {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('tokenExpiration');
+        setIsAuthenticated(false); // Token expired, force login
+      }
+    } else {
+      setIsAuthenticated(false); // No token, must log in
     }
   }, []);
 
   return (
     <Router>
       <Routes>
-        {/* If the user is authenticated, show MainLayout; otherwise, show Login */}
-        <Route
-          path="/"
-          element={isAuthenticated ? <MainLayout /> : <Navigate to="/login" />}
-        />
+        <Route path="/" element={<Landing />} />
+        
         <Route
           path="/login"
-          element={<Login isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />}
+          element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login setIsAuthenticated={setIsAuthenticated} />}
         />
+        
+        <Route
+          path="/dashboard"
+          element={isAuthenticated ? (
+            <HomeProvider> {/* Wrap MainLayout with HomeProvider */}
+              <MainLayout />
+            </HomeProvider>
+          ) : <Navigate to="/login" />}
+        >
+          <Route path="" element={<Home />} />
+          <Route path="user" element={<User />} />
+          <Route path="logs" element={<Logs />} />
+        </Route>
+
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
   );
 };
 
 export default App;
-
-
-
-
-
-

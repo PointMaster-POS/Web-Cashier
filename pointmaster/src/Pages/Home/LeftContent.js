@@ -1,44 +1,51 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import { HomeContext } from '../../Context/HomeContext';
 import './leftcontent.css';
 
-export default function LeftContent({ onAddItem }) {
+export default function LeftContent() {
+  const { handleAddItem } = useContext(HomeContext);
+
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [foodItems, setFoodItems] = useState([]);
 
-  // Get the access token from localStorage
   const token = JSON.parse(localStorage.getItem('accessToken'));
 
-  // Fetch categories from the API with the access token
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get('http://localhost:3003/cashier/inventory/categories', {
           headers: {
-            Authorization: `Bearer ${token}` 
+            Authorization: `Bearer ${token}`
           }
         });
         setCategories(response.data);
         if (response.data.length > 0) {
-          // select the first category
+          // Select the first category if available
           setSelectedCategory(response.data[0].category_id);
         }
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
     };
-    fetchCategories();
+
+    if (token) {
+      fetchCategories();
+    } else {
+      console.error('No access token found.');
+    }
   }, [token]);
 
-  // Fetch products for the selected category
+
   useEffect(() => {
     if (selectedCategory) {
       const fetchProducts = async () => {
         try {
           const response = await axios.get(`http://localhost:3003/cashier/inventory/products/${selectedCategory}`, {
             headers: {
-              Authorization: `Bearer ${token}` 
+              Authorization: `Bearer ${token}`
             }
           });
           setFoodItems(response.data);
@@ -54,41 +61,43 @@ export default function LeftContent({ onAddItem }) {
     setSelectedCategory(category_id);
   };
 
-  const handleAddItem = (item) => {
-    onAddItem(item);
-  };
-
   return (
     <div className='content-left'>
       <div className='top-rectangle'>
         <div className='category-buttons'>
-          {categories.map((category) => (
-            <button
-              key={category.category_id}
-              onClick={() => handleCategoryClick(category.category_id)}
-            >
-              {category.category_name}
-            </button>
-          ))}
+          {categories.length > 0 ? (
+            categories.map((category) => (
+              <button
+                key={category.category_id}
+                onClick={() => handleCategoryClick(category.category_id)}
+              >
+                {category.category_name}
+              </button>
+            ))
+          ) : (
+            <p>No categories available.</p>
+          )}
         </div>
       </div>
       <div className='food-cards'>
-        {foodItems.map((item, index) => (
-          <div className='food-card' key={index} onClick={() => handleAddItem(item)}>
-            {/* <img 
-              src={item.image_url ? item.image_url : 'placeholder.png'}  // Handle missing image URL
-              alt={item.item_name} 
-            /> */}
-
-            <img src={item.image_url} alt={item.name} />
-            <div className='food-details'>
-              <div className='food-name'>{item.item_name}</div>
-              <div className='food-price'>
-                {item.price ? `$${item.price}` : 'Price not available'}  {/* since db missing price now - change later */}
+        {foodItems.length > 0 ? (
+          foodItems.map((item, index) => (
+            <div className='food-card' key={index} onClick={() => handleAddItem(item)}>
+              <img 
+                src={item.image_url || 'placeholder.png'}  // Handle missing image URL
+                alt={item.item_name || 'Food item'} 
+              />
+              <div className='food-details'>
+                <div className='food-name'>{item.item_name || 'Unknown item'}</div>
+                <div className='food-price'>
+                  {item.price ? `$${item.price}` : 'Price not available'}  {/* Handle missing price */}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p>No food items available.</p>
+        )}
       </div>
     </div>
   );
