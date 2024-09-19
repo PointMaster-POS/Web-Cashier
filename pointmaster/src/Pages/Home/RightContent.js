@@ -6,7 +6,7 @@ import './rightcontent.css';
 
 export default function RightContent({ selectedItems = [], setSelectedItems, setRightContent, setPaymentInfo }) {
   const [totalAmount, setTotalAmount] = useState(0);
-  const [discount, setDiscount] = useState(0);
+  const [totalDiscount, setTotalDiscount] = useState(0); // Updated to track total discount
   const [customerSelected, setCustomerSelected] = useState(false);
   const [customerDetails, setCustomerDetails] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -15,13 +15,20 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const amount = selectedItems.reduce((acc, item) => {
+    let amount = 0;
+    let discountSum = 0;
+
+    selectedItems.forEach((item) => {
       const price = item.price;
-      return acc + (item.quantity || 1) * price;
-    }, 0);
-    const discountAmount = amount * 0.1; // 10% discount
-    setTotalAmount(amount - discountAmount);
-    setDiscount(discountAmount);
+      const quantity = item.quantity || 1;
+      const discountPerItem = (item.discount || 0)  * quantity; // Calculate discount for each item
+      discountSum += discountPerItem;
+      amount += price * quantity;
+    });
+
+    setTotalAmount(amount);
+    setTotalDiscount(discountSum); // Sum of all discounts
+
   }, [selectedItems]);
 
   const removeItem = (index) => {
@@ -66,7 +73,6 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
         setCustomerDetails({
           name: response.data.customer_name,
           phoneNumber: response.data.customer_phone,
-          // points: response.data.points,
         });
         setCustomerSelected(true);
         setIsModalVisible(false);  // Close modal after search success
@@ -75,21 +81,8 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
         setCustomerDetails({});
       }
     } catch (error) {
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.error('Response error:', error.response.data);
-        alert(`Error: ${error.response.statusText}`);
-      } else if (error.request) {
-        // The request was made but no response was received
-        console.error('Request error:', error.request);
-        alert('No response received from the server.');
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.error('Error:', error.message);
-        alert('Error in request setup.');
-      }
-    
+      console.error('Error:', error.message);
+      alert('Error in request setup.');
     } finally {
       setLoading(false);
     }
@@ -116,12 +109,13 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
   };
 
   const handleProceed = () => {
-    setPaymentInfo({ totalAmount, discount, customerDetails });
+    const payableAmount = totalAmount - totalDiscount; // Final payable amount
+    setPaymentInfo({ totalAmount, totalDiscount, payableAmount, customerDetails });
     setRightContent('PaymentMethods');
   };
 
   const taxRate = 0.05; // Example tax rate of 5%
-  const taxAmount = (totalAmount + discount) * taxRate;
+  const taxAmount = totalAmount * taxRate;
 
   return (
     <div className='content-right'>
@@ -141,8 +135,9 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
       </div>
       <div className='selected-items'>
         {selectedItems.map((item, index) => {
-          const price = item.price; // Use the fixed price
+          const price = item.price;
           const quantity = item.quantity || 1;
+          const discountPerItem = (item.discount || 0)  * quantity;
           const total = (quantity * price).toFixed(2);
 
           return (
@@ -157,9 +152,13 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
                   <span>{quantity}</span>
                   <button onClick={() => increaseQuantity(index)}><PlusOutlined /></button>
                 </div>
+                <span className='item-discount'>
+                  {`Discount: $${discountPerItem.toFixed(2)}`}
+                </span>
                 <span className='item-total'>
                   {isNaN(total) ? 'Invalid Total' : `$${total}`}
                 </span>
+                
               </div>
               <button className='remove-item' onClick={() => removeItem(index)}><CloseOutlined /></button>
             </div>
@@ -169,15 +168,19 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
       <div className='order-summary'>
         <div className='summary-row'>
           <span>Subtotal:</span>
-          <span>${(totalAmount + discount).toFixed(2)}</span>
+          <span>${totalAmount.toFixed(2)}</span>
+        </div>
+        <div className='summary-row'>
+          <span>Discount:</span>
+          <span>-${totalDiscount.toFixed(2)}</span> {/* Total discount */}
         </div>
         <div className='summary-row'>
           <span>Tax:</span>
-          <span>${taxAmount.toFixed(2)}</span> {/* Calculated tax amount */}
+          <span>${taxAmount.toFixed(2)}</span>
         </div>
         <div className='summary-row'>
           <span>Payable Amount:</span>
-          <span>${(totalAmount + taxAmount).toFixed(2)}</span>
+          <span>${(totalAmount - totalDiscount + taxAmount).toFixed(2)}</span> {/* Final amount */}
         </div>
       </div>
       <div className='order-actions'>
