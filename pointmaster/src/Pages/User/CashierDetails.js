@@ -34,6 +34,7 @@ const CashierDetails = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken'); 
+    localStorage.removeItem('tokenExpiration');
     console.log("Logging out...");
     navigate('/landing'); 
   };
