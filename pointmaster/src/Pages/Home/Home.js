@@ -32,6 +32,7 @@ function Home() {
             totalAmount={paymentInfo.totalAmount}
             totalDiscount={paymentInfo.totalDiscount}
             setRightContent={setRightContent}
+            selectedItems={selectedItems}
           />
         )}
       </div>

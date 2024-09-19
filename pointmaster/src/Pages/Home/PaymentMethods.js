@@ -3,7 +3,7 @@ import { Button, Input } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import './paymentmethods.css';
 
-export default function PaymentMethods({ customerDetails, totalAmount, totalDiscount, points, setRightContent }) {
+export default function PaymentMethods({ customerDetails, totalAmount, totalDiscount, points, setRightContent, selectedItems }) {
   const [selectedMethod, setSelectedMethod] = useState(null);
   const [cashAmount, setCashAmount] = useState('');
   const [balance, setBalance] = useState(0);
@@ -56,6 +56,48 @@ export default function PaymentMethods({ customerDetails, totalAmount, totalDisc
     }
   };
 
+  const payableAmount = (totalAmount - totalDiscount - redeemDiscount).toFixed(2);
+
+  const handleCompletePayment = async () => {
+    const billData = {
+      payment_method: selectedMethod || 'cash', // Default to 'cash' if no method selected
+      total_amount: totalAmount,
+      items_list: selectedItems.map(item => ({
+        item_id: item.item_id,
+        category_id: item.category_id,
+        price: item.price,
+        quantity: item.quantity || 1
+      })),
+      loyalty_points_redeemed: redeemDiscount / 0.01, // Convert discount back to points
+      discount: totalDiscount,
+      received: selectedMethod === 'cash' ? parseFloat(cashAmount) : 0, // Only applicable for cash
+      notes: 'good customer', // Example note
+      customer_phone: customerDetails.phoneNumber
+    };
+
+    console.log('Bill Data:', billData);
+
+    try {
+      const response = await fetch('http://localhost:3003/cashier/bill/new-bill', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(billData),
+      });
+
+      if (response.ok) {
+        alert('Bill created successfully');
+        // Optionally, handle successful response (e.g., redirect, clear form)
+      } else {
+        alert('Error creating bill');
+      }
+    } catch (error) {
+      console.error('Error creating bill:', error);
+      alert('Error creating bill');
+    }
+  };
+
 
   return (
     <div className='payment-methods'>
@@ -93,7 +135,7 @@ export default function PaymentMethods({ customerDetails, totalAmount, totalDisc
             </div>
             <div className='info-item'>
               <p><strong>Payable Amount:</strong></p>
-              <p>${(totalAmount - totalDiscount - redeemDiscount).toFixed(2)}</p>
+              <p>${payableAmount}</p>
             </div>
           </div>
         </div>
@@ -183,7 +225,7 @@ export default function PaymentMethods({ customerDetails, totalAmount, totalDisc
           
           )}
 
-          <Button type="primary" className='complete-payment'>
+          <Button type="primary" className='complete-payment' onClick={handleCompletePayment}>
             Complete Payment
           </Button>
         </div>
