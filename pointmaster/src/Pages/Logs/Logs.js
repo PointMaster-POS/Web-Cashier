@@ -9,7 +9,11 @@ const Logs = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedBill, setSelectedBill] = useState(null);
   const [dataSource, setDataSource] = useState([]);
+  const [billCounter, setBillCounter] = useState(1); // Counter for bill numbers
   
+  // Get today's date
+  const today = new Date().toLocaleDateString();
+
   const showModal = (bill) => {
     setSelectedBill(bill);
     setIsModalVisible(true);
@@ -28,7 +32,10 @@ const Logs = () => {
     console.log('Printing bill:', bill);
   };
 
-  
+  // Format the bill number as "00001", "00002", etc.
+  const formatBillNumber = (billNumber) => {
+    return billNumber.toString().padStart(5, '0');
+  };
 
   const fetchData = async () => {
     const token = JSON.parse(localStorage.getItem('accessToken')); // Parse the token from localStorage
@@ -42,7 +49,7 @@ const Logs = () => {
       const response = await fetch('http://localhost:3003/cashier/history', {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${token}`, // Pass the token in the Authorization header
+          Authorization: `Bearer ${token}`, // Pass the token in the Authorization header
         },
       });
   
@@ -54,11 +61,11 @@ const Logs = () => {
   
       const formattedData = data.map((item) => ({
         key: item.bill_id,
-        billNumber: item.bill_id,
-        time: new Date(item.date_time).toLocaleString(), // Format date and time
+        billNumber: formatBillNumber(billCounter++), // Use formatted bill number and increment counter
+        time: new Date(item.date_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), // Show only the time
         totalAmount: item.total_price,
         status: item.status === 1 ? 'Completed' : 'Hold', // Convert status to text
-        customerName: item.customer_id || 'Not Assigned', // Customer name handling
+        customerName: item.customer_id || 'Not Assigned', // Handle customer display
       }));
   
       setDataSource(formattedData);
@@ -67,7 +74,19 @@ const Logs = () => {
       message.error('Error fetching cashier history');
     }
   };
-  
+
+  // Reset the bill counter each day by using the current day as a key
+  useEffect(() => {
+    const lastReset = localStorage.getItem('lastBillResetDate');
+    const todayDate = new Date().toLocaleDateString();
+
+    if (lastReset !== todayDate) {
+      setBillCounter(1); // Reset the bill counter
+      localStorage.setItem('lastBillResetDate', todayDate); // Store today's date
+    }
+
+    fetchData();
+  }, []);
 
   const columns = [
     {
@@ -117,11 +136,6 @@ const Logs = () => {
     },
   ];
 
-  // Fetch data on component mount
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   return (
     <div className="logs-container">
       <Title
@@ -134,7 +148,7 @@ const Logs = () => {
           fontSize: '38px',
         }}
       >
-        Transaction History
+        Transaction History - {today} {/* Display today's date */}
       </Title>
       <hr className="divider" />
 
