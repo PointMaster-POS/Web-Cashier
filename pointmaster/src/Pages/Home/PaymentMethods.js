@@ -104,7 +104,7 @@ export default function PaymentMethods() {
         
         resetTransaction();
         setRightContent('RightContent');
-        
+
       } else {
         alert('Error creating bill');
       }
@@ -193,7 +193,7 @@ export default function PaymentMethods() {
           )}
 
           {/* Complete Payment Button */}
-          <Button type="primary" className='complete-payment' onClick={handleCompletePayment}>
+          <Button type="primary" className='complete-payment' onClick={handleCompletePayment} disabled={!selectedMethod}>
             Complete Payment
           </Button>
         </div>
