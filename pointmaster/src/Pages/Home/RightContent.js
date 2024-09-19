@@ -1,92 +1,95 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Modal, Input, Button, Spin } from 'antd';
-import { PlusOutlined, MinusOutlined, CloseOutlined, PauseOutlined, CheckOutlined, ArrowRightOutlined } from "@ant-design/icons";
+import { PlusOutlined, MinusOutlined, CloseOutlined, CheckOutlined, ArrowRightOutlined } from "@ant-design/icons";
+import axios from 'axios';
+import { HomeContext } from '../../Context/HomeContext';
 import './rightcontent.css';
 
-export default function RightContent({ selectedItems = [], setSelectedItems, setRightContent, setPaymentInfo }) {
-  const [totalAmount, setTotalAmount] = useState(0);
-  const [discount, setDiscount] = useState(0);
-  const [customerSelected, setCustomerSelected] = useState(false);
-  const [customerDetails, setCustomerDetails] = useState({});
+export default function RightContent() {
+  const {
+    selectedItems, 
+    removeItem, 
+    increaseQuantity, 
+    decreaseQuantity, 
+    customerDetails, 
+    customerSelected, 
+    handleCustomerSelection, 
+    resetCustomerSelection, 
+    setRightContent, 
+    setPaymentInfo, 
+    setTotalAmount,
+    setTotalDiscount
+  } = useContext(HomeContext);
+  
+  const [totalAmount, setLocalTotalAmount] = useState(0);
+  const [totalDiscount, setLocalTotalDiscount] = useState(0); 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isQRCodeWaiting, setIsQRCodeWaiting] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-
-  // Mock customer data
-  const customers = [
-    { name: 'John Doe', phoneNumber: '123-456-7890', points: 120 },
-    { name: 'Jane Smith', phoneNumber: '098-765-4321', points: 85 },
-    { name: 'Alice Johnson', phoneNumber: '555-123-4567', points: 200 },
-    { name: 'Bob Brown', phoneNumber: '444-555-6666', points: 60 },
-  ];
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const amount = selectedItems.reduce((acc, item) => {
-      const price = parseFloat(item.price.slice(1)) || 0;
-      return acc + (item.quantity || 0) * price;
-    }, 0);
-    const discountAmount = amount * 0.1; // 10% discount
-    setTotalAmount(amount - discountAmount);
-    setDiscount(discountAmount);
-  }, [selectedItems]);
+    let amount = 0;
+    let discountSum = 0;
 
-  const removeItem = (index) => {
-    const newItems = [...selectedItems];
-    newItems.splice(index, 1);
-    setSelectedItems(newItems);
-  };
+    selectedItems.forEach(item => {
+      const price = item.price || 0; // Default to 0 if price is undefined
+      const quantity = item.quantity || 1;
+      const discountPerItem = (item.discount || 0) * quantity;
+      discountSum += discountPerItem;
+      amount += price * quantity;
+    });
 
-  const increaseQuantity = (index) => {
-    const newItems = [...selectedItems];
-    newItems[index].quantity = (newItems[index].quantity || 0) + 1;
-    setSelectedItems(newItems);
-  };
+    setLocalTotalAmount(amount);
+    setLocalTotalDiscount(discountSum);
+    setTotalAmount(amount); // Update context
+    setTotalDiscount(discountSum); // Update context
+  }, [selectedItems, setTotalAmount, setTotalDiscount]);
 
-  const decreaseQuantity = (index) => {
-    const newItems = [...selectedItems];
-    if ((newItems[index].quantity || 1) > 1) {
-      newItems[index].quantity = (newItems[index].quantity || 1) - 1;
-      setSelectedItems(newItems);
-    }
-  };
+  const token = JSON.parse(localStorage.getItem('accessToken'));
 
-  const handleCustomerSelection = () => {
-    setIsModalVisible(true);
-  };
+  const handleSearch = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`http://localhost:3003/cashier/customer/${searchValue}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
 
-  const handleSearch = () => {
-    const customer = customers.find(c => c.phoneNumber === searchValue);
-    if (customer) {
-      setCustomerDetails(customer);
-      setCustomerSelected(true);
-      setIsModalVisible(false);
-    } else {
-      alert('Customer not found');
+      if (response.data && response.data.customer_name) {
+        const customer = {
+          name: response.data.customer_name,
+          phoneNumber: response.data.customer_phone,
+        };
+        handleCustomerSelection(customer);
+        setIsModalVisible(false);
+      } else {
+        alert('Customer not found');
+      }
+    } catch (error) {
+      console.error('Error:', error.message);
+      alert('Error in request setup.');
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleQRCodeWait = () => {
     setIsQRCodeWaiting(true);
     setTimeout(() => {
-      setIsQRCodeWaiting(false);
-      setCustomerDetails(customers[1]); // Simulate customer selection based on QR code
-      setCustomerSelected(true);
+      const customer = {
+        name: 'Jane Smith',
+        phoneNumber: '098-765-4321',
+        points: 85,
+      };
+      handleCustomerSelection(customer);
       setIsModalVisible(false);
-    }, 3000); // Simulating QR code scanning delay
-  };
-
-  const handleChangeCustomer = () => {
-    setCustomerSelected(false);
-    setIsModalVisible(true);
+      setIsQRCodeWaiting(false);
+    }, 3000);
   };
 
   const handleProceed = () => {
-    setPaymentInfo({ totalAmount, discount, customerDetails });
     setRightContent('PaymentMethods');
   };
-
-  const taxRate = 0.05; // Example tax rate of 5%
-  const taxAmount = (totalAmount + discount) * taxRate;
 
   return (
     <div className='content-right'>
@@ -96,27 +99,25 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
             <div className='customer-info'>
               <span className='customer-name'>Name: {customerDetails.name}</span>
               <span className='customer-phone'>Phone: {customerDetails.phoneNumber}</span>
-              <span className='customer-points'>Points: {customerDetails.points}</span>
+              <span className='customer-points'>Points: {customerDetails.points || 0}</span>
             </div>
-            <button className='change-customer' onClick={handleChangeCustomer}><ArrowRightOutlined /> Change Customer</button>
+            <button className='change-customer' onClick={resetCustomerSelection}><ArrowRightOutlined /> Change Customer</button>
           </div>
         ) : (
-          <button onClick={handleCustomerSelection}><PlusOutlined /> Add Customer</button>
+          <button onClick={() => setIsModalVisible(true)}><PlusOutlined /> Add Customer</button>
         )}
       </div>
+
       <div className='selected-items'>
         {selectedItems.map((item, index) => {
-          if (!item.quantity) {
-            item.quantity = 1;
-          }
-
-          const price = parseFloat(item.price.slice(1)) || 0;
-          const quantity = item.quantity || 0;
+          const price = item.price || 0; // Default to 0 if price is undefined
+          const quantity = item.quantity || 1;
+          const discountPerItem = (item.discount || 0) * quantity;
           const total = (quantity * price).toFixed(2);
 
           return (
             <div className='selected-item-card' key={index}>
-              <div className='item-name'>{item.name}</div>
+              <div className='item-name'>{item.item_name}</div>
               <div className='item-details'>
                 <span className='item-price'>
                   {isNaN(price) ? 'Invalid Price' : `$${price.toFixed(2)} / unit`}
@@ -126,6 +127,9 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
                   <span>{quantity}</span>
                   <button onClick={() => increaseQuantity(index)}><PlusOutlined /></button>
                 </div>
+                <span className='item-discount'>
+                  {`Discount: $${discountPerItem.toFixed(2)}`}
+                </span>
                 <span className='item-total'>
                   {isNaN(total) ? 'Invalid Total' : `$${total}`}
                 </span>
@@ -135,26 +139,22 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
           );
         })}
       </div>
+
       <div className='order-summary'>
         <div className='summary-row'>
-          <span>Subtotal:</span>
-          <span>${(totalAmount + discount).toFixed(2)}</span>
+          <span>Bill Total:</span>
+          <span>${totalAmount.toFixed(2)}</span>
         </div>
         <div className='summary-row'>
-          <span>Tax:</span>
-          <span>${taxAmount.toFixed(2)}</span> {/* Calculated tax amount */}
-        </div>
-        <div className='summary-row'>
-          <span>Payable Amount:</span>
-          <span>${(totalAmount + taxAmount).toFixed(2)}</span>
+          <span>Discount:</span>
+          <span>-${totalDiscount.toFixed(2)}</span>
         </div>
       </div>
+
       <div className='order-actions'>
-        {/* <button className='hold-order'><PauseOutlined /> Hold Order</button> */}
         <button className='proceed' onClick={handleProceed}><CheckOutlined /> Proceed</button>
       </div>
 
-      {/* Customer Selection Modal */}
       <Modal
         title="Select Customer"
         visible={isModalVisible}
@@ -167,9 +167,9 @@ export default function RightContent({ selectedItems = [], setSelectedItems, set
           onChange={e => setSearchValue(e.target.value)}
           style={{ marginBottom: '10px' }}
         />
-        <Button type="primary" onClick={handleSearch}>Search by phone number</Button>
+        <Button type="primary" onClick={handleSearch} loading={loading}>Search by phone number</Button>
         <Button onClick={handleQRCodeWait} style={{ marginLeft: '10px' }}>QR Code</Button>
-        {isQRCodeWaiting && <Spin style={{ marginLeft: '10px' }} />}
+        {isQRCodeWaiting && <Spin />}
       </Modal>
     </div>
   );

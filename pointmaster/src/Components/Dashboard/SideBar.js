@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { 
-  HomeOutlined, 
-  UserOutlined, 
-  HistoryOutlined 
-} from "@ant-design/icons";
+import { HomeOutlined, UserOutlined, HistoryOutlined } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./sidebar.css";
@@ -12,17 +8,17 @@ const { Sider } = Layout;
 
 const items = [
   {
-    key: "/",
+    key: "/dashboard",
     icon: <HomeOutlined />,
     label: "Home",
   },
   {
-    key: "/user",
+    key: "/dashboard/user",
     icon: <UserOutlined />,
     label: "User",
   },
   {
-    key: "/logs",
+    key: "/dashboard/logs",
     icon: <HistoryOutlined />,
     label: "Logs",
   },
@@ -52,7 +48,7 @@ const SideBar = ({ onCollapse }) => {
     <Sider
       collapsible
       collapsed={collapsed}
-      width={120} // Increased width for better spacing
+      width={120}
       onCollapse={handleCollapse}
       theme="light"
       style={{
@@ -69,13 +65,13 @@ const SideBar = ({ onCollapse }) => {
         mode="inline"
         theme="light"
         onClick={onMenuClick}
-        style={{ paddingTop: 20 }} // Adds space at the top
+        style={{ paddingTop: 20 }}
       >
         {items.map((item) => (
           <Menu.Item
             key={item.key}
             icon={item.icon}
-            style={{ marginBottom: 40 }} // Space between items
+            style={{ marginBottom: 40 }}
           >
             <span>{item.label}</span>
           </Menu.Item>
