@@ -7,15 +7,6 @@ import "./header.css";
 const Header = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  // Sample cashier data (make sure this is defined)
-  const cashier = {
-    name: "John Doe",
-    address: "123 Main St, Springfield",
-    dateOfBirth: "1990-05-12",
-    email: "john.doe@example.com",
-    photoUrl: "", // Optional: add an image URL
-  };
-
   const handleProfileClick = () => {
     setIsModalVisible(true);
   };
@@ -43,7 +34,7 @@ const Header = () => {
         onCancel={handleModalClose}
         footer={null}
       >
-        <CashierDetails cashier={cashier} />
+        <CashierDetails/>
       </Modal>
     </div>
   );

@@ -11,8 +11,14 @@ export const HomeProvider = ({ children }) => {
   const [rightContent, setRightContent] = useState('');
 
   const handleAddItem = (item) => {
-    setSelectedItems([...selectedItems, item]);
+    const newItem = {
+      ...item, // Copy the item properties
+      unique_id: `${item.item_id}-${new Date().getTime()}`, // Unique ID for each instance
+      quantity: 1, // Start with a quantity of 1 for new instances
+    };
+    setSelectedItems([...selectedItems, newItem]); // Add new item with unique_id
   };
+  
 
   const removeItem = (index) => {
     const newItems = [...selectedItems];
