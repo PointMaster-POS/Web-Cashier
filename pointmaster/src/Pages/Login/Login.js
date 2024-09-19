@@ -1,12 +1,6 @@
-import React, { useState } from "react";
-import "./login.css";
+import React from "react";
 import { Form, Input, Button, Checkbox, message } from "antd";
-import {
-  UserOutlined,
-  LockOutlined,
-  EyeInvisibleOutlined,
-  EyeTwoTone,
-} from "@ant-design/icons";
+import { UserOutlined, LockOutlined, EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; 
 
@@ -45,7 +39,6 @@ export default function Login({ setIsAuthenticated }) {
         });
       });
   };
-  
 
   return (
     <div className="login-container">
