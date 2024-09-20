@@ -12,11 +12,11 @@ export const HomeProvider = ({ children }) => {
 
   const handleAddItem = (item) => {
     const newItem = {
-      ...item, // Copy the item properties
-      unique_id: `${item.item_id}-${new Date().getTime()}`, // Unique ID for each instance
-      quantity: 1, // Start with a quantity of 1 for new instances
+      ...item, 
+      unique_id: `${item.item_id}-${new Date().getTime()}`, 
+      quantity: 1, 
     };
-    setSelectedItems([...selectedItems, newItem]); // Add new item with unique_id
+    setSelectedItems([...selectedItems, newItem]); 
   };
   
 
@@ -54,7 +54,7 @@ export const HomeProvider = ({ children }) => {
     setRightContent(content);
   };
 
-  // Add reset functionality to clear all relevant states
+  
   const resetTransaction = () => {
     setSelectedItems([]);
     setCustomerDetails({});
