@@ -72,47 +72,49 @@ export default function PaymentMethods() {
   // Calculate payable amount
   const payableAmount = (totalAmount - totalDiscount - redeemDiscount).toFixed(2);
 
-  // Handle completing the payment
-  const handleCompletePayment = async () => {
-    const billData = {
-      payment_method: selectedMethod || 'cash',
-      total_amount: totalAmount,
-      items_list: selectedItems.map(item => ({
-        item_id: item.item_id,
-        category_id: item.category_id,
-        price: item.price,
-        quantity: item.quantity || 1,
-      })),
-      loyalty_points_redeemed: redeemDiscount / 0.01,
-      discount: totalDiscount,
-      received: selectedMethod === 'cash' ? parseFloat(cashAmount) : 0,
-      notes: 'good customer',
-      customer_phone: customerDetails.phoneNumber,
-    };
+  const token = JSON.parse(localStorage.getItem('accessToken'));
 
-    try {
-      const response = await fetch('http://localhost:3003/cashier/bill/new-bill', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(billData),
-      });
+const handleCompletePayment = async () => {
+  const billData = {
+    payment_method: selectedMethod || 'cash',
+    total_amount: totalAmount,
+    items_list: selectedItems.map(item => ({
+      item_id: item.item_id,
+      category_id: item.category_id,
+      price: item.price,
+      quantity: item.quantity || 1,
+    })),
+    loyalty_points_redeemed: 1,
+    discount: totalDiscount,
+    received: selectedMethod === 'cash' ? parseFloat(cashAmount) : 0,
+    notes: 'good customer',
+    customer_phone: customerDetails.phoneNumber,
+  };
 
-      if (response.ok) {
-        alert('Bill created successfully');
-        
-        resetTransaction();
-        setRightContent('RightContent');
+  try {
+    const response = await fetch(`http://localhost:3003/cashier/bill/new-bill`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(billData),
+    });
 
-      } else {
-        alert('Error creating bill');
-      }
-    } catch (error) {
-      console.error('Error creating bill:', error);
+    console.log('Bill Data:', billData);
+
+    if (response.ok) {
+      alert('Bill created successfully');
+      resetTransaction();
+      setRightContent('RightContent');
+    } else {
       alert('Error creating bill');
     }
-  };
+  } catch (error) {
+    console.error('Error creating bill:', error);
+    alert('Error creating bill');
+  }
+};
+
 
   return (
     <div className='payment-methods'>
