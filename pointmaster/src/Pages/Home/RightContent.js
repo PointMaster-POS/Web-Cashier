@@ -33,7 +33,7 @@ export default function RightContent() {
     let discountSum = 0;
 
     selectedItems.forEach(item => {
-      const price = item.price || 0; // Default to 0 if price is undefined
+      const price = item.price || 0; 
       const quantity = item.quantity || 1;
       const discountPerItem = (item.discount || 0) * quantity;
       discountSum += discountPerItem;
@@ -111,7 +111,7 @@ export default function RightContent() {
 
       <div className='selected-items'>
         {selectedItems.map((item, index) => {
-          const price = item.price || 0; // Default to 0 if price is undefined
+          const price = item.price || 0; 
           const quantity = item.quantity || 1;
           const discountPerItem = (item.discount || 0) * quantity;
           const total = (quantity * price).toFixed(2);
