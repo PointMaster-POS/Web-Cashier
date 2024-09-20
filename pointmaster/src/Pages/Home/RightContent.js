@@ -59,6 +59,7 @@ export default function RightContent() {
         const customer = {
           name: response.data.customer_name,
           phoneNumber: response.data.customer_phone,
+          points: response.data.points
         };
         handleCustomerSelection(customer);
         setIsModalVisible(false);

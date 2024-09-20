@@ -52,7 +52,6 @@
 
 .print-btn {
   padding: 8px 12px;
-  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
@@ -62,4 +61,3 @@
 .print-btn:hover {
   background-color: #0056b3;
 }
-  
