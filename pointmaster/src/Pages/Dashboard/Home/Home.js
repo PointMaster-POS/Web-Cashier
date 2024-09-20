@@ -1,9 +1,12 @@
 import React, { useContext } from 'react';
-import RightContent from './RightContent';
-import LeftContent from './LeftContent';
-import PaymentMethods from './PaymentMethods';
-import { HomeContext } from '../../Context/HomeContext';
+import RightContent from '../../../Components/Dashboard/Home/RightContent/RightContent';
+import LeftContent from '../../../Components/Dashboard/Home/LeftContent/LeftContent';
+import PaymentMethods from '../../../Components/Dashboard/Home/PaymentMethods/PaymentMethods';
+import { HomeContext } from '../../../Context/HomeContext';
 import './home.css';
+
+
+
 
 function Home() {
   const { rightContent } = useContext(HomeContext);

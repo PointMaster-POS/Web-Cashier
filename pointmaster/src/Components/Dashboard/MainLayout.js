@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layout } from 'antd';
-import Header from './Header';
-import SideBar from './SideBar';
+import Header from '../Header/Header';
+import SideBar from '../Sidebar/SideBar';
 import { Outlet } from 'react-router-dom';  // This is important for rendering nested routes
 
 const { Content: AntContent } = Layout;

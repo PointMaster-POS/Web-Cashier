@@ -2,8 +2,9 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Modal, Input, Button, Spin } from 'antd';
 import { PlusOutlined, MinusOutlined, CloseOutlined, CheckOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import axios from 'axios';
-import { HomeContext } from '../../Context/HomeContext';
+import { HomeContext } from '../../../../Context/HomeContext';
 import './rightcontent.css';
+
 
 export default function RightContent() {
   const {

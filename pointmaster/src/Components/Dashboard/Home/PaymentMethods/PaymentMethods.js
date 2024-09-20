@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Button, Input } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import { HomeContext } from '../../Context/HomeContext';
+import { HomeContext } from '../../../../Context/HomeContext';
 import './paymentmethods.css';
 
 export default function PaymentMethods() {

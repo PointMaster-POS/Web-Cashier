@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { HomeContext } from '../../Context/HomeContext';
+import { HomeContext } from '../../../../Context/HomeContext';
 import './leftcontent.css';
 
 export default function LeftContent() {

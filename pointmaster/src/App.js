@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import MainLayout from './Components/Dashboard/MainLayout'; 
 import Login from './Pages/Login/Login';
 import Landing from './Pages/Landing/Landing'; 
-import Home from './Pages/Home/Home'; 
-import Logs from './Pages/Logs/Logs'; 
+import Home from './Pages/Dashboard/Home/Home'; 
+import Logs from './Pages/Dashboard/Logs/Logs'; 
 import { HomeProvider } from './Context/HomeContext'; 
 
 const App = () => {

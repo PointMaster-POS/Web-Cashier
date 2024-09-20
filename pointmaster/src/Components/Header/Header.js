@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Typography, Avatar, Modal } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import CashierDetails from "../../Pages/User/CashierDetails";
+
 import "./header.css";
+import CashierDetails from "../../Pages/Dashboard/User/CashierDetails";
 
 const Header = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
