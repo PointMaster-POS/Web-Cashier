@@ -10,10 +10,15 @@ export const HomeProvider = ({ children }) => {
   const [totalDiscount, setTotalDiscount] = useState(0);
   const [rightContent, setRightContent] = useState('');
 
-
-  const handleAddItem = item => {
-    setSelectedItems([...selectedItems, item]);
+  const handleAddItem = (item) => {
+    const newItem = {
+      ...item, 
+      unique_id: `${item.item_id}-${new Date().getTime()}`, 
+      quantity: 1, 
+    };
+    setSelectedItems([...selectedItems, newItem]); 
   };
+  
 
   const removeItem = (index) => {
     const newItems = [...selectedItems];
@@ -35,7 +40,7 @@ export const HomeProvider = ({ children }) => {
     }
   };
 
-  const handleCustomerSelection = customer => {
+  const handleCustomerSelection = (customer) => {
     setCustomerDetails(customer);
     setCustomerSelected(true);
   };
@@ -49,6 +54,15 @@ export const HomeProvider = ({ children }) => {
     setRightContent(content);
   };
 
+  
+  const resetTransaction = () => {
+    setSelectedItems([]);
+    setCustomerDetails({});
+    setCustomerSelected(false);
+    setTotalAmount(0);
+    setTotalDiscount(0);
+    setRightContent('');
+  };
 
   return (
     <HomeContext.Provider
@@ -68,7 +82,7 @@ export const HomeProvider = ({ children }) => {
         setTotalDiscount,
         rightContent,
         setRightContent: setRightContentValue,
-
+        resetTransaction,  
       }}
     >
       {children}

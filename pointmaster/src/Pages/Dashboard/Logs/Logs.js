@@ -9,10 +9,14 @@ const Logs = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedBill, setSelectedBill] = useState(null);
   const [dataSource, setDataSource] = useState([]);
-  const [billCounter, setBillCounter] = useState(1); // Counter for bill numbers
+  const [billCounter, setBillCounter] = useState(1);
   
-  const today = new Date().toLocaleDateString();
-
+  const today = new Date().toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+  
   const showModal = (bill) => {
     setSelectedBill(bill);
     setIsModalVisible(true);
@@ -27,17 +31,15 @@ const Logs = () => {
   };
 
   const handlePrint = (bill) => {
-    // Implement print logic here
     console.log('Printing bill:', bill);
   };
 
-  // Format the bill number as "00001", "00002", etc.
   const formatBillNumber = (billNumber) => {
     return billNumber.toString().padStart(5, '0');
   };
 
   const fetchData = async () => {
-    const token = JSON.parse(localStorage.getItem('accessToken')); 
+    const token = JSON.parse(localStorage.getItem('accessToken'));
   
     if (!token) {
       message.error('Token not found. Please log in.');
@@ -48,42 +50,45 @@ const Logs = () => {
       const response = await fetch('http://localhost:3003/cashier/history', {
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${token}`, 
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
       });
   
       if (!response.ok) {
-        throw new Error('Failed to fetch cashier history');
+        const errorDetails = await response.text();
+        throw new Error(`Failed to fetch cashier history: ${errorDetails}`);
       }
   
       const data = await response.json();
   
-      const formattedData = data.map((item) => ({
+      const formattedData = data.map((item, index) => ({
         key: item.bill_id,
-        billNumber: formatBillNumber(billCounter++), // Use formatted bill number and increment counter
-        time: new Date(item.date_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), // Show only the time
+        billNumber: formatBillNumber(billCounter + index),
+        time: new Date(item.date_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         totalAmount: item.total_price,
-        status: item.status === 1 ? 'Completed' : 'Hold', // Convert status to text
-        customerName: item.customer_id || 'Not Assigned', // Handle customer display
+        status: item.status === 1 ? 'Completed' : 'Hold',
+        customerPhone: item.customer_phone || 'Not Assigned',
+        discount: item.discount || 0,  // Add discount column
+        received: item.received || item.total_price,  // Add received column
+        items: item.items_list || [], // Items list for detailed view
       }));
   
       setDataSource(formattedData);
     } catch (error) {
-      console.error('Error fetching data:', error);
-      message.error('Error fetching cashier history');
+      console.error('Error fetching data:', error.message);
+      message.error(`Error fetching cashier history: ${error.message}`);
     }
   };
 
-  // Reset the bill counter each day by using the current day as a key
   useEffect(() => {
     const lastReset = localStorage.getItem('lastBillResetDate');
     const todayDate = new Date().toLocaleDateString();
 
     if (lastReset !== todayDate) {
-      setBillCounter(1); // Reset the bill counter
-      localStorage.setItem('lastBillResetDate', todayDate); // Store today's date
+      setBillCounter(1);
+      localStorage.setItem('lastBillResetDate', todayDate);
     }
-
     fetchData();
   }, []);
 
@@ -99,10 +104,20 @@ const Logs = () => {
       key: 'time',
     },
     {
-      title: 'Customer Name',
-      dataIndex: 'customerName',
-      key: 'customerName',
+      title: 'Customer Phone',
+      dataIndex: 'customerPhone',
+      key: 'customerPhone',
       render: (text) => text || 'Not Assigned',
+    },
+    {
+      title: 'Discount',
+      dataIndex: 'discount',
+      key: 'discount',
+    },
+    {
+      title: 'Received Amount',
+      dataIndex: 'received',
+      key: 'received',
     },
     {
       title: 'Total Amount',
@@ -127,7 +142,11 @@ const Logs = () => {
           <Button icon={<PrinterOutlined />} onClick={() => handlePrint(record)}>
             Print
           </Button>
-          <Button type="primary" onClick={() => showModal(record)}>
+          <Button 
+            type="primary" 
+            style={{ backgroundColor: record.status === 'Completed' ? 'green' : 'orange' }}
+            onClick={() => showModal(record)}
+          >
             View Details
           </Button>
         </Space>
@@ -147,7 +166,7 @@ const Logs = () => {
           fontSize: '38px',
         }}
       >
-        Transaction History - {today} {/* Display today's date */}
+        Transaction History - {today}
       </Title>
       <hr className="divider" />
 
@@ -162,15 +181,31 @@ const Logs = () => {
         >
           {selectedBill && (
             <div>
-              <p><strong>Bill Number:</strong> {selectedBill.billNumber}</p>
-              <p><strong>Time:</strong> {selectedBill.time}</p>
-              <p><strong>Customer Name:</strong> {selectedBill.customerName || 'Not Assigned'}</p>
-              <p><strong>Total Amount:</strong> ${selectedBill.totalAmount}</p>
-              <p><strong>Status:</strong> {selectedBill.status}</p>
-              {/* Display more details as required */}
+              <h3>Items Purchased:</h3>
+              {selectedBill.items.map((item, idx) => (
+                <div key={idx}>
+                  <p>
+                    <strong>Item {idx + 1}:</strong> {item.name}
+                  </p>
+                  <p>
+                    Unit Price: ${item.price.toFixed(2)}, Quantity: {item.quantity}, 
+                    Total Price: ${(item.price * item.quantity).toFixed(2)}, 
+                    Discount: ${item.discount || 0}
+                  </p>
+                </div>
+              ))}
+              <hr />
+              <div>
+                <p><strong>Bill Total:</strong></p>
+                <p><strong>Discount:</strong> </p>
+                <p><strong>Redeemed Points:</strong> </p>
+                <hr />
+                <p><strong>Final Total:</strong></p>
+              </div>
             </div>
           )}
         </Modal>
+
       </div>
     </div>
   );

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import MainLayout from './Components/Dashboard/MainLayout'; // Main dashboard layout
+import MainLayout from './Components/Dashboard/MainLayout'; 
 import Login from './Pages/Login/Login';
 import Landing from './Pages/Landing/Landing'; 
-import Home from './Pages/Home/Home'; // Home component
-import User from './Pages/User/User'; // User component
-import Logs from './Pages/Logs/Logs'; // Logs component
-import { HomeProvider } from './Context/HomeContext'; // Import HomeProvider
+import Home from './Pages/Dashboard/Home/Home'; 
+import Logs from './Pages/Dashboard/Logs/Logs'; 
+import { HomeProvider } from './Context/HomeContext'; 
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -49,7 +48,6 @@ const App = () => {
           ) : <Navigate to="/login" />}
         >
           <Route path="" element={<Home />} />
-          <Route path="user" element={<User />} />
           <Route path="logs" element={<Logs />} />
         </Route>
 

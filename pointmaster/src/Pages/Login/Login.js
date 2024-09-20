@@ -15,37 +15,37 @@ export default function Login({ setIsAuthenticated }) {
   const navigate = useNavigate();
 
   const onFinish = (values) => {
-    const url = "http://localhost:3002/employee/login";
-    axios
-      .post(url, {
-        email: values.username,
-        password: values.password,
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          const accessToken = response.data.accessToken || response.data.token || response.data;
-          const expirationTime = new Date().getTime() + 30 * 60 * 1000; // Token expires in 30 minutes
-          
-          localStorage.setItem("accessToken", JSON.stringify(accessToken));
-          localStorage.setItem("tokenExpiration", expirationTime.toString()); // Store expiration as a string
-          
-          setIsAuthenticated(true);
-          navigate("/dashboard");
-        } else {
-          messageApi.open({
-            type: "error",
-            content: "Invalid credentials",
-          });
-        }
-      })
-      .catch(() => {
+  const url = "http://localhost:3002/employee/login";
+  axios
+    .post(url, {
+      email: values.username,
+      password: values.password,
+    })
+    .then((response) => {
+      if (response.status === 200) {
+        const accessToken = response.data.accessToken || response.data.token || response.data;
+        const expirationTime = new Date().getTime() + 30 * 60 * 1000; // Token expires in 30 minutes
+        
+        localStorage.setItem("accessToken", JSON.stringify(accessToken));
+        localStorage.setItem("tokenExpiration", expirationTime.toString()); // Store expiration as a string
+        
+        setIsAuthenticated(true);
+        navigate("/dashboard");
+      } else {
         messageApi.open({
           type: "error",
-          content: "Login failed",
+          content: "Invalid credentials",
         });
+      }
+    })
+    .catch(() => {
+      messageApi.open({
+        type: "error",
+        content: "Login failed",
       });
-  };
-  
+    });
+};
+
 
   return (
     <div className="login-container">

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { HomeContext } from '../../Context/HomeContext';
+import { HomeContext } from '../../../../Context/HomeContext';
 import './leftcontent.css';
 
 export default function LeftContent() {
@@ -23,7 +23,6 @@ export default function LeftContent() {
         });
         setCategories(response.data);
         if (response.data.length > 0) {
-          // Select the first category if available
           setSelectedCategory(response.data[0].category_id);
         }
       } catch (error) {
@@ -84,13 +83,13 @@ export default function LeftContent() {
           foodItems.map((item, index) => (
             <div className='food-card' key={index} onClick={() => handleAddItem(item)}>
               <img 
-                src={item.image_url || 'placeholder.png'}  // Handle missing image URL
+                src={item.image_url || 'placeholder.png'}  
                 alt={item.item_name || 'Food item'} 
               />
               <div className='food-details'>
                 <div className='food-name'>{item.item_name || 'Unknown item'}</div>
                 <div className='food-price'>
-                  {item.price ? `$${item.price}` : 'Price not available'}  {/* Handle missing price */}
+                  {item.price ? `$${item.price}` : 'Price not available'} 
                 </div>
               </div>
             </div>

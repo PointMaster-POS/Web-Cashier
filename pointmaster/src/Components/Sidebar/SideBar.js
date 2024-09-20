@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { HomeOutlined, UserOutlined, HistoryOutlined } from "@ant-design/icons";
+import { HomeOutlined, HistoryOutlined } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./sidebar.css";
@@ -11,11 +11,6 @@ const items = [
     key: "/dashboard",
     icon: <HomeOutlined />,
     label: "Home",
-  },
-  {
-    key: "/dashboard/user",
-    icon: <UserOutlined />,
-    label: "User",
   },
   {
     key: "/dashboard/logs",
