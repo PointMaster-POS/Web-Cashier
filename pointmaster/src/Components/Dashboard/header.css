@@ -1,8 +1,8 @@
 .header_ {
     display: flex;
-    align-items: center; /* Vertically center the items */
-    justify-content: space-between; /* Space between text and icons */
-    padding: 0 30px; /* Add some padding for better spacing */
-    height: 75px; /* Adjust the height as needed */
-    background-color: #fff; /* Optional: background color */
+    align-items: center; 
+    justify-content: space-between; 
+    padding: 0 30px; 
+    height: 75px; 
+    background-color: #fff; 
   }
