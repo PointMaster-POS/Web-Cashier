@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Typography, Button, Avatar, Spin, notification } from "antd";
+import { Typography, Button, Avatar, Spin, notification } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom"; 
 import axios from 'axios';
@@ -34,7 +34,7 @@ const CashierDetails = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken'); 
-    localStorage.removeItem('tokenExpiration');
+    // localStorage.removeItem('tokenExpiration');
     console.log("Logging out...");
     navigate('/landing'); 
   };
@@ -48,8 +48,8 @@ const CashierDetails = () => {
           <Spin size="large" />
         </div>
       ) : (
-        <Row gutter={16}>
-          <Col span={16}>
+        <div className="cashier-details-content">
+          <div className="cashier-info">
             <Title level={4}>{name}</Title>
             <Text strong>Address:</Text>
             <Text>{address}</Text>
@@ -60,18 +60,18 @@ const CashierDetails = () => {
             <Text strong>Email:</Text>
             <Text>{email}</Text>
             <br />
-            <Button type="primary" danger onClick={handleLogout} style={{ marginTop: "20px" }}>
+            <Button type="primary" danger onClick={handleLogout} className="logout-button">
               Logout
             </Button>
-          </Col>
-          <Col span={8} className="cashier-avatar">
+          </div>
+          <div className="cashier-avatar">
             <Avatar
               size={120}
               src={photoUrl || null}
               icon={<UserOutlined />}
             />
-          </Col>
-        </Row>
+          </div>
+        </div>
       )}
     </div>
   );
