@@ -69,7 +69,6 @@ const CashierDetails = () => {
               size={120}
               src={photoUrl || null}
               icon={<UserOutlined />}
-              iconStyle={{ FontColorsOutlined}}
             />
           </div>
         </div>
