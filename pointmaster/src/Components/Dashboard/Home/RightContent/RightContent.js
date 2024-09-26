@@ -154,7 +154,7 @@ export default function RightContent() {
       </div>
 
       <div className='order-actions'>
-      <button className='proceed' onClick={handleProceed}><PauseOutlined /> Hold</button>
+      <button className='hold' onClick={handleProceed}><PauseOutlined /> Hold</button>
         <button className='proceed' onClick={handleProceed}><CheckOutlined /> Proceed</button>
       </div>
 
