@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Modal, Input, Button, Spin } from 'antd';
-import { PlusOutlined, MinusOutlined, CloseOutlined, CheckOutlined, ArrowRightOutlined } from "@ant-design/icons";
+import { PlusOutlined, MinusOutlined, CloseOutlined, CheckOutlined, ArrowRightOutlined, PauseOutlined } from "@ant-design/icons";
 import axios from 'axios';
 import { HomeContext } from '../../../../Context/HomeContext';
 import './rightcontent.css';
@@ -154,6 +154,7 @@ export default function RightContent() {
       </div>
 
       <div className='order-actions'>
+      <button className='proceed' onClick={handleProceed}><PauseOutlined /> Hold</button>
         <button className='proceed' onClick={handleProceed}><CheckOutlined /> Proceed</button>
       </div>
 
