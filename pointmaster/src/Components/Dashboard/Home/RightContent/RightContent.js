@@ -104,11 +104,11 @@ export default function RightContent() {
         price: item.price,
         quantity: item.quantity || 1,
       })),
-      loyalty_points_redeemed: 0,  // No points redeemed for holding
+      loyalty_points_redeemed: 0,  
       discount: totalDiscount,
-      received: 0, // No amount received during hold
-      notes: 'payment on hold', // Add a note for holding the payment
-      customer_phone: customerDetails ? customerDetails.phoneNumber : '', // If customer exists
+      received: 0,
+      notes: 'payment on hold', 
+      customer_phone: customerDetails ? customerDetails.phoneNumber : '',
     };
 
     try {
@@ -123,7 +123,7 @@ export default function RightContent() {
 
       if (response.ok) {
         alert('Payment placed on hold successfully');
-        resetTransaction();  // Function to reset the right content area
+        resetTransaction(); 
         setRightContent('RightContent');
       } else {
         alert('Error holding payment');
