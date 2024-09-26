@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Typography, Button, Avatar, Spin, notification } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { FontColorsOutlined, UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom"; 
 import axios from 'axios';
 import "./cashierdetails.css";
@@ -15,7 +15,7 @@ const CashierDetails = () => {
   useEffect(() => {
     const fetchCashierDetails = async () => {
       try {
-        const response = await axios.get('http://localhost:3003/employee'); // Replace with your API endpoint
+        const response = await axios.get('http://localhost:3003/employee'); 
         setCashier(response.data);
 
       } catch (error) {
@@ -69,6 +69,7 @@ const CashierDetails = () => {
               size={120}
               src={photoUrl || null}
               icon={<UserOutlined />}
+              iconStyle={{ FontColorsOutlined}}
             />
           </div>
         </div>
