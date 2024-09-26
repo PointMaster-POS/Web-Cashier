@@ -103,7 +103,7 @@
   gap: 16px; 
 }
 
-.hold-order, .proceed {
+.hold, .proceed {
   flex: 1; 
   background-color: orange;
   color: white;
@@ -113,6 +113,10 @@
   border: none;
   cursor: pointer;
   text-align: center;
+}
+
+.hold{
+  background-color: rgb(237, 177, 64);
 }
 
 .proceed {
