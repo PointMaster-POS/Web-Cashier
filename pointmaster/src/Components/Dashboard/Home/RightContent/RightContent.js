@@ -106,7 +106,8 @@ export default function RightContent() {
             <button className='change-customer' onClick={resetCustomerSelection}><ArrowRightOutlined /> Change Customer</button>
           </div>
         ) : (
-          <button onClick={() => setIsModalVisible(true)}><PlusOutlined /> Add Customer</button>
+          <button onClick={() => setIsModalVisible(true)} className="add-customer-btn"><PlusOutlined /> Add Customer</button>
+
         )}
       </div>
 
@@ -159,7 +160,7 @@ export default function RightContent() {
 
       <Modal
         title="Select Customer"
-        visible={isModalVisible}
+        open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={null}
       >

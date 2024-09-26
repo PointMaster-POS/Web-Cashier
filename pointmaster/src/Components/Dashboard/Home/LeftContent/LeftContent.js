@@ -21,23 +21,27 @@ export default function LeftContent() {
             Authorization: `Bearer ${token}`
           }
         });
-        setCategories(response.data);
-        if (response.data.length > 0) {
-          setSelectedCategory(response.data[0].category_id);
+  
+        if (response && response.data) {
+          setCategories(response.data);
+          if (response.data.length > 0) {
+            setSelectedCategory(response.data[0].category_id);
+          }
+        } else {
+          console.error('No data received for categories');
         }
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
     };
-
+  
     if (token) {
       fetchCategories();
     } else {
       console.error('No access token found.');
     }
   }, [token]);
-
-
+  
   useEffect(() => {
     if (selectedCategory) {
       const fetchProducts = async () => {
@@ -47,7 +51,12 @@ export default function LeftContent() {
               Authorization: `Bearer ${token}`
             }
           });
-          setFoodItems(response.data);
+  
+          if (response && response.data) {
+            setFoodItems(response.data);
+          } else {
+            console.error('No data received for products');
+          }
         } catch (error) {
           console.error('Error fetching products:', error);
         }
@@ -55,6 +64,7 @@ export default function LeftContent() {
       fetchProducts();
     }
   }, [selectedCategory, token]);
+  
 
   const handleCategoryClick = (category_id) => {
     setSelectedCategory(category_id);
