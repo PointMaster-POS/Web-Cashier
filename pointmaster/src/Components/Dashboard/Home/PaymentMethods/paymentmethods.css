@@ -120,6 +120,7 @@
   width: 180px;
   text-align: center;
   background-color: rgb(237, 177, 64);
+  border-color: rgb(237, 177, 64);
   height: 120px;
   font-size: 1.1rem;
   margin-bottom: 20px;
@@ -127,6 +128,7 @@
 
 .payment-button.selected {
   background-color: green;
+  border-color: green;
 }
 
 .cash-info-container{
