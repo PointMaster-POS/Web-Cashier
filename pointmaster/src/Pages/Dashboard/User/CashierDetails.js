@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Typography, Button, Avatar, Spin, notification } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { FontColorsOutlined, UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom"; 
 import axios from 'axios';
 import "./cashierdetails.css";
@@ -12,12 +12,16 @@ const CashierDetails = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  const token = localStorage.getItem('accessToken');
+
   useEffect(() => {
     const fetchCashierDetails = async () => {
       try {
-        const response = await axios.get('http://localhost:3003/employee'); // Replace with your API endpoint
-        setCashier(response.data);
+        const response = await axios.get('http://localhost:3003/employee', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
 
+        setCashier(response.data);
       } catch (error) {
         console.error('Error fetching cashier details:', error);
         notification.error({
@@ -30,7 +34,8 @@ const CashierDetails = () => {
     };
 
     fetchCashierDetails();
-  }, []);
+  }, [token]);  // Add token as a dependency if it comes from state or props
+
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken'); 

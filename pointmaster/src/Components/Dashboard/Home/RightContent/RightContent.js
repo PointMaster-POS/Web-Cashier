@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Modal, Input, Button, Spin } from 'antd';
-import { PlusOutlined, MinusOutlined, CloseOutlined, CheckOutlined, ArrowRightOutlined } from "@ant-design/icons";
+import { PlusOutlined, MinusOutlined, CloseOutlined, CheckOutlined, ArrowRightOutlined, PauseOutlined } from "@ant-design/icons";
 import axios from 'axios';
 import { HomeContext } from '../../../../Context/HomeContext';
 import './rightcontent.css';
@@ -17,6 +17,7 @@ export default function RightContent() {
     handleCustomerSelection, 
     resetCustomerSelection, 
     setRightContent, 
+    resetTransaction,
     setPaymentInfo, 
     setTotalAmount,
     setTotalDiscount
@@ -93,6 +94,46 @@ export default function RightContent() {
     setRightContent('PaymentMethods');
   };
 
+  const handleHoldPayment = async () => {
+    const billData = {
+      payment_method: 'on-hold', // Use 'on-hold' as the status for holding
+      total_amount: totalAmount,
+      items_list: selectedItems.map(item => ({
+        item_id: item.item_id,
+        category_id: item.category_id,
+        price: item.price,
+        quantity: item.quantity || 1,
+      })),
+      loyalty_points_redeemed: 0,  
+      discount: totalDiscount,
+      received: 0,
+      notes: 'payment on hold', 
+      customer_phone: customerDetails ? customerDetails.phoneNumber : '',
+    };
+
+    try {
+      const response = await fetch(`http://localhost:3003/cashier/bill/new-bill`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(billData),
+      });
+
+      if (response.ok) {
+        alert('Payment placed on hold successfully');
+        resetTransaction(); 
+        setRightContent('RightContent');
+      } else {
+        alert('Error holding payment');
+      }
+    } catch (error) {
+      console.error('Error holding payment:', error);
+      alert('Error holding payment');
+    }
+  }
+
   return (
     <div className='content-right'>
       <div className='add-customer'>
@@ -155,6 +196,7 @@ export default function RightContent() {
       </div>
 
       <div className='order-actions'>
+      <button className='hold' onClick={handleHoldPayment}><PauseOutlined /> Hold</button>
         <button className='proceed' onClick={handleProceed}><CheckOutlined /> Proceed</button>
       </div>
 
