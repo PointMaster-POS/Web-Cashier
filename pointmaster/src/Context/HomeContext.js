@@ -82,10 +82,12 @@ export const HomeProvider = ({ children }) => {
         setTotalAmount,
         setTotalDiscount,
         rightContent,
-        setRightContent: setRightContentValue,
+        setRightContent,
+        setRightContentValue,
         resetTransaction,  
         isAuthenticated,
         setIsAuthenticated,
+      
       }}
     >
       {children}

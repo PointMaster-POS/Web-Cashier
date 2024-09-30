@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import MainLayout from './Components/Dashboard/MainLayout'; 
 import Login from './Pages/Login/Login';
 import Landing from './Pages/Landing/Landing'; 
 import Home from './Pages/Dashboard/Home/Home'; 
 import Logs from './Pages/Dashboard/Logs/Logs'; 
-import { HomeProvider } from './Context/HomeContext'; 
+
+import { HomeContext } from './Context/HomeContext';
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const {isAuthenticated, setIsAuthenticated} = useContext(HomeContext);
+ 
 
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
@@ -42,9 +45,7 @@ const App = () => {
         <Route
           path="/dashboard"
           element={isAuthenticated ? (
-            <HomeProvider> {/* Wrap MainLayout with HomeProvider */}
-              <MainLayout />
-            </HomeProvider>
+            <MainLayout />
           ) : <Navigate to="/login" />}
         >
           <Route path="" element={<Home />} />

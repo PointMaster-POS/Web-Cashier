@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Typography, Button, Avatar, Spin, notification } from "antd";
 import { FontColorsOutlined, UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom"; 
+import { HomeContext } from "../../../Context/HomeContext";
 import axios from 'axios';
 import "./cashierdetails.css";
 
@@ -11,6 +12,8 @@ const CashierDetails = () => {
   const [cashier, setCashier] = useState({});
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const { isAuthenticated,setIsAuthenticated } = useContext(HomeContext);
+
 
   const token = localStorage.getItem('accessToken');
 
@@ -39,6 +42,7 @@ const CashierDetails = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken'); 
+    setIsAuthenticated(false);
     // localStorage.removeItem('tokenExpiration');
     console.log("Logging out...");
     navigate('/landing'); 
