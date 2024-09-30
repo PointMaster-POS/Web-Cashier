@@ -76,16 +76,35 @@ export default function PaymentMethods() {
   }
   
 
+  // useEffect(() => {
+  //   const fetchEligibility = async () => {
+  //     if (customerDetails?.id) {
+  //       console.log('Customer ID:', customerDetails.id);  
+  //       const isEligible = await checkRedeemPointsEligibility(customerDetails.id);
+  //       setRedeemEligible(isEligible); 
+  //     }
+  //   };
+  //   fetchEligibility();
+  // }, [customerDetails]); 
+
   useEffect(() => {
     const fetchEligibility = async () => {
-      if (customerDetails?.id) {
-        const isEligible = await checkRedeemPointsEligibility(customerDetails.id);
-        setRedeemEligible(isEligible); 
+      if (customerDetails) {
+        console.log('Customer Details:', customerDetails);  // Log entire details
+        if (customerDetails.id) {
+          console.log('Customer ID:', customerDetails.id);  
+          const isEligible = await checkRedeemPointsEligibility(customerDetails.id);
+          setRedeemEligible(isEligible); 
+        } else {
+          console.log('Customer ID is missing');  // Log if ID is missing
+        }
+      } else {
+        console.log('CustomerDetails is not available');  // Log if details are not set
       }
     };
     fetchEligibility();
-  }, [customerDetails]); 
-
+  }, [customerDetails]);
+  
 
   const handleCashPayment = () => {
     const payable = (totalAmount - totalDiscount - redeemDiscount).toFixed(2);
@@ -95,7 +114,6 @@ export default function PaymentMethods() {
 
 
   const handleRedeemPoints = () => {
-    console.log('Redeem Eligible:', redeemEligible);
     if (redeemEligible) {
       const pointsValue = points * 0.01;
       setRedeemDiscount(pointsValue);
@@ -169,7 +187,8 @@ export default function PaymentMethods() {
 
       <div className="payment-container">
         {/* Redeem Points Section */}
-        <Button className='redeem-points-button' type="primary" onClick={handleRedeemPoints} disabled={!redeemEligible}>
+        
+        <Button className='redeem-points-button' type="primary" onClick={handleRedeemPoints} >
           Redeem Points
         </Button>
 
