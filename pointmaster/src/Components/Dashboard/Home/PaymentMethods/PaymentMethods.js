@@ -1,5 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Button, Input } from 'antd';
+import {Modal} from 'antd';
+import { notification } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { HomeContext } from '../../../../Context/HomeContext';
 import './paymentmethods.css';
@@ -70,7 +72,6 @@ export default function PaymentMethods() {
   const payableAmount = (totalAmount - totalDiscount - redeemDiscount).toFixed(2);
 
   const token = JSON.parse(localStorage.getItem('accessToken'));
-  console.log('Token:', token);
 
   const handleCompletePayment = async () => {
     const billData = {
@@ -104,7 +105,11 @@ export default function PaymentMethods() {
       console.log('Response:', response);
 
       if (response.ok) {
-        // alert('Bill created successfully');
+        notification.success({
+          message: 'Bill Created',
+          description: 'The bill has been created successfully!',
+          duration: 3, 
+        });
         resetTransaction();
         setRightContent('RightContent');
       } else {
