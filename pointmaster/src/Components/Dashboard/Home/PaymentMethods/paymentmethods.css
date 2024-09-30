@@ -35,6 +35,7 @@
 
 .back-button:hover {
   background-color: #002465 !important;
+  color: #ffffff;
 }
 
 .payment-container{
