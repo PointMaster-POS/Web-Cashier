@@ -70,6 +70,7 @@ export default function PaymentMethods() {
   const payableAmount = (totalAmount - totalDiscount - redeemDiscount).toFixed(2);
 
   const token = JSON.parse(localStorage.getItem('accessToken'));
+  console.log('Token:', token);
 
   const handleCompletePayment = async () => {
     const billData = {
@@ -81,26 +82,29 @@ export default function PaymentMethods() {
         price: item.price,
         quantity: item.quantity || 1,
       })),
-      loyalty_points_redeemed: 1,
+      loyalty_points_redeemed: 0,
       discount: totalDiscount,
       received: selectedMethod === 'cash' ? parseFloat(cashAmount) : 0,
       notes: 'good customer',
       customer_phone: customerDetails.phoneNumber,
+      status: true,
     };
 
     try {
       const response = await fetch(`http://localhost:3003/cashier/bill/new-bill`, {
         method: 'POST',
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(billData),
       });
 
       console.log('Bill Data:', billData);
+      console.log('Response:', response);
 
       if (response.ok) {
-        alert('Bill created successfully');
+        // alert('Bill created successfully');
         resetTransaction();
         setRightContent('RightContent');
       } else {
