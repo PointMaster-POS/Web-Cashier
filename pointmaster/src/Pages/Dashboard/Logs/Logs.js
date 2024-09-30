@@ -180,27 +180,44 @@ const Logs = () => {
           visible={isModalVisible}
           onOk={handleOk}
           onCancel={handleCancel}
+          width={500}
         >
           {selectedBill && (
             <div>
               <h3>Items Purchased:</h3>
               {selectedBill.items.map((item, idx) => (
                 <div key={idx}>
-                  <p>
-                    <strong>{item.item_name}</strong> - {item.supplier_name}
-                  </p>
-                  <p>
-                    Unit Price: ${item.price.toFixed(2)}, Quantity: {item.quantity}, 
-                    Discount: ${item.discount || 0}
-                  </p>
+                  <div class="item-details">
+                    <div class="item-header">
+                      <strong>{item.item_name}</strong> 
+                      <span class="supplier-name">{/*- {item.supplier_name}*/}</span>
+                    </div>
+                    <div class="item-info">
+                      <div class="info-row">
+                        <span>Unit Price:</span>
+                        <span class="value">${item.price.toFixed(2)}</span>
+                      </div>
+                      <div class="info-row">
+                        <span>Quantity:</span>
+                        <span class="value">{item.quantity}</span>
+                      </div>
+                      <div class="info-row">
+                        <span>Discount:</span>
+                        <span class="value">${item.discount || 0}</span>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
               ))}
               <hr />
-              <p><strong>Total Amount:</strong> ${selectedBill.totalAmount.toFixed(2)}</p>
-              <p><strong>Discount:</strong> ${selectedBill.discount.toFixed(2)}</p>
-              <p><strong>Received:</strong> ${selectedBill.received.toFixed(2)}</p>
-              <p><strong>Payment Method:</strong> {selectedBill.paymentMethod}</p>
-              <p><strong>Notes:</strong> {selectedBill.notes}</p>
+              <div class="bill-details">
+                <div className="info-item"><strong>Total Amount:</strong> ${selectedBill.totalAmount.toFixed(2)}</div>
+                <div className="info-item"><strong>Discount:</strong> ${selectedBill.discount.toFixed(2)}</div>
+                <div className="info-item"><strong>Received:</strong> ${selectedBill.received.toFixed(2)}</div>
+                <div className="info-item"><strong>Payment Method:</strong> {selectedBill.paymentMethod}</div>
+                <div className="info-item"><strong>Notes:</strong> {selectedBill.notes}</div>
+              </div>
             </div>
           )}
         </Modal>

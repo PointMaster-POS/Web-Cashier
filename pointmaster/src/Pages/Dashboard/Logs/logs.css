@@ -61,3 +61,51 @@
 .print-btn:hover {
   background-color: #0056b3;
 }
+
+.item-details {
+  margin-bottom: 10px;
+}
+
+.item-header {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.supplier-name {
+  font-style: italic;
+  color: #666;
+}
+
+.item-info {
+  font-size: 14px;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 5px;
+  width: 225px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.value {
+  font-weight: bold;
+  color: #333;
+}
+
+.bill-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+
