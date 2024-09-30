@@ -22,37 +22,7 @@ export default function PaymentMethods() {
   const [balance, setBalance] = useState(0);
   const [redeemEligible, setRedeemEligible] = useState(false);
   const [redeemDiscount, setRedeemDiscount] = useState(0);
-
-  // async function checkRedeemPointsEligibility(customerId) {
-  //   try {
-  //     const response = await fetch('http://localhost:3003/cashier/loyalty/eligibility', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         Authorization: `Bearer ${token}`,
-
-  //       },
-  //       body: JSON.stringify({ customerId }),
-  //     });
-
-  //     const data = await response.json();
-  //     console.log('Redeem Points Eligibility:', data);
-  //     return data.isEligible;
-  //   } catch (error) {
-  //     console.error('Error checking redeem points eligibility:', error);
-  //     return false;
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   const fetchEligibility = async () => {
-  //     if (customerDetails?.id) {
-  //       const isEligible = await checkRedeemPointsEligibility(customerDetails.id);
-  //       setRedeemEligible(isEligible);
-  //     }
-  //   };
-  //   fetchEligibility();
-  // }, [customerDetails]);
+  const [pointsRedeemed, setPointsRedeemed] = useState(0);
 
   async function checkRedeemPointsEligibility(customerId) {
     try {
@@ -75,36 +45,16 @@ export default function PaymentMethods() {
     }
   }
   
-
-  // useEffect(() => {
-  //   const fetchEligibility = async () => {
-  //     if (customerDetails?.id) {
-  //       console.log('Customer ID:', customerDetails.id);  
-  //       const isEligible = await checkRedeemPointsEligibility(customerDetails.id);
-  //       setRedeemEligible(isEligible); 
-  //     }
-  //   };
-  //   fetchEligibility();
-  // }, [customerDetails]); 
-
   useEffect(() => {
     const fetchEligibility = async () => {
-      if (customerDetails) {
-        console.log('Customer Details:', customerDetails);  // Log entire details
-        if (customerDetails.id) {
-          console.log('Customer ID:', customerDetails.id);  
-          const isEligible = await checkRedeemPointsEligibility(customerDetails.id);
-          setRedeemEligible(isEligible); 
-        } else {
-          console.log('Customer ID is missing');  // Log if ID is missing
-        }
-      } else {
-        console.log('CustomerDetails is not available');  // Log if details are not set
+      if (customerDetails?.id) {
+        console.log('Customer ID:', customerDetails.id);  
+        const isEligible = await checkRedeemPointsEligibility(customerDetails.id);
+        setRedeemEligible(isEligible); 
       }
     };
     fetchEligibility();
-  }, [customerDetails]);
-  
+  }, [customerDetails]); 
 
   const handleCashPayment = () => {
     const payable = (totalAmount - totalDiscount - redeemDiscount).toFixed(2);
@@ -112,12 +62,11 @@ export default function PaymentMethods() {
     setBalance((cashReceived - payable).toFixed(2));
   };
 
-
   const handleRedeemPoints = () => {
     if (redeemEligible) {
       const pointsValue = points * 0.01;
       setRedeemDiscount(pointsValue);
-      setSelectedMethod('redeemPoints');
+      setPointsRedeemed(1);
     } else {
       alert('Customer is not eligible for redeeming points.');
     }
@@ -137,7 +86,7 @@ export default function PaymentMethods() {
         price: item.price,
         quantity: item.quantity || 1,
       })),
-      loyalty_points_redeemed: 0,
+      loyalty_points_redeemed: pointsRedeemed,
       discount: totalDiscount,
       received: selectedMethod === 'cash' ? parseFloat(cashAmount) : 0,
       notes: 'good customer',
@@ -188,7 +137,7 @@ export default function PaymentMethods() {
       <div className="payment-container">
         {/* Redeem Points Section */}
         
-        <Button className='redeem-points-button' type="primary" onClick={handleRedeemPoints} >
+        <Button className='redeem-points-button' type="primary" onClick={handleRedeemPoints} disabled={!redeemEligible}>
           Redeem Points
         </Button>
 
@@ -199,7 +148,7 @@ export default function PaymentMethods() {
             <div className='info-item'><strong>Customer:</strong> {customerDetails.name || 'No customer selected'}</div>
             <div className='info-item'><strong>Bill Total:</strong> ${totalAmount.toFixed(2)}</div>
             <div className='info-item'><strong>Discount:</strong> ${totalDiscount.toFixed(2)}</div>
-            <div className='info-item'><strong>Points:</strong> {points || 0}</div>
+            <div className='info-item'><strong>Points:</strong> {customerDetails.points || 0}</div>
             <div className='info-item'><strong>Redeem Discount:</strong> ${redeemDiscount.toFixed(2)}</div>
             <div className='info-item'><strong>Payable Amount:</strong> ${payableAmount}</div>
           </div>
