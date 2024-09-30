@@ -59,6 +59,7 @@ export default function RightContent() {
 
       if (response.data && response.data.customer_name) {
         const customer = {
+          id: response.data.customer_id,
           name: response.data.customer_name,
           phoneNumber: response.data.customer_phone,
           points: response.data.points
