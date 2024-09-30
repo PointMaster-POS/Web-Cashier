@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Modal, Space, Typography, message } from 'antd';
 import { PrinterOutlined } from '@ant-design/icons';
+import html2pdf from 'html2pdf.js';
 import './logs.css';
 
 const { Title } = Typography;
@@ -30,8 +31,17 @@ const Logs = () => {
     setIsModalVisible(false);
   };
 
-  const handlePrint = (bill) => {
-    console.log('Printing bill:', bill);
+  const handlePrint = () => {
+    const element = document.getElementById('bill-details');
+    const opt = {
+      margin: 0.5,
+      filename: `bill_${selectedBill.billNumber}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+    };
+
+    html2pdf().from(element).set(opt).save();
   };
 
   const formatBillNumber = (billNumber) => {
@@ -141,9 +151,6 @@ const Logs = () => {
       key: 'actions',
       render: (text, record) => (
         <Space size="middle">
-          <Button icon={<PrinterOutlined />} onClick={() => handlePrint(record)}>
-            Print
-          </Button>
           <Button
             type="primary"
             style={{ backgroundColor: record.status === 'Completed' ? 'green' : 'orange' }}
@@ -181,9 +188,17 @@ const Logs = () => {
           onOk={handleOk}
           onCancel={handleCancel}
           width={500}
+          footer={[
+            <Button key="cancel" onClick={handleCancel}>
+              Close
+            </Button>,
+            <Button key="print" type="primary" icon={<PrinterOutlined />} onClick={handlePrint}>
+              Print PDF
+            </Button>,
+          ]}
         >
           {selectedBill && (
-            <div>
+            <div id="bill-details">
               <h3>Items Purchased:</h3>
               {selectedBill.items.map((item, idx) => (
                 <div key={idx}>
@@ -207,7 +222,6 @@ const Logs = () => {
                       </div>
                     </div>
                   </div>
-
                 </div>
               ))}
               <hr />
@@ -221,7 +235,6 @@ const Logs = () => {
             </div>
           )}
         </Modal>
-        
       </div>
     </div>
   );
