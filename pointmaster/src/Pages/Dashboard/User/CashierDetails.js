@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Typography, Button, Avatar, Spin, notification } from "antd";
-import { FontColorsOutlined, UserOutlined } from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom"; 
 import { HomeContext } from "../../../Context/HomeContext";
 import axios from 'axios';
@@ -23,7 +23,9 @@ const CashierDetails = () => {
         const response = await axios.get('http://localhost:3003/employee', {
           headers: { Authorization: `Bearer ${token}` }
         });
+
         console.log('Cashier details:', response.data);
+
         setCashier(response.data);
       } catch (error) {
         console.error('Error fetching cashier details:', error);
@@ -37,7 +39,7 @@ const CashierDetails = () => {
     };
 
     fetchCashierDetails();
-  }, [token]);  // Add token as a dependency if it comes from state or props
+  }, [token]);  
 
 
   const handleLogout = () => {
@@ -48,7 +50,13 @@ const CashierDetails = () => {
     navigate('/landing'); 
   };
 
-  const { name = "N/A", address = "N/A", dateOfBirth = "N/A", email = "N/A", photoUrl } = cashier;
+  const {
+    employee_name: name,
+    employee_email: email,
+    photo_url: photoUrl,
+    address,
+    dateOfBirth,
+  } = cashier;
 
   return (
     <div className="cashier-details-container">
