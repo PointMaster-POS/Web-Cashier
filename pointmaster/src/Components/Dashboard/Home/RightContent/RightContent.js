@@ -213,7 +213,13 @@ export default function RightContent() {
           onChange={e => setSearchValue(e.target.value)}
           style={{ marginBottom: '10px' }}
         />
-        <Button type="primary" onClick={handleSearch} loading={loading}>Search by phone number</Button>
+        <Button 
+          type="primary" 
+          onClick={handleSearch} 
+          loading={loading} 
+          style={{ backgroundColor: "green", borderColor: 'green' }}
+          >Search by phone number
+        </Button>
         <Button onClick={handleQRCodeWait} style={{ marginLeft: '10px' }}>QR Code</Button>
         {isQRCodeWaiting && <Spin />}
       </Modal>

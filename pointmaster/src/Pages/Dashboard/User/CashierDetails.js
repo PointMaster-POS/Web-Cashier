@@ -23,7 +23,7 @@ const CashierDetails = () => {
         const response = await axios.get('http://localhost:3003/employee', {
           headers: { Authorization: `Bearer ${token}` }
         });
-
+        console.log('Cashier details:', response.data);
         setCashier(response.data);
       } catch (error) {
         console.error('Error fetching cashier details:', error);
