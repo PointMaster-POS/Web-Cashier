@@ -10,13 +10,13 @@ const Logs = () => {
   const [selectedBill, setSelectedBill] = useState(null);
   const [dataSource, setDataSource] = useState([]);
   const [billCounter, setBillCounter] = useState(1);
-  
+
   const today = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   });
-  
+
   const showModal = (bill) => {
     setSelectedBill(bill);
     setIsModalVisible(true);
@@ -40,12 +40,12 @@ const Logs = () => {
 
   const fetchData = async () => {
     const token = JSON.parse(localStorage.getItem('accessToken'));
-  
+
     if (!token) {
       message.error('Token not found. Please log in.');
       return;
     }
-  
+
     try {
       const response = await fetch('http://localhost:3003/cashier/history', {
         method: 'GET',
@@ -54,14 +54,14 @@ const Logs = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-  
+
       if (!response.ok) {
         const errorDetails = await response.text();
         throw new Error(`Failed to fetch cashier history: ${errorDetails}`);
       }
-  
+
       const data = await response.json();
-  
+
       const formattedData = data.map((item, index) => ({
         key: item.bill_id,
         billNumber: formatBillNumber(billCounter + index),
@@ -69,11 +69,13 @@ const Logs = () => {
         totalAmount: item.total_price,
         status: item.status === 1 ? 'Completed' : 'Hold',
         customerPhone: item.customer_phone || 'Not Assigned',
-        discount: item.discount || 0,  // Add discount column
-        received: item.received || item.total_price,  // Add received column
-        items: item.items_list || [], // Items list for detailed view
+        discount: item.discount || 0,  
+        received: item.received || item.total_price, 
+        items: item.items || [], 
+        paymentMethod: item.payment_method,
+        notes: item.notes || 'None',
       }));
-  
+
       setDataSource(formattedData);
     } catch (error) {
       console.error('Error fetching data:', error.message);
@@ -142,8 +144,8 @@ const Logs = () => {
           <Button icon={<PrinterOutlined />} onClick={() => handlePrint(record)}>
             Print
           </Button>
-          <Button 
-            type="primary" 
+          <Button
+            type="primary"
             style={{ backgroundColor: record.status === 'Completed' ? 'green' : 'orange' }}
             onClick={() => showModal(record)}
           >
@@ -185,27 +187,24 @@ const Logs = () => {
               {selectedBill.items.map((item, idx) => (
                 <div key={idx}>
                   <p>
-                    <strong>Item {idx + 1}:</strong> {item.name}
+                    <strong>{item.item_name}</strong> - {item.supplier_name}
                   </p>
                   <p>
                     Unit Price: ${item.price.toFixed(2)}, Quantity: {item.quantity}, 
-                    Total Price: ${(item.price * item.quantity).toFixed(2)}, 
                     Discount: ${item.discount || 0}
                   </p>
                 </div>
               ))}
               <hr />
-              <div>
-                <p><strong>Bill Total:</strong></p>
-                <p><strong>Discount:</strong> </p>
-                <p><strong>Redeemed Points:</strong> </p>
-                <hr />
-                <p><strong>Final Total:</strong></p>
-              </div>
+              <p><strong>Total Amount:</strong> ${selectedBill.totalAmount.toFixed(2)}</p>
+              <p><strong>Discount:</strong> ${selectedBill.discount.toFixed(2)}</p>
+              <p><strong>Received:</strong> ${selectedBill.received.toFixed(2)}</p>
+              <p><strong>Payment Method:</strong> {selectedBill.paymentMethod}</p>
+              <p><strong>Notes:</strong> {selectedBill.notes}</p>
             </div>
           )}
         </Modal>
-
+        
       </div>
     </div>
   );
