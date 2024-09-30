@@ -156,6 +156,7 @@ const Logs = () => {
             style={{
               backgroundColor: record.status === 'Completed' ? 'green' : 'orange',
               borderColor: record.status === 'Completed' ? 'green' : 'orange',
+            
             }}
             onClick={() => showModal(record)}
           >
