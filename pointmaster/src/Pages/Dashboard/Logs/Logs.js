@@ -153,7 +153,10 @@ const Logs = () => {
         <Space size="middle">
           <Button
             type="primary"
-            style={{ backgroundColor: record.status === 'Completed' ? 'green' : 'orange' }}
+            style={{
+              backgroundColor: record.status === 'Completed' ? 'green' : 'orange',
+              borderColor: record.status === 'Completed' ? 'green' : 'orange',
+            }}
             onClick={() => showModal(record)}
           >
             View Details
@@ -173,6 +176,7 @@ const Logs = () => {
           color: '#1a3d7c',
           fontWeight: 'bold',
           fontSize: '38px',
+          marginLeft: '20px',
         }}
       >
         Transaction History - {today}
@@ -192,7 +196,7 @@ const Logs = () => {
             <Button key="cancel" onClick={handleCancel}>
               Close
             </Button>,
-            <Button key="print" type="primary" icon={<PrinterOutlined />} onClick={handlePrint}>
+            <Button className="print-btn" key="print" type="primary" icon={<PrinterOutlined />} onClick={handlePrint}>
               Print PDF
             </Button>,
           ]}
