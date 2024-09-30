@@ -23,33 +23,68 @@ export default function PaymentMethods() {
   const [redeemEligible, setRedeemEligible] = useState(false);
   const [redeemDiscount, setRedeemDiscount] = useState(0);
 
+  // async function checkRedeemPointsEligibility(customerId) {
+  //   try {
+  //     const response = await fetch('http://localhost:3003/cashier/loyalty/eligibility', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         Authorization: `Bearer ${token}`,
+
+  //       },
+  //       body: JSON.stringify({ customerId }),
+  //     });
+
+  //     const data = await response.json();
+  //     console.log('Redeem Points Eligibility:', data);
+  //     return data.isEligible;
+  //   } catch (error) {
+  //     console.error('Error checking redeem points eligibility:', error);
+  //     return false;
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   const fetchEligibility = async () => {
+  //     if (customerDetails?.id) {
+  //       const isEligible = await checkRedeemPointsEligibility(customerDetails.id);
+  //       setRedeemEligible(isEligible);
+  //     }
+  //   };
+  //   fetchEligibility();
+  // }, [customerDetails]);
+
   async function checkRedeemPointsEligibility(customerId) {
     try {
       const response = await fetch('http://localhost:3003/cashier/loyalty/eligibility', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ customerId }),
+        body: JSON.stringify({ customer_id: customerId }), 
       });
-
+  
       const data = await response.json();
-      return data.isEligible;
+      console.log('Redeem Points Eligibility:', data);
+      return data.eligibility;
+      
     } catch (error) {
       console.error('Error checking redeem points eligibility:', error);
       return false;
     }
   }
+  
 
   useEffect(() => {
     const fetchEligibility = async () => {
       if (customerDetails?.id) {
         const isEligible = await checkRedeemPointsEligibility(customerDetails.id);
-        setRedeemEligible(isEligible);
+        setRedeemEligible(isEligible); 
       }
     };
     fetchEligibility();
-  }, [customerDetails]);
+  }, [customerDetails]); 
 
 
   const handleCashPayment = () => {
@@ -60,6 +95,7 @@ export default function PaymentMethods() {
 
 
   const handleRedeemPoints = () => {
+    console.log('Redeem Eligible:', redeemEligible);
     if (redeemEligible) {
       const pointsValue = points * 0.01;
       setRedeemDiscount(pointsValue);
