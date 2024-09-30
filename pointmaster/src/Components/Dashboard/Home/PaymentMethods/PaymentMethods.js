@@ -6,6 +6,7 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 import { HomeContext } from '../../../../Context/HomeContext';
 import './paymentmethods.css';
 
+
 export default function PaymentMethods() {
   const {
     customerDetails,
