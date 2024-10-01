@@ -113,8 +113,6 @@ export default function RightContent() {
       status: false,
     };
 
-    console.log('Bill Data:', billData);
-
     try {
       const response = await fetch(`http://localhost:3003/cashier/bill/new-bill`, {
         method: 'POST',
@@ -124,10 +122,7 @@ export default function RightContent() {
         },
         body: JSON.stringify(billData),
       });
-
-      console.log('Bill Data:', billData);
-      console.log('Response:', response);
-
+      
       if (response.ok) {
         resetTransaction();
         setRightContent('RightContent');
