@@ -9,6 +9,7 @@ export const HomeProvider = ({ children }) => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [totalDiscount, setTotalDiscount] = useState(0);
   const [rightContent, setRightContent] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const handleAddItem = (item) => {
     const newItem = {
@@ -81,8 +82,12 @@ export const HomeProvider = ({ children }) => {
         setTotalAmount,
         setTotalDiscount,
         rightContent,
-        setRightContent: setRightContentValue,
+        setRightContent,
+        setRightContentValue,
         resetTransaction,  
+        isAuthenticated,
+        setIsAuthenticated,
+      
       }}
     >
       {children}

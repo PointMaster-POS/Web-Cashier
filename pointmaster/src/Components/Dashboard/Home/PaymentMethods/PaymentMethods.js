@@ -1,8 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Button, Input } from 'antd';
+import {Modal} from 'antd';
+import { notification } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { HomeContext } from '../../../../Context/HomeContext';
 import './paymentmethods.css';
+
 
 export default function PaymentMethods() {
   const {
@@ -20,6 +23,7 @@ export default function PaymentMethods() {
   const [balance, setBalance] = useState(0);
   const [redeemEligible, setRedeemEligible] = useState(false);
   const [redeemDiscount, setRedeemDiscount] = useState(0);
+  const [pointsRedeemed, setPointsRedeemed] = useState(0);
 
   async function checkRedeemPointsEligibility(customerId) {
     try {
@@ -27,28 +31,31 @@ export default function PaymentMethods() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ customerId }),
+        body: JSON.stringify({ customer_id: customerId }), 
       });
-
+  
       const data = await response.json();
-      return data.isEligible;
+      console.log('Redeem Points Eligibility:', data);
+      return data.eligibility;
+      
     } catch (error) {
       console.error('Error checking redeem points eligibility:', error);
       return false;
     }
   }
-
+  
   useEffect(() => {
     const fetchEligibility = async () => {
       if (customerDetails?.id) {
+        console.log('Customer ID:', customerDetails.id);  
         const isEligible = await checkRedeemPointsEligibility(customerDetails.id);
-        setRedeemEligible(isEligible);
+        setRedeemEligible(isEligible); 
       }
     };
     fetchEligibility();
-  }, [customerDetails]);
-
+  }, [customerDetails]); 
 
   const handleCashPayment = () => {
     const payable = (totalAmount - totalDiscount - redeemDiscount).toFixed(2);
@@ -56,12 +63,11 @@ export default function PaymentMethods() {
     setBalance((cashReceived - payable).toFixed(2));
   };
 
-
   const handleRedeemPoints = () => {
     if (redeemEligible) {
       const pointsValue = points * 0.01;
       setRedeemDiscount(pointsValue);
-      setSelectedMethod('redeemPoints');
+      setPointsRedeemed(1);
     } else {
       alert('Customer is not eligible for redeeming points.');
     }
@@ -81,26 +87,33 @@ export default function PaymentMethods() {
         price: item.price,
         quantity: item.quantity || 1,
       })),
-      loyalty_points_redeemed: 1,
+      loyalty_points_redeemed: pointsRedeemed,
       discount: totalDiscount,
       received: selectedMethod === 'cash' ? parseFloat(cashAmount) : 0,
       notes: 'good customer',
       customer_phone: customerDetails.phoneNumber,
+      status: true,
     };
 
     try {
       const response = await fetch(`http://localhost:3003/cashier/bill/new-bill`, {
         method: 'POST',
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(billData),
       });
 
       console.log('Bill Data:', billData);
+      console.log('Response:', response);
 
       if (response.ok) {
-        alert('Bill created successfully');
+        notification.success({
+          message: 'Bill Created',
+          description: 'The bill has been created successfully!',
+          duration: 3, 
+        });
         resetTransaction();
         setRightContent('RightContent');
       } else {
@@ -124,6 +137,7 @@ export default function PaymentMethods() {
 
       <div className="payment-container">
         {/* Redeem Points Section */}
+        
         <Button className='redeem-points-button' type="primary" onClick={handleRedeemPoints} disabled={!redeemEligible}>
           Redeem Points
         </Button>
@@ -135,7 +149,7 @@ export default function PaymentMethods() {
             <div className='info-item'><strong>Customer:</strong> {customerDetails.name || 'No customer selected'}</div>
             <div className='info-item'><strong>Bill Total:</strong> ${totalAmount.toFixed(2)}</div>
             <div className='info-item'><strong>Discount:</strong> ${totalDiscount.toFixed(2)}</div>
-            <div className='info-item'><strong>Points:</strong> {points || 0}</div>
+            <div className='info-item'><strong>Points:</strong> {customerDetails.points || 0}</div>
             <div className='info-item'><strong>Redeem Discount:</strong> ${redeemDiscount.toFixed(2)}</div>
             <div className='info-item'><strong>Payable Amount:</strong> ${payableAmount}</div>
           </div>

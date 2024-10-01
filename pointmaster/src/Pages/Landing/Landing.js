@@ -17,14 +17,16 @@ const Landing = () => {
         backgroundImage: `url(${process.env.PUBLIC_URL}/Images/LandingBg.jpg)`, 
       }}
     >
-      <div className="overlay">
-        <h1 className="title">Revolutionize Your Sales Experience with PointMaster</h1>
-        <h2 className="subtitle">
-          Streamline Transactions, Enhance Efficiency, and Grow Your Business With Ease
-        </h2>
-        <Button type="primary" className="login-button" onClick={handleLoginClick}>
-          Login as Cashier
-        </Button>
+      <div className="full-overlay">
+        <div className="overlay">
+          <h1 className="title">Revolutionize Your Sales Experience with PointMaster</h1>
+          <h2 className="subtitle">
+            Streamline Transactions, Enhance Efficiency, and Grow Your Business With Ease
+          </h2>
+          <Button type="primary" className="login-button" onClick={handleLoginClick}>
+            Login as Cashier
+          </Button>
+        </div>
       </div>
     </div>
   );

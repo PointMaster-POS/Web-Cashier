@@ -25,6 +25,11 @@
   font-size: 16px;
 }
 
+.add-customer button:hover {
+  background-color: #002465 !important;
+  color: #ffffff;
+}
+
 .selected-items {
   height: 65vh;
   margin-top: 8px;
@@ -123,6 +128,9 @@
   background-color: green;
 }
 
+.hold:hover, .proceed:hover {
+  background-color: #002465 !important;
+}
 
 .customer-details {
   flex: 1;
@@ -155,5 +163,6 @@
 }
 
 .change-customer:hover {
-  background-color: #40a9ff;
+  background-color: #002465 !important;
+  color: #ffffff;
 }
