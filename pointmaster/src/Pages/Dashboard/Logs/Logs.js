@@ -172,7 +172,7 @@ const Logs = () => {
           ) : (
             <Button
               type="default"
-              style={{ backgroundColor: 'orange', borderColor: 'orange' }}
+              style={{ backgroundColor: 'rgb(237, 177, 64)', borderColor: 'rgb(237, 177, 64)', color: 'white' }}
               onClick={() => navigateToReloadPage(record)}
             >
               Reload Data
