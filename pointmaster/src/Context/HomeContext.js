@@ -10,6 +10,7 @@ export const HomeProvider = ({ children }) => {
   const [totalDiscount, setTotalDiscount] = useState(0);
   const [rightContent, setRightContent] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [holdBillData, setHoldBillData] = useState(null); // State to hold the bill data
 
   const handleAddItem = (item) => {
     const newItem = {
@@ -55,6 +56,10 @@ export const HomeProvider = ({ children }) => {
     setRightContent(content);
   };
 
+  const updateHoldBillData = (data) => {
+    setHoldBillData(data); // Function to update hold bill data
+  };
+
   
   const resetTransaction = () => {
     setSelectedItems([]);
@@ -87,6 +92,8 @@ export const HomeProvider = ({ children }) => {
         resetTransaction,  
         isAuthenticated,
         setIsAuthenticated,
+        holdBillData,
+        updateHoldBillData,
       
       }}
     >
