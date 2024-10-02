@@ -3,6 +3,7 @@ import { Table, Button, Modal, Space, Typography, message } from 'antd';
 import { PrinterOutlined } from '@ant-design/icons';
 import html2pdf from 'html2pdf.js';
 import { useNavigate } from 'react-router-dom'; // Use useNavigate instead of useHistory
+import './logs.css';
 
 
 const { Title } = Typography;
