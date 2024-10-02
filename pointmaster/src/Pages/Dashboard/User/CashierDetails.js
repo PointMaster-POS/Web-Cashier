@@ -15,7 +15,7 @@ const CashierDetails = () => {
   const { isAuthenticated,setIsAuthenticated } = useContext(HomeContext);
 
 
-  const token = localStorage.getItem('accessToken');
+  const token = JSON.parse(localStorage.getItem('accessToken'));
 
   useEffect(() => {
     const fetchCashierDetails = async () => {
@@ -54,8 +54,7 @@ const CashierDetails = () => {
     employee_name: name,
     employee_email: email,
     photo_url: photoUrl,
-    address,
-    dateOfBirth,
+    role: role,
   } = cashier;
 
   return (
@@ -67,23 +66,28 @@ const CashierDetails = () => {
       ) : (
         <div className="cashier-details-content">
           <div className="cashier-info">
-            <Title level={4}>{name}</Title>
-            <Text strong>Address:</Text>
-            <Text>{address}</Text>
-            <br />
-            <Text strong>Date of Birth:</Text>
-            <Text>{dateOfBirth}</Text>
-            <br />
-            <Text strong>Email:</Text>
-            <Text>{email}</Text>
-            <br />
+            <Title level={3}>{name}</Title>
+
+            <div className="cashier-info-row">
+              <Text strong>Email:</Text>
+              <Text>{email}</Text>
+            </div>
+            
+            <hr />
+
+            <div className="cashier-info-row">
+              <Text strong>Role:</Text>
+              <Text>{role}</Text>
+            </div>
+
             <Button type="primary" danger onClick={handleLogout} className="logout-button">
               Logout
             </Button>
           </div>
+
           <div className="cashier-avatar">
             <Avatar
-              size={120}
+              size={180}
               src={photoUrl || null}
               icon={<UserOutlined />}
             />
@@ -91,7 +95,7 @@ const CashierDetails = () => {
         </div>
       )}
     </div>
-  );
-};
+      );
+  };
 
 export default CashierDetails;
