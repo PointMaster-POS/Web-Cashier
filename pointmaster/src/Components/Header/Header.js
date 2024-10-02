@@ -4,6 +4,7 @@ import { UserOutlined } from "@ant-design/icons";
 
 import "./header.css";
 import CashierDetails from "../../Pages/Dashboard/User/CashierDetails";
+import { Color } from "antd/es/color-picker";
 
 const Header = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -24,7 +25,7 @@ const Header = () => {
       <Avatar
         icon={<UserOutlined />}
         size={48}
-        style={{ cursor: "pointer", marginRight: "20px" }} // Combine styles into one object
+        style={{ cursor: "pointer", marginRight: "20px"}} // Combine styles into one object
         onClick={handleProfileClick}
       />
 
@@ -34,6 +35,7 @@ const Header = () => {
         visible={isModalVisible}
         onCancel={handleModalClose}
         footer={null}
+        width={600}
       >
         <CashierDetails/>
       </Modal>
