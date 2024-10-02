@@ -51,6 +51,7 @@ export default function LeftContent() {
               Authorization: `Bearer ${token}`
             }
           });
+          console.log(response);
   
           if (response && response.data) {
             setFoodItems(response.data);
@@ -65,7 +66,6 @@ export default function LeftContent() {
     }
   }, [selectedCategory, token]);
   
-
   const handleCategoryClick = (category_id) => {
     setSelectedCategory(category_id);
   };
