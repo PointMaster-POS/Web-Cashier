@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Table, Button, Modal, Space, Typography, message } from 'antd';
 import { PrinterOutlined } from '@ant-design/icons';
 import html2pdf from 'html2pdf.js';
-import './logs.css';
+import { useNavigate } from 'react-router-dom'; // Use useNavigate instead of useHistory
+
 
 const { Title } = Typography;
 
@@ -11,6 +12,8 @@ const Logs = () => {
   const [selectedBill, setSelectedBill] = useState(null);
   const [dataSource, setDataSource] = useState([]);
   const [billCounter, setBillCounter] = useState(1);
+
+  const navigate = useNavigate(); // Initialize navigate for navigation
 
   const today = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
@@ -104,6 +107,10 @@ const Logs = () => {
     fetchData();
   }, []);
 
+  const navigateToReloadPage = (bill) => {
+    navigate(`/reload-bill/${bill.billNumber}`, { state: { bill } }); // Navigate to a reload page with bill data
+  };
+
   const columns = [
     {
       title: 'Bill Number',
@@ -151,17 +158,26 @@ const Logs = () => {
       key: 'actions',
       render: (text, record) => (
         <Space size="middle">
-          <Button
-            type="primary"
-            style={{
-              backgroundColor: record.status === 'Completed' ? 'green' : 'orange',
-              borderColor: record.status === 'Completed' ? 'green' : 'orange',
-            
-            }}
-            onClick={() => showModal(record)}
-          >
-            View Details
-          </Button>
+          {record.status === 'Completed' ? (
+            <Button
+              type="primary"
+              style={{
+                backgroundColor: 'green',
+                borderColor: 'green',
+              }}
+              onClick={() => showModal(record)}
+            >
+              View Details
+            </Button>
+          ) : (
+            <Button
+              type="default"
+              style={{ backgroundColor: 'rgb(237, 177, 64)', borderColor: 'rgb(237, 177, 64)', color: 'white' }}
+              onClick={() => navigateToReloadPage(record)}
+            >
+              Reload Data
+            </Button>
+          )}
         </Space>
       ),
     },

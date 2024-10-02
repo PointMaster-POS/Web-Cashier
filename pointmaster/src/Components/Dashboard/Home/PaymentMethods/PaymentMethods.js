@@ -147,11 +147,11 @@ export default function PaymentMethods() {
           <h3 className='sub-topic'>Bill Information</h3>
           <div className='payment-info'>
             <div className='info-item'><strong>Customer:</strong> {customerDetails.name || 'No customer selected'}</div>
-            <div className='info-item'><strong>Bill Total:</strong> ${totalAmount.toFixed(2)}</div>
-            <div className='info-item'><strong>Discount:</strong> ${totalDiscount.toFixed(2)}</div>
+            <div className='info-item'><strong>Bill Total:</strong> Rs.{totalAmount.toFixed(2)}</div>
+            <div className='info-item'><strong>Discount:</strong> Rs.{totalDiscount.toFixed(2)}</div>
             <div className='info-item'><strong>Points:</strong> {customerDetails.points || 0}</div>
-            <div className='info-item'><strong>Redeem Discount:</strong> ${redeemDiscount.toFixed(2)}</div>
-            <div className='info-item'><strong>Payable Amount:</strong> ${payableAmount}</div>
+            <div className='info-item'><strong>Redeem Discount:</strong> Rs.{redeemDiscount.toFixed(2)}</div>
+            <div className='info-item'><strong>Payable Amount:</strong> Rs.{payableAmount}</div>
           </div>
         </div>
 
@@ -172,7 +172,7 @@ export default function PaymentMethods() {
             <div className='cash-info-container'>
               <h3 className='sub-topic'>Cash Payment</h3>
               <div className='payment-info'>
-                <div className='info-item'><strong>Total Amount:</strong> ${(totalAmount - totalDiscount - redeemDiscount).toFixed(2)}</div>
+                <div className='info-item'><strong>Total Amount:</strong> Rs.{(totalAmount - totalDiscount - redeemDiscount).toFixed(2)}</div>
                 <div className='info-item'>
                   <strong>Cash Received:</strong>
                   <div className="input-with-button">
@@ -189,7 +189,7 @@ export default function PaymentMethods() {
                     </Button>
                   </div>
                 </div>
-                <div className='info-item'><strong>Balance:</strong> ${balance}</div>
+                <div className='info-item'><strong>Balance:</strong> Rs.{balance}</div>
                 <div className='info-item'><strong>Payment Status:</strong> Cash</div>
               </div>
             </div>

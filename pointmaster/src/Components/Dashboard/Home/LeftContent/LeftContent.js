@@ -99,7 +99,7 @@ export default function LeftContent() {
               <div className='food-details'>
                 <div className='food-name'>{item.item_name || 'Unknown item'}</div>
                 <div className='food-price'>
-                  {item.price ? `$${item.price}` : 'Price not available'} 
+                  {item.price ? `Rs.${item.price}` : 'Price not available'} 
                 </div>
               </div>
             </div>

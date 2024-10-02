@@ -97,7 +97,7 @@ export default function RightContent() {
 
   const handleHoldPayment = async () => {
     const billData = {
-      payment_method: 'on-hold', // Use 'on-hold' as the status for holding
+      payment_method: 'on-hold', 
       total_amount: totalAmount,
       items_list: selectedItems.map(item => ({
         item_id: item.item_id,
@@ -109,7 +109,8 @@ export default function RightContent() {
       discount: totalDiscount,
       received: 0,
       notes: 'payment on hold', 
-      customer_phone: customerDetails ? customerDetails.phoneNumber : '',
+      customer_phone: customerDetails.phoneNumber,
+      status: false,
     };
 
     try {
@@ -121,19 +122,18 @@ export default function RightContent() {
         },
         body: JSON.stringify(billData),
       });
-
+      
       if (response.ok) {
-        alert('Payment placed on hold successfully');
-        resetTransaction(); 
+        resetTransaction();
         setRightContent('RightContent');
       } else {
-        alert('Error holding payment');
+        alert('Error creating bill');
       }
     } catch (error) {
-      console.error('Error holding payment:', error);
-      alert('Error holding payment');
+      console.error('Error creating bill:', error);
+      alert('Error creating bill');
     }
-  }
+  };
 
   return (
     <div className='content-right'>
@@ -165,7 +165,7 @@ export default function RightContent() {
               <div className='item-name'>{item.item_name}</div>
               <div className='item-details'>
                 <span className='item-price'>
-                  {isNaN(price) ? 'Invalid Price' : `$${price.toFixed(2)} / unit`}
+                  {isNaN(price) ? 'Invalid Price' : `Rs.${price.toFixed(2)} / unit`}
                 </span>
                 <div className='quantity-controls'>
                   <button onClick={() => decreaseQuantity(index)}><MinusOutlined /></button>
@@ -173,10 +173,10 @@ export default function RightContent() {
                   <button onClick={() => increaseQuantity(index)}><PlusOutlined /></button>
                 </div>
                 <span className='item-discount'>
-                  {`Discount: $${discountPerItem.toFixed(2)}`}
+                  {`Discount: Rs.${discountPerItem.toFixed(2)}`}
                 </span>
                 <span className='item-total'>
-                  {isNaN(total) ? 'Invalid Total' : `$${total}`}
+                  {isNaN(total) ? 'Invalid Total' : `Rs.${total}`}
                 </span>
               </div>
               <button className='remove-item' onClick={() => removeItem(index)}><CloseOutlined /></button>
