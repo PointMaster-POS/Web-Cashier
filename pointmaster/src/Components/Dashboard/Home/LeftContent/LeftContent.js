@@ -79,6 +79,7 @@ export default function LeftContent() {
               <button
                 key={category.category_id}
                 onClick={() => handleCategoryClick(category.category_id)}
+                className={selectedCategory === category.category_id ? 'selected' : ''}
               >
                 {category.category_name}
               </button>
