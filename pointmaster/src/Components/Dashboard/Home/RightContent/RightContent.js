@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Modal, Input, Button, Spin } from 'antd';
 import { PlusOutlined, MinusOutlined, CloseOutlined, CheckOutlined, ArrowRightOutlined, PauseOutlined } from "@ant-design/icons";
 import axios from 'axios';
+import { notification } from 'antd';
 import { HomeContext } from '../../../../Context/HomeContext';
 import './rightcontent.css';
 
@@ -124,6 +125,11 @@ export default function RightContent() {
       });
       
       if (response.ok) {
+        notification.success({
+          message: 'Bill got hold',
+          description: 'The bill has been hold !',
+          duration: 3, 
+        });
         resetTransaction();
         setRightContent('RightContent');
       } else {
