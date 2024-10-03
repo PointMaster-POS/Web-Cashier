@@ -1,88 +1,44 @@
 .cashier-details-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 20px;
-  background: #f0f2f5;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-}
-
-.loading-spinner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  max-width: 1200px; /* Increased width to fit both info and photo */
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
 }
 
 .cashier-details-content {
   display: flex;
-  align-items: center;
-  border-radius: 8px;
-  padding: 20px;
+  justify-content: space-between;
+  align-items: flex-start;
   width: 100%;
-  max-width: 800px;
 }
 
 .cashier-info {
-  flex: 2;
+  flex: 1;
   margin-right: 20px;
 }
 
-.cashier-avatar {
-  flex: 1;
+.cashier-info-row {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  gap: 10px;
+  white-space: nowrap;
 }
 
-.ant-avatar {
-  border: 2px solid #1890ff;
-  border-radius: 50%;
+.cashier-info-row text {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.ant-typography {
-  margin-bottom: 8px;
-}
-
-.ant-typography > .ant-typography-text {
-  color: #595959;
+.cashier-avatar {
+  flex-shrink: 0; 
 }
 
 .logout-button {
   margin-top: 20px;
-}
-
-.ant-btn-primary {
-  background-color: #1890ff;
-  border-color: #1890ff;
-}
-
-.ant-btn-danger {
-  background-color: #ff4d4f;
-  border-color: #ff4d4f;
-}
-
-.ant-btn-primary:hover {
-  background-color: #40a9ff;
-  border-color: #40a9ff;
-}
-
-.ant-btn-danger:hover {
-  background-color: #ff7875;
-  border-color: #ff7875;
-}
-
-@media (max-width: 768px) {
-  .cashier-details-content {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .cashier-info {
-    margin-right: 0;
-    text-align: center;
-  }
-
-  .cashier-avatar {
-    margin-top: 20px;
-  }
 }

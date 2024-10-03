@@ -17,7 +17,7 @@ const MainLayout = () => {
         <Layout style={{ marginLeft: '120px' }}>
           <AntContent style={{ margin: '8px 8px 0', height: '100%' }}>
             <div className="content">
-              <Outlet /> {/* This renders the nested route component */}
+              <Outlet /> 
             </div>
           </AntContent>
         </Layout>

@@ -24,7 +24,7 @@ const Header = () => {
       <Avatar
         icon={<UserOutlined />}
         size={48}
-        style={{ cursor: "pointer", marginRight: "20px" }} // Combine styles into one object
+        style={{ cursor: "pointer", marginRight: "20px"}} // Combine styles into one object
         onClick={handleProfileClick}
       />
 
@@ -34,6 +34,7 @@ const Header = () => {
         visible={isModalVisible}
         onCancel={handleModalClose}
         footer={null}
+        width={600}
       >
         <CashierDetails/>
       </Modal>

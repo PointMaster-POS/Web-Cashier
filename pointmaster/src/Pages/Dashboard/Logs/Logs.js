@@ -13,6 +13,8 @@ const Logs = () => {
   const [selectedBill, setSelectedBill] = useState(null);
   const [dataSource, setDataSource] = useState([]);
   const [billCounter, setBillCounter] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+
 
   const navigate = useNavigate(); // Initialize navigate for navigation
 
@@ -90,7 +92,7 @@ const Logs = () => {
         notes: item.notes || 'None',
       }));
 
-      setDataSource(formattedData);
+      setDataSource(formattedData.reverse());
     } catch (error) {
       console.error('Error fetching data:', error.message);
       message.error(`Error fetching cashier history: ${error.message}`);
@@ -202,7 +204,9 @@ const Logs = () => {
       <hr className="divider" />
 
       <div style={{ background: '#fff', padding: '20px', borderRadius: '8px' }}>
-        <Table columns={columns} dataSource={dataSource} pagination={false} />
+        <Table columns={columns} 
+               dataSource={dataSource} 
+               pagination={{ pageSize: 13, current: currentPage, onChange: (page) => setCurrentPage(page) }} />
 
         <Modal
           title="Bill Details"
