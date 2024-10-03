@@ -54,7 +54,7 @@ const CashierDetails = () => {
     employee_name: name,
     employee_email: email,
     photo_url: photoUrl,
-    role: role,
+    role,
   } = cashier;
 
   return (
