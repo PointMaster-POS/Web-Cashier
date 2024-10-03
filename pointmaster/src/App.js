@@ -10,7 +10,7 @@ import { HomeContext } from './Context/HomeContext';
 
 const App = () => {
 
-  const {isAuthenticated, setIsAuthenticated} = useContext(HomeContext);
+  const {isAuthenticated, setIsAuthenticated, resetSelectedItems } = useContext(HomeContext);
  
 
   useEffect(() => {
@@ -31,6 +31,12 @@ const App = () => {
       setIsAuthenticated(false); // No token, must log in
     }
   }, []);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      resetSelectedItems();  
+    }
+  }, [isAuthenticated, resetSelectedItems]);
 
   return (
     <Router>
