@@ -4,7 +4,6 @@ import { UserOutlined } from "@ant-design/icons";
 
 import "./header.css";
 import CashierDetails from "../../Pages/Dashboard/User/CashierDetails";
-import { Color } from "antd/es/color-picker";
 
 const Header = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
