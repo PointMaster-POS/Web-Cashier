@@ -12,7 +12,7 @@ const CashierDetails = () => {
   const [cashier, setCashier] = useState({});
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const { isAuthenticated,setIsAuthenticated } = useContext(HomeContext);
+  const { setIsAuthenticated } = useContext(HomeContext);
 
 
   const token = JSON.parse(localStorage.getItem('accessToken'));
