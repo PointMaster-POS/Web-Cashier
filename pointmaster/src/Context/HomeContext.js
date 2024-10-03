@@ -70,6 +70,10 @@ export const HomeProvider = ({ children }) => {
     setRightContent('');
   };
 
+  const resetSelectedItems = () => {
+    setSelectedItems([]);
+  };
+
   return (
     <HomeContext.Provider
       value={{
@@ -94,6 +98,7 @@ export const HomeProvider = ({ children }) => {
         setIsAuthenticated,
         holdBillData,
         updateHoldBillData,
+        resetSelectedItems,
       
       }}
     >
