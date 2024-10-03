@@ -19,7 +19,6 @@ export default function RightContent() {
     resetCustomerSelection, 
     setRightContent, 
     resetTransaction,
-    setPaymentInfo, 
     setTotalAmount,
     setTotalDiscount
   } = useContext(HomeContext);
