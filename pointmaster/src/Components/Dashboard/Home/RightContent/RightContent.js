@@ -1,11 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Modal, Input, Button, Spin } from 'antd';
+import { Modal, Input, Spin, Button } from 'antd';
 import { PlusOutlined, MinusOutlined, CloseOutlined, CheckOutlined, ArrowRightOutlined, PauseOutlined } from "@ant-design/icons";
 import axios from 'axios';
 import { notification } from 'antd';
 import { HomeContext } from '../../../../Context/HomeContext';
 import './rightcontent.css';
-
 
 export default function RightContent() {
   const {
@@ -20,7 +19,11 @@ export default function RightContent() {
     setRightContent, 
     resetTransaction,
     setTotalAmount,
-    setTotalDiscount
+    setTotalDiscount,
+    holdBillData,
+    increaseQuantityHold,
+    decreaseQuantityHold,
+    removeItemHold,
   } = useContext(HomeContext);
   
   const [totalAmount, setLocalTotalAmount] = useState(0);
@@ -33,7 +36,7 @@ export default function RightContent() {
   useEffect(() => {
     let amount = 0;
     let discountSum = 0;
-
+  
     selectedItems.forEach(item => {
       const price = item.price || 0; 
       const quantity = item.quantity || 1;
@@ -41,12 +44,24 @@ export default function RightContent() {
       discountSum += discountPerItem;
       amount += price * quantity;
     });
-
+  
+    if (holdBillData && holdBillData.items) {
+      holdBillData.items.forEach(item => {
+        const price = item.price || 0; 
+        const quantity = item.quantity || 1;
+        const discountPerItem = (item.discount || 0) * quantity;
+        discountSum += discountPerItem;
+        amount += price * quantity;
+      });
+    }
+  
     setLocalTotalAmount(amount);
     setLocalTotalDiscount(discountSum);
-    setTotalAmount(amount); // Update context
-    setTotalDiscount(discountSum); // Update context
-  }, [selectedItems, setTotalAmount, setTotalDiscount]);
+    setTotalAmount(amount);
+    setTotalDiscount(discountSum);
+  
+  }, [selectedItems, holdBillData, setTotalAmount, setTotalDiscount]);
+  
 
   const token = JSON.parse(localStorage.getItem('accessToken'));
 
@@ -56,6 +71,8 @@ export default function RightContent() {
       const response = await axios.get(`http://localhost:3003/cashier/customer/${searchValue}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
+
+      console.log('Customer data:', response.data);
 
       if (response.data && response.data.customer_name) {
         const customer = {
@@ -76,6 +93,41 @@ export default function RightContent() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (holdBillData && holdBillData.customerPhone && !customerSelected) {
+      const fetchCustomerData = async () => {
+        setLoading(true);
+        try {
+          const response = await axios.get(
+            `http://localhost:3003/cashier/customer/${holdBillData.customerPhone}`, 
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+
+          console.log('Customer data:', response.data);
+  
+          if (response.data && response.data.customer_name) {
+            const customer = {
+              id: response.data.customer_id,
+              name: response.data.customer_name,
+              phoneNumber: response.data.customer_phone,
+              points: response.data.points,
+            };
+            handleCustomerSelection(customer); 
+          } else {
+            alert('Customer not found');
+          }
+        } catch (error) {
+          console.error('Error:', error.message);
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      fetchCustomerData();
+    }
+  }, [holdBillData]);
+  
 
   const handleQRCodeWait = () => {
     setIsQRCodeWaiting(true);
@@ -126,7 +178,7 @@ export default function RightContent() {
       if (response.ok) {
         notification.success({
           message: 'Bill got hold',
-          description: 'The bill has been hold !',
+          description: 'The bill has been hold!',
           duration: 3, 
         });
         resetTransaction();
@@ -143,75 +195,112 @@ export default function RightContent() {
   return (
     <div className='content-right'>
       <div className='add-customer'>
-        {customerSelected && customerDetails.name ? (
+        {(customerSelected && customerDetails.name) ? (
           <div className='customer-details'>
             <div className='customer-info'>
-              <span className='customer-name'>Name: {customerDetails.name}</span>
-              <span className='customer-phone'>Phone: {customerDetails.phoneNumber}</span>
+              <span className='customer-name'>Name: {customerDetails.name }</span>
+              <span className='customer-phone'>Phone: {customerDetails.phoneNumber }</span>
               <span className='customer-points'>Points: {customerDetails.points || 0}</span>
             </div>
-            <button className='change-customer' onClick={resetCustomerSelection}><ArrowRightOutlined /> Change Customer</button>
+            <button className='change-customer' onClick={resetCustomerSelection}>
+              <ArrowRightOutlined /> Change Customer
+            </button>
           </div>
         ) : (
-          <button onClick={() => setIsModalVisible(true)} className="add-customer-btn"><PlusOutlined /> Add Customer</button>
-
+          <button onClick={() => setIsModalVisible(true)} className="add-customer-btn">
+            <PlusOutlined /> Add Customer
+          </button>
         )}
       </div>
-
       <div className='selected-items'>
-        {selectedItems.map((item, index) => {
-          const price = item.price || 0; 
-          const quantity = item.quantity || 1;
-          const discountPerItem = (item.discount || 0) * quantity;
-          const total = (quantity * price).toFixed(2);
+        {holdBillData ? (
+          <div className='hold-bill-details'>
+            {Array.isArray(holdBillData.items) && holdBillData.items.length > 0 ? (
+              holdBillData.items.map((item, index) => {
+                const price = parseFloat(item.price); 
+                const quantity = parseInt(item.quantity, 10); 
+                const discountPerItem = (item.discount || 0) * quantity;
+                const total = (quantity * price).toFixed(2);
+                
+                return (
+                  <div className='selected-item-card' key={index}>
+                    <div className='item-name'>{item.item_name}</div>
+                      <div className='item-details'>
+                        <span className='item-price'>
+                          {isNaN(price) ? 'Invalid Price' : `Rs.${price.toFixed(2)} / unit`}
+                        </span>
+                        <div className='quantity-controls'>
+                          <button onClick={() => decreaseQuantityHold(index)}><MinusOutlined /></button>
+                          <span>{quantity}</span>
+                          <button onClick={() => increaseQuantityHold(index)}><PlusOutlined /></button>
+                        </div>
+                        <span className='item-discount'>
+                          {`Discount: Rs.${discountPerItem.toFixed(2)}`}
+                        </span>
+                        <span className='item-total'>
+                          {isNaN(total) ? 'Invalid Total' : `Rs.${total}`}
+                        </span>
+                      </div>
+                      <button className='remove-item' onClick={() => removeItemHold(index)}><CloseOutlined /></button>
+                    </div>
+                  );
+              })
+            ) : null}
+          </div>
+        ) : null}
+            <div>
+              {selectedItems.map((item, index) => {
+                const price = item.price || 0; 
+                const quantity = item.quantity || 1;
+                const discountPerItem = (item.discount || 0) * quantity;
+                const total = (quantity * price).toFixed(2);
 
-          return (
-            <div className='selected-item-card' key={index}>
-              <div className='item-name'>{item.item_name}</div>
-              <div className='item-details'>
-                <span className='item-price'>
-                  {isNaN(price) ? 'Invalid Price' : `Rs.${price.toFixed(2)} / unit`}
-                </span>
-                <div className='quantity-controls'>
-                  <button onClick={() => decreaseQuantity(index)}><MinusOutlined /></button>
-                  <span>{quantity}</span>
-                  <button onClick={() => increaseQuantity(index)}><PlusOutlined /></button>
-                </div>
-                <span className='item-discount'>
-                  {`Discount: Rs.${discountPerItem.toFixed(2)}`}
-                </span>
-                <span className='item-total'>
-                  {isNaN(total) ? 'Invalid Total' : `Rs.${total}`}
-                </span>
-              </div>
-              <button className='remove-item' onClick={() => removeItem(index)}><CloseOutlined /></button>
+                return (
+                  <div className='selected-item-card' key={index}>
+                    <div className='item-name'>{item.item_name}</div>
+                    <div className='item-details'>
+                      <span className='item-price'>
+                        {isNaN(price) ? 'Invalid Price' : `Rs.${price.toFixed(2)} / unit`}
+                      </span>
+                      <div className='quantity-controls'>
+                        <button onClick={() => decreaseQuantity(index)}><MinusOutlined /></button>
+                        <span>{quantity}</span>
+                        <button onClick={() => increaseQuantity(index)}><PlusOutlined /></button>
+                      </div>
+                      <span className='item-discount'>
+                        {`Discount: Rs.${discountPerItem.toFixed(2)}`}
+                      </span>
+                      <span className='item-total'>
+                        {isNaN(total) ? 'Invalid Total' : `Rs.${total}`}
+                      </span>
+                    </div>
+                    <button className='remove-item' onClick={() => removeItem(index)}><CloseOutlined /></button>
+                  </div>
+                );
+              })}
             </div>
-          );
-        })}
-      </div>
-
-      <div className='order-summary'>
-        <div className='summary-row'>
-          <span>Bill Total:</span>
-          <span>${totalAmount.toFixed(2)}</span>
+    </div>
+        <div className='order-summary'>
+          <div className='summary-row'>
+            <span>Bill Total:</span>
+            <span>${totalAmount.toFixed(2)}</span>
+          </div>
+          <div className='summary-row'>
+            <span>Discount:</span>
+            <span>-${totalDiscount.toFixed(2)}</span>
+          </div>
         </div>
-        <div className='summary-row'>
-          <span>Discount:</span>
-          <span>-${totalDiscount.toFixed(2)}</span>
+        <div className='order-actions'>
+          <button className='hold' onClick={handleHoldPayment}><PauseOutlined /> Hold</button>
+          <button className='proceed' onClick={handleProceed}><CheckOutlined /> Proceed</button>
         </div>
-      </div>
 
-      <div className='order-actions'>
-      <button className='hold' onClick={handleHoldPayment}><PauseOutlined /> Hold</button>
-        <button className='proceed' onClick={handleProceed}><CheckOutlined /> Proceed</button>
-      </div>
-
-      <Modal
-        title="Select Customer"
-        open={isModalVisible}
-        onCancel={() => setIsModalVisible(false)}
-        footer={null}
-      >
+        <Modal
+          title="Select Customer"
+          open={isModalVisible}
+          onCancel={() => setIsModalVisible(false)}
+          footer={null}
+        >
         <Input
           placeholder="Enter phone number"
           value={searchValue}
