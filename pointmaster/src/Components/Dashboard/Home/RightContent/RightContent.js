@@ -5,6 +5,7 @@ import axios from 'axios';
 import { notification } from 'antd';
 import { HomeContext } from '../../../../Context/HomeContext';
 import './rightcontent.css';
+import baseUrl from '../../../../apiConfig';
 
 export default function RightContent() {
   const {
@@ -68,7 +69,7 @@ export default function RightContent() {
   const handleSearch = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`http://localhost:3003/cashier/customer/${searchValue}`, {
+      const response = await axios.get(`${baseUrl}:3003/cashier/customer/${searchValue}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -100,7 +101,7 @@ export default function RightContent() {
         setLoading(true);
         try {
           const response = await axios.get(
-            `http://localhost:3003/cashier/customer/${holdBillData.customerPhone}`, 
+            `${baseUrl}:3003/cashier/customer/${holdBillData.customerPhone}`, 
             { headers: { Authorization: `Bearer ${token}` } }
           );
 
@@ -166,7 +167,7 @@ export default function RightContent() {
     };
 
     try {
-      const response = await fetch(`http://localhost:3003/cashier/bill/new-bill`, {
+      const response = await fetch(`${baseUrl}:3003/cashier/bill/new-bill`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
