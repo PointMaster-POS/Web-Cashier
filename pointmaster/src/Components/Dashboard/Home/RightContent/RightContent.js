@@ -312,7 +312,7 @@ export default function RightContent() {
           type="primary" 
           onClick={handleSearch} 
           loading={loading} 
-          style={{ backgroundColor: "green", borderColor: 'green' }}
+          style={{ backgroundColor: "#414141", borderColor: 'black' }}
           >Search by phone number
         </Button>
         <Button onClick={handleQRCodeWait} style={{ marginLeft: '10px' }}>QR Code</Button>
