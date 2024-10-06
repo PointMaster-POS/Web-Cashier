@@ -4,14 +4,13 @@
 }
 
 .ant-menu-item {
-  height: 60px; 
-  line-height: 60px; 
   display: flex;
   align-items: center; 
   justify-content: center; 
   flex-direction: column; 
+  color: black !important;
+  height: 100px !important;
 }
-
 .ant-menu-item .ant-menu-item-icon {
   margin-top: 20px;
   font-size: 30px !important;
@@ -24,7 +23,7 @@
 }
 
 .ant-menu-item-selected, .ant-menu-item:hover {
-  background-color: #e6f7ff !important;
+  background-color: #ffcaa6 !important;
   height: 100%; 
 }
 
