@@ -2,6 +2,10 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { HomeContext } from '../../../../Context/HomeContext';
 import './leftcontent.css';
+import baseUrl from 'src/apiConfig'; // Adjust this if you have absolute imports set up in your project.
+
+
+
 
 export default function LeftContent() {
   const { handleAddItem } = useContext(HomeContext);
@@ -46,6 +50,7 @@ export default function LeftContent() {
     if (selectedCategory) {
       const fetchProducts = async () => {
         try {
+          console.log('Fetching products for category:', baseUrl);
           const response = await axios.get(`http://localhost:3003/cashier/inventory/products/${selectedCategory}`, {
             headers: {
               Authorization: `Bearer ${token}`
