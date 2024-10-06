@@ -161,7 +161,7 @@ const Logs = () => {
       dataIndex: 'status',
       key: 'status',
       render: (status) => (
-        <span style={{ color: status === 'Completed' ? 'green' : 'orange' }}>
+        <span style={{ color: status === 'Completed' ? '#002465' : '#FD9404' }}>
           {status}
         </span>
       ),
@@ -175,8 +175,8 @@ const Logs = () => {
             <Button
               type="primary"
               style={{
-                backgroundColor: 'green',
-                borderColor: 'green',
+                backgroundColor: '#002465',
+                borderColor: '#002465',
               }}
               onClick={() => showModal(record)}
             >
@@ -185,7 +185,7 @@ const Logs = () => {
           ) : (
             <Button
               type="default"
-              style={{ backgroundColor: 'rgb(237, 177, 64)', borderColor: 'rgb(237, 177, 64)', color: 'white' }}
+              style={{ backgroundColor: '#FD9404', borderColor: '#FD9404', color: 'white' }}
               onClick={() => navigateToReloadPage(record)}
             >
               Reload Data
