@@ -99,7 +99,7 @@ export default function PaymentMethods() {
     };
 
     try {
-      const response = await fetch(`http://localhost:3003/cashier/bill/new-bill`, {
+      const response = await fetch(`${baseUrl}:3003/cashier/bill/new-bill`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
