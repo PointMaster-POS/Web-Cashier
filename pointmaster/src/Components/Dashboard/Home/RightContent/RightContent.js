@@ -65,9 +65,11 @@ export default function RightContent() {
   
 
   const token = JSON.parse(localStorage.getItem('accessToken'));
+  
 
   const handleSearch = async () => {
     setLoading(true);
+    console.log('Token:', token);
     try {
       const response = await axios.get(`${baseUrl}:3003/cashier/customer/${searchValue}`, {
         headers: { Authorization: `Bearer ${token}` }
@@ -284,11 +286,11 @@ export default function RightContent() {
         <div className='order-summary'>
           <div className='summary-row'>
             <span>Bill Total:</span>
-            <span>${totalAmount.toFixed(2)}</span>
+            <span>Rs.{totalAmount.toFixed(2)}</span>
           </div>
           <div className='summary-row'>
             <span>Discount:</span>
-            <span>-${totalDiscount.toFixed(2)}</span>
+            <span>-Rs.{totalDiscount.toFixed(2)}</span>
           </div>
         </div>
         <div className='order-actions'>
