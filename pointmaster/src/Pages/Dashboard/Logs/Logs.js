@@ -7,6 +7,7 @@ import html2pdf from 'html2pdf.js';
 import { useNavigate } from 'react-router-dom'; // Use useNavigate instead of useHistory
 import './logs.css';
 import { HomeContext } from '../../../Context/HomeContext';
+import baseUrl from '../../../apiConfig';
 
 
 const { Title } = Typography;
@@ -66,7 +67,7 @@ const Logs = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:3003/cashier/history', {
+      const response = await fetch(`${baseUrl}:3003/cashier/history`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
