@@ -5,6 +5,7 @@ import { notification } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { HomeContext } from '../../../../Context/HomeContext';
 import './paymentmethods.css';
+import baseUrl from '../../../../apiConfig';
 
 
 export default function PaymentMethods() {
@@ -27,7 +28,7 @@ export default function PaymentMethods() {
 
   async function checkRedeemPointsEligibility(customerId) {
     try {
-      const response = await fetch('http://localhost:3003/cashier/loyalty/eligibility', {
+      const response = await fetch(`${baseUrl}:3003/cashier/loyalty/eligibility`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
