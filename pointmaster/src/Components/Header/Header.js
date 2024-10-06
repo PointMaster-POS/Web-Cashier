@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Typography, Avatar, Modal } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { UserOutlined, ClockCircleOutlined } from "@ant-design/icons";
 
 import "./header.css";
 import CashierDetails from "../../Pages/Dashboard/User/CashierDetails";
 
 const Header = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [currentTime, setCurrentTime] = useState("");
+
 
   const handleProfileClick = () => {
     setIsModalVisible(true);
@@ -16,29 +18,68 @@ const Header = () => {
     setIsModalVisible(false);
   };
 
-  return (
-    <div className="header_">
-      <Typography.Title level={2} style={{ margin: 0 }}>
-        Point Master
-      </Typography.Title>
-      <Avatar
-        icon={<UserOutlined />}
-        size={48}
-        style={{ cursor: "pointer", marginRight: "20px"}} // Combine styles into one object
-        onClick={handleProfileClick}
-      />
+  useEffect(() => {
+    const updateCurrentTime = () => {
+      const now = new Date();
+      setCurrentTime(now.toLocaleTimeString());
+    };
 
-      {/* Modal for displaying CashierDetails */}
-      <Modal
-        title="Cashier Details"
-        visible={isModalVisible}
-        onCancel={handleModalClose}
-        footer={null}
-        width={600}
+    updateCurrentTime(); // Initial call to set time immediately
+    const intervalId = setInterval(updateCurrentTime, 1000);
+
+    return () => clearInterval(intervalId); // Clear the interval on unmount
+  }, []);
+
+  return (
+    <div className="header_" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+  <Typography.Title level={2} style={{ margin: 0 }}>
+    Point Master
+  </Typography.Title>
+  
+  {/* Right-aligned container for clock and avatar */}
+  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        background: "#f0f2f5", // Subtle background color
+        borderRadius: "8px",
+        padding: "10px 20px",
+        marginRight: "18px",
+        // boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+      }}
+    >
+      <ClockCircleOutlined
+        style={{ marginRight: "8px", fontSize: "18px", color: "#1890ff" }}
+      />{" "}
+      {/* Clock Icon */}
+      <Typography.Text
+        style={{ fontSize: "16px", fontWeight: "bold", color: "#333" }}
       >
-        <CashierDetails/>
-      </Modal>
+        {currentTime}
+      </Typography.Text>
     </div>
+    
+    <Avatar
+      icon={<UserOutlined />}
+      size={48}
+      style={{ cursor: "pointer" }} // Combine styles into one object
+      onClick={handleProfileClick}
+    />
+  </div>
+
+  {/* Modal for displaying CashierDetails */}
+  <Modal
+    title="Cashier Details"
+    visible={isModalVisible}
+    onCancel={handleModalClose}
+    footer={null}
+    width={600}
+  >
+    <CashierDetails/>
+  </Modal>
+</div>
+
   );
 };
 
