@@ -27,11 +27,11 @@
 }
 
 .category-buttons button.selected {
-  background-color: #e6f7ff !important; 
+  background-color: #d7d7d7 !important; 
 }
 
 .category-buttons button:hover {
-  background-color: #e6f7ff;
+  background-color: #d7d7d7 !important;
 }
 
 .food-cards {

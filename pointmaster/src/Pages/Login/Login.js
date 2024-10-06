@@ -9,13 +9,14 @@ import {
 } from "@ant-design/icons";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; 
+import baseUrl from "../../apiConfig";
 
 export default function Login({ setIsAuthenticated }) {
   const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
 
   const onFinish = (values) => {
-  const url = "http://localhost:3002/employee/login";
+  const url = `${baseUrl}:3002/employee/login`;
   axios
     .post(url, {
       email: values.username,

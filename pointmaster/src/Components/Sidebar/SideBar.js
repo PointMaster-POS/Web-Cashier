@@ -3,6 +3,7 @@ import { HomeOutlined, HistoryOutlined } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./sidebar.css";
+import { Color } from "antd/es/color-picker";
 
 const { Sider } = Layout;
 
@@ -64,9 +65,10 @@ const SideBar = ({ onCollapse }) => {
       >
         {items.map((item) => (
           <Menu.Item
+          className="menu-item"
             key={item.key}
             icon={item.icon}
-            style={{ marginBottom: 40 }}
+            style={{ marginBottom: 1}}
           >
             <span>{item.label}</span>
           </Menu.Item>

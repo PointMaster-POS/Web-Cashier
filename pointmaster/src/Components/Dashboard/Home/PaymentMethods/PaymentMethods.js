@@ -5,6 +5,7 @@ import { notification } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { HomeContext } from '../../../../Context/HomeContext';
 import './paymentmethods.css';
+import baseUrl from '../../../../apiConfig';
 
 
 export default function PaymentMethods() {
@@ -27,7 +28,7 @@ export default function PaymentMethods() {
 
   async function checkRedeemPointsEligibility(customerId) {
     try {
-      const response = await fetch('http://localhost:3003/cashier/loyalty/eligibility', {
+      const response = await fetch(`${baseUrl}:3003/cashier/loyalty/eligibility`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -35,7 +36,8 @@ export default function PaymentMethods() {
         },
         body: JSON.stringify({ customer_id: customerId }), 
       });
-  
+      
+      console.log('Response:', response);
       const data = await response.json();
       console.log('Redeem Points Eligibility:', data);
       return data.eligibility;
@@ -57,21 +59,22 @@ export default function PaymentMethods() {
     fetchEligibility();
   }, [customerDetails]); 
 
-  const handleCashPayment = () => {
-    const payable = (totalAmount - totalDiscount - redeemDiscount).toFixed(2);
-    const cashReceived = parseFloat(cashAmount);
-    setBalance((cashReceived - payable).toFixed(2));
-  };
-
   const handleRedeemPoints = () => {
     if (redeemEligible) {
-      const pointsValue = points * 0.01;
+      const pointsValue = (customerDetails.points || 0) * 0.01; // Ensure points has a fallback
       setRedeemDiscount(pointsValue);
       setPointsRedeemed(1);
     } else {
       alert('Customer is not eligible for redeeming points.');
     }
   };
+  
+  const handleCashPayment = () => {
+    const payable = parseFloat(totalAmount - totalDiscount - redeemDiscount) || 0;
+    const cashReceived = parseFloat(cashAmount) || 0;
+    setBalance((cashReceived - payable).toFixed(2));
+  };
+  
 
   const payableAmount = (totalAmount - totalDiscount - redeemDiscount).toFixed(2);
 
@@ -150,8 +153,9 @@ export default function PaymentMethods() {
             <div className='info-item'><strong>Bill Total:</strong> Rs.{totalAmount.toFixed(2)}</div>
             <div className='info-item'><strong>Discount:</strong> Rs.{totalDiscount.toFixed(2)}</div>
             <div className='info-item'><strong>Points:</strong> {customerDetails.points || 0}</div>
-            <div className='info-item'><strong>Redeem Discount:</strong> Rs.{redeemDiscount.toFixed(2)}</div>
-            <div className='info-item'><strong>Payable Amount:</strong> Rs.{payableAmount}</div>
+            <div className='info-item'><strong>Redeem Discount:</strong> Rs.{isNaN(redeemDiscount) ? 0 : redeemDiscount.toFixed(2)}</div>
+            <div className='info-item'><strong>Payable Amount:</strong> Rs.{isNaN(payableAmount) ? 0 : payableAmount}</div>
+
           </div>
         </div>
 

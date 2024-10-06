@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { HomeContext } from "../../../Context/HomeContext";
 import axios from 'axios';
 import "./cashierdetails.css";
+import baseUrl from "../../../apiConfig";
 
 const { Title, Text } = Typography;
 
@@ -20,7 +21,7 @@ const CashierDetails = () => {
   useEffect(() => {
     const fetchCashierDetails = async () => {
       try {
-        const response = await axios.get('http://localhost:3003/employee', {
+        const response = await axios.get(`${baseUrl}:3003/employee`, {
           headers: { Authorization: `Bearer ${token}` }
         });
 

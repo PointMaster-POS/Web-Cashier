@@ -2,6 +2,9 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { HomeContext } from '../../../../Context/HomeContext';
 import './leftcontent.css';
+import baseUrl from '../../../../apiConfig';
+
+
 
 export default function LeftContent() {
   const { handleAddItem } = useContext(HomeContext);
@@ -16,7 +19,7 @@ export default function LeftContent() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://localhost:3003/cashier/inventory/categories', {
+        const response = await axios.get(`${baseUrl}:3003/cashier/inventory/categories`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -46,7 +49,8 @@ export default function LeftContent() {
     if (selectedCategory) {
       const fetchProducts = async () => {
         try {
-          const response = await axios.get(`http://localhost:3003/cashier/inventory/products/${selectedCategory}`, {
+          console.log('api', `${baseUrl}`);
+          const response = await axios.get(`${baseUrl}:3003/cashier/inventory/products/${selectedCategory}`, {
             headers: {
               Authorization: `Bearer ${token}`
             }

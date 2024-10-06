@@ -17,8 +17,8 @@
 
 .add-customer button {
   padding: 12px 24px;
-  background-color: #d2d2d2;
-  color: #000000; 
+  background-color: #000000;
+  color: #ffffff; 
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -26,7 +26,7 @@
 }
 
 .add-customer button:hover {
-  background-color: #002465 !important;
+  background-color: #414141 !important;
   color: #ffffff;
 }
 
@@ -43,7 +43,7 @@
   display: flex;
   align-items: center;
   padding: 16px;
-  background-color: #f9f9f9;
+  background-color: rgb(244, 244, 244);
   margin-bottom: 8px;
   border-radius: 4px;
   justify-content: space-between; 
@@ -121,14 +121,20 @@
 }
 
 .hold{
-  background-color: rgb(237, 177, 64);
+  background-color: #FD9404;
+  font-weight: bold;
 }
 
 .proceed {
-  background-color: green;
+  background-color: #002465;
+  font-weight: bold;
 }
 
-.hold:hover, .proceed:hover {
+.hold:hover {
+  background-color: #FD9404 !important;
+}
+
+.proceed:hover {
   background-color: #002465 !important;
 }
 
@@ -153,8 +159,8 @@
 }
 
 .change-customer {
-  background-color: #d2d2d2;
-  color: #000000;
+  background-color: #000000;
+  color: #ffffff;
   border: none;
   padding: 3px px;
   border-radius: 5px;
@@ -163,6 +169,6 @@
 }
 
 .change-customer:hover {
-  background-color: #002465 !important;
+  background-color: #414141 !important;
   color: #ffffff;
 }

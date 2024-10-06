@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from 'react';
+
+
+import React, { useState, useEffect, useContext } from 'react';
 import { Table, Button, Modal, Space, Typography, message } from 'antd';
 import { PrinterOutlined } from '@ant-design/icons';
 import html2pdf from 'html2pdf.js';
 import { useNavigate } from 'react-router-dom'; // Use useNavigate instead of useHistory
 import './logs.css';
+import { HomeContext } from '../../../Context/HomeContext';
+import baseUrl from '../../../apiConfig';
 
 
 const { Title } = Typography;
@@ -15,8 +19,8 @@ const Logs = () => {
   const [billCounter, setBillCounter] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
 
-
-  const navigate = useNavigate(); // Initialize navigate for navigation
+  const { updateHoldBillData } = useContext(HomeContext); 
+  const navigate = useNavigate(); 
 
   const today = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
@@ -63,7 +67,7 @@ const Logs = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:3003/cashier/history', {
+      const response = await fetch(`${baseUrl}:3003/cashier/history`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -111,8 +115,14 @@ const Logs = () => {
   }, []);
 
   const navigateToReloadPage = (bill) => {
-    navigate(`/reload-bill/${bill.billNumber}`, { state: { bill } }); // Navigate to a reload page with bill data
+    console.log(bill);
+    // Use the correct function name from context
+    updateHoldBillData(bill); 
+    
+    // Navigate to the dashboard, passing the bill object as state
+    navigate(`/dashboard`, { state: { bill } });
   };
+
 
   const columns = [
     {
@@ -267,3 +277,4 @@ const Logs = () => {
 };
 
 export default Logs;
+

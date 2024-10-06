@@ -10,7 +10,7 @@ export const HomeProvider = ({ children }) => {
   const [totalDiscount, setTotalDiscount] = useState(0);
   const [rightContent, setRightContent] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [holdBillData, setHoldBillData] = useState(null); // State to hold the bill data
+  const [holdBillData, setHoldBillData] = useState(null);
 
   const handleAddItem = (item) => {
     const newItem = {
@@ -28,10 +28,37 @@ export const HomeProvider = ({ children }) => {
     setSelectedItems(newItems);
   };
 
+  const removeItemHold = (index) => {
+    if (!holdBillData.items[index]) return; // Check if item exists
+  
+    const newItems = [...holdBillData.items];
+    newItems.splice(index, 1); // Remove the item at the specified index
+  
+    setHoldBillData({
+      ...holdBillData,
+      items: newItems, // Update the holdBillData with the new items array
+    });
+  };
+  
+
   const increaseQuantity = (index) => {
     const newItems = [...selectedItems];
     newItems[index].quantity = (newItems[index].quantity || 1) + 1;
     setSelectedItems(newItems);
+  };
+
+  const increaseQuantityHold = (index) => {
+    if (!holdBillData.items[index]) return; // Check if item exists
+    let newItems = [...holdBillData.items];
+    if (newItems[index].quantity) {
+      newItems[index].quantity += 1;
+    } else {
+      newItems[index].quantity = 1; // Set a default value if undefined
+    }
+    setHoldBillData({
+      ...holdBillData,
+      items: newItems,
+    });
   };
 
   const decreaseQuantity = (index) => {
@@ -40,6 +67,20 @@ export const HomeProvider = ({ children }) => {
       newItems[index].quantity = (newItems[index].quantity || 1) - 1;
       setSelectedItems(newItems);
     }
+  };
+
+  const decreaseQuantityHold = (index) => {
+    if (!holdBillData.items[index]) return; // Check if item exists
+    let newItems = [...holdBillData.items];
+    if (newItems[index].quantity && newItems[index].quantity > 1) {
+      newItems[index].quantity -= 1;
+    } else {
+      newItems[index].quantity = 1; 
+    }
+    setHoldBillData({
+      ...holdBillData,
+      items: newItems,
+    });
   };
 
   const handleCustomerSelection = (customer) => {
@@ -51,6 +92,7 @@ export const HomeProvider = ({ children }) => {
     setCustomerDetails({});
     setCustomerSelected(false);
   };
+  
 
   const setRightContentValue = (content) => {
     setRightContent(content);
@@ -62,12 +104,23 @@ export const HomeProvider = ({ children }) => {
 
   
   const resetTransaction = () => {
+    setHoldBillData([]);
     setSelectedItems([]);
     setCustomerDetails({});
     setCustomerSelected(false);
     setTotalAmount(0);
     setTotalDiscount(0);
     setRightContent('');
+  };
+
+  const resetSelectedItems = () => {
+    setSelectedItems([]);
+  };
+
+  // New function to set history bill details
+  const setHistoryDetails = (items, customer) => {
+    setSelectedItems(items);
+    setCustomerDetails(customer);
   };
 
   return (
@@ -94,7 +147,11 @@ export const HomeProvider = ({ children }) => {
         setIsAuthenticated,
         holdBillData,
         updateHoldBillData,
-      
+        resetSelectedItems,
+        setHistoryDetails,
+        increaseQuantityHold,
+        decreaseQuantityHold,
+        removeItemHold,
       }}
     >
       {children}

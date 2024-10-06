@@ -24,8 +24,8 @@
 
 .back-button {
   height:40px;
-  background-color: #d2d2d2;
-  color: #000000; 
+  background-color: #000000;
+  color: #ffffff; 
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -34,7 +34,7 @@
 }
 
 .back-button:hover {
-  background-color: #002465 !important;
+  background-color: #414141 !important;
   color: #ffffff;
 }
 
@@ -45,8 +45,8 @@
 }
 
 .redeem-points-button {
-  background-color: #d2d2d2;
-  color: #000000; 
+  background-color: #000000;
+  color: #ffffff; 
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -124,16 +124,16 @@
 .payment-button {
   width: 180px;
   text-align: center;
-  background-color: rgb(237, 177, 64);
-  border-color: rgb(237, 177, 64);
+  background-color: #FD9404;
+  border-color: #FD9404;
   height: 120px;
   font-size: 1.1rem;
   margin-bottom: 20px;
 }
 
 .payment-button.selected {
-  background-color: green;
-  border-color: green;
+  background-color: #002465;
+  border-color: #002465;
 }
 
 .payment-button:hover {
@@ -164,7 +164,7 @@
   padding: 6px 16px;
   font-size: 16px;
   border-radius: 4px;
-  background-color: green;
+  background-color: #002465;
   color: #fff;
   border: none;
   cursor: pointer;
@@ -184,8 +184,8 @@
 
 
 .complete-payment {
-  background-color: green; /* Green for Complete Payment */
-  border-color:green;
+  background-color: #002465; /* Green for Complete Payment */
+  border-color:#002465;
   color: white;
   width: 100%;
   height: 50px;
