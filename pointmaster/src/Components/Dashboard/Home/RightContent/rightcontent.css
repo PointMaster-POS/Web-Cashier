@@ -110,7 +110,6 @@
 
 .hold, .proceed {
   flex: 1; 
-  background-color: orange;
   color: white;
   padding: 20px 0; 
   font-size: 18px; 
