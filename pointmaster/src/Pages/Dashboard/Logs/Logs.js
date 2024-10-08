@@ -203,7 +203,7 @@ const Logs = () => {
         style={{
           textAlign: 'left',
           marginBottom: '16px',
-          color: '#1a3d7c',
+          color: '#002465',
           fontWeight: 'bold',
           fontSize: '38px',
           marginLeft: '20px',
