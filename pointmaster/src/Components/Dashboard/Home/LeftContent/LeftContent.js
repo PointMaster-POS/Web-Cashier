@@ -4,25 +4,33 @@ import { HomeContext } from '../../../../Context/HomeContext';
 import './leftcontent.css';
 import baseUrl from '../../../../apiConfig';
 
-
-
 export default function LeftContent() {
-  const { handleAddItem } = useContext(HomeContext);
-
+  const { handleAddItem , isAuthenticated} = useContext(HomeContext);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [foodItems, setFoodItems] = useState([]);
 
-  const token = JSON.parse(localStorage.getItem('accessToken'));
 
+  // Fetch token from localStorage asynchronously
+  const fetchToken = async () => {
+    return localStorage.getItem('accessToken');
+  };
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
+        const token = await fetchToken();
+        if (!token) {
+          console.error('No access token found.');
+          return;
+        }
+  
+        console.log('Fetching categories...', token);
         const response = await axios.get(`${baseUrl}:3003/cashier/inventory/categories`, {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         });
   
         if (response && response.data) {
@@ -38,38 +46,42 @@ export default function LeftContent() {
       }
     };
   
-    if (token) {
+    if (isAuthenticated) { // Ensure fetching happens only if authenticated
       fetchCategories();
-    } else {
-      console.error('No access token found.');
     }
-  }, [token]);
+  }, [isAuthenticated]);
   
+
   useEffect(() => {
-    if (selectedCategory) {
-      const fetchProducts = async () => {
-        try {
-          console.log('api', `${baseUrl}`);
+    const fetchProducts = async () => {
+      try {
+        const token = await fetchToken();
+        if (!token) {
+          console.error('No access token found.');
+          return;
+        }
+
+        if (selectedCategory) {
           const response = await axios.get(`${baseUrl}:3003/cashier/inventory/products/${selectedCategory}`, {
             headers: {
               Authorization: `Bearer ${token}`
             }
           });
-          console.log(response);
-  
+
           if (response && response.data) {
             setFoodItems(response.data);
           } else {
             console.error('No data received for products');
           }
-        } catch (error) {
-          console.error('Error fetching products:', error);
         }
-      };
-      fetchProducts();
-    }
-  }, [selectedCategory, token]);
-  
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    fetchProducts();
+  }, [selectedCategory, isAuthenticated]);
+
   const handleCategoryClick = (category_id) => {
     setSelectedCategory(category_id);
   };

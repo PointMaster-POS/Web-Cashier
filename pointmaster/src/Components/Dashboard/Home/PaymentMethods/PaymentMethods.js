@@ -25,9 +25,14 @@ export default function PaymentMethods() {
   const [redeemEligible, setRedeemEligible] = useState(false);
   const [redeemDiscount, setRedeemDiscount] = useState(0);
   const [pointsRedeemed, setPointsRedeemed] = useState(0);
+  const fetchToken = async () => {
+    return localStorage.getItem('accessToken');
+  };
 
   async function checkRedeemPointsEligibility(customerId) {
     try {
+
+      const token = await fetchToken();
       const response = await fetch(`${baseUrl}:3003/cashier/loyalty/eligibility`, {
         method: 'POST',
         headers: {
@@ -78,7 +83,7 @@ export default function PaymentMethods() {
 
   const payableAmount = (totalAmount - totalDiscount - redeemDiscount).toFixed(2);
 
-  const token = JSON.parse(localStorage.getItem('accessToken'));
+
 
   const handleCompletePayment = async () => {
     const billData = {
@@ -97,8 +102,10 @@ export default function PaymentMethods() {
       customer_phone: customerDetails.phoneNumber,
       status: true,
     };
+    
 
     try {
+      const token = await fetchToken();
       const response = await fetch(`${baseUrl}:3003/cashier/bill/new-bill`, {
         method: 'POST',
         headers: {

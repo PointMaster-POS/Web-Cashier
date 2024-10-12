@@ -13,20 +13,31 @@ const CashierDetails = () => {
   const [cashier, setCashier] = useState({});
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const { setIsAuthenticated } = useContext(HomeContext);
+  const { setIsAuthenticated, isAuthenticated } = useContext(HomeContext);
 
-
-  const token = JSON.parse(localStorage.getItem('accessToken'));
+  // Fetch token from localStorage asynchronously
+  const fetchToken = async () => {
+    return localStorage.getItem('accessToken');
+  };
 
   useEffect(() => {
     const fetchCashierDetails = async () => {
       try {
+        const token = await fetchToken();
+        if (!token) {
+          notification.error({
+            message: 'Authentication Error',
+            description: 'No access token found. Please log in.',
+          });
+          navigate('/login');
+          return;
+        }
+
         const response = await axios.get(`${baseUrl}:3003/employee`, {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: { Authorization: `Bearer ${token}` },
         });
 
         console.log('Cashier details:', response.data);
-
         setCashier(response.data);
       } catch (error) {
         console.error('Error fetching cashier details:', error);
@@ -40,17 +51,17 @@ const CashierDetails = () => {
     };
 
     fetchCashierDetails();
-  }, [token]);  
+  }, [isAuthenticated, navigate]);
 
-
+  // Handle logout
   const handleLogout = () => {
-    localStorage.removeItem('accessToken'); 
+    localStorage.removeItem('accessToken');
     setIsAuthenticated(false);
-    // localStorage.removeItem('tokenExpiration');
     console.log("Logging out...");
     navigate('/landing'); 
   };
 
+  // Destructure cashier details
   const {
     employee_name: name,
     employee_email: email,
@@ -67,18 +78,18 @@ const CashierDetails = () => {
       ) : (
         <div className="cashier-details-content">
           <div className="cashier-info">
-            <Title level={3}>{name}</Title>
+            <Title level={3}>{name || 'Unknown'}</Title>
 
             <div className="cashier-info-row">
               <Text strong>Email:</Text>
-              <Text>{email}</Text>
+              <Text>{email || 'Not provided'}</Text>
             </div>
             
             <hr />
 
             <div className="cashier-info-row">
               <Text strong>Role:</Text>
-              <Text>{role}</Text>
+              <Text>{role || 'Not specified'}</Text>
             </div>
 
             <Button type="primary" danger onClick={handleLogout} className="logout-button">
@@ -96,7 +107,7 @@ const CashierDetails = () => {
         </div>
       )}
     </div>
-      );
-  };
+  );
+};
 
 export default CashierDetails;
