@@ -11,6 +11,9 @@ export const HomeProvider = ({ children }) => {
   const [rightContent, setRightContent] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [holdBillData, setHoldBillData] = useState(null);
+  const [isQRCodeVisible, setIsQRCodeVisible] = useState(false); 
+  const [searchValue, setSearchValue] = useState('');
+  const [qrCodeScanned, setQrCodeScanned] = useState(false);
 
   const handleAddItem = (item) => {
     const newItem = {
@@ -91,6 +94,7 @@ export const HomeProvider = ({ children }) => {
   const resetCustomerSelection = () => {
     setCustomerDetails({});
     setCustomerSelected(false);
+    
   };
   
 
@@ -152,6 +156,12 @@ export const HomeProvider = ({ children }) => {
         increaseQuantityHold,
         decreaseQuantityHold,
         removeItemHold,
+        isQRCodeVisible,
+        setIsQRCodeVisible,
+        searchValue,
+        setSearchValue,
+        qrCodeScanned,
+        setQrCodeScanned,
       }}
     >
       {children}
