@@ -10,16 +10,18 @@ import { HomeContext } from '../../../Context/HomeContext';
 import baseUrl from '../../../apiConfig';
 
 
+
 const { Title } = Typography;
 
 const Logs = () => {
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedBill, setSelectedBill] = useState(null);
   const [dataSource, setDataSource] = useState([]);
   const [billCounter, setBillCounter] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { updateHoldBillData } = useContext(HomeContext); 
+  const { updateHoldBillData, isAuthenticated } = useContext(HomeContext); 
   const navigate = useNavigate(); 
 
   const today = new Date().toLocaleDateString('en-US', {
@@ -57,14 +59,23 @@ const Logs = () => {
   const formatBillNumber = (billNumber) => {
     return billNumber.toString().padStart(5, '0');
   };
+  const fetchToken = async () => {
+    return localStorage.getItem('accessToken');
+  };
 
   const fetchData = async () => {
-    const token = JSON.parse(localStorage.getItem('accessToken'));
+    const token = await fetchToken();
+    if (!token) {
+      message.error('Token not found. Please log in.');
+      return;
+    }
 
     if (!token) {
       message.error('Token not found. Please log in.');
       return;
     }
+
+    console.log('Fetching cashier history...', token);
 
     try {
       const response = await fetch(`${baseUrl}:3003/cashier/history`, {
@@ -112,7 +123,7 @@ const Logs = () => {
       localStorage.setItem('lastBillResetDate', todayDate);
     }
     fetchData();
-  }, []);
+  }, [isAuthenticated]);
 
   const navigateToReloadPage = (bill) => {
     console.log(bill);

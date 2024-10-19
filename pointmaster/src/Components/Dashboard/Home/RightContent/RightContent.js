@@ -74,14 +74,20 @@ export default function RightContent() {
   }, [selectedItems, holdBillData, setTotalAmount, setTotalDiscount]);
   
 
-  const token = JSON.parse(localStorage.getItem('accessToken'));
+  const fetchToken = async () => {
+    return localStorage.getItem('accessToken');
+  };
   
 
   const handleSearch = async () => {
     setLoading(true);
-    console.log('Token:', token);
-    console.log('Search value:', searchValue);
+
     try {
+      const token = await fetchToken();
+      if (!token) {
+        console.error('No access token found.');
+        return;
+      }
       const response = await axios.get(`${baseUrl}:3003/cashier/customer/${searchValue}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -113,6 +119,8 @@ export default function RightContent() {
       const fetchCustomerData = async () => {
         setLoading(true);
         try {
+
+          const token = await fetchToken();
           const response = await axios.get(
             `${baseUrl}:3003/cashier/customer/${holdBillData.customerPhone}`, 
             { headers: { Authorization: `Bearer ${token}` } }
@@ -205,7 +213,11 @@ export default function RightContent() {
       status: false,
     };
 
+   
+
     try {
+
+      const token = await fetchToken();
       const response = await fetch(`${baseUrl}:3003/cashier/bill/new-bill`, {
         method: 'POST',
         headers: {
