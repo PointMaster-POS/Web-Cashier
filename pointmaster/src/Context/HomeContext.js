@@ -9,11 +9,21 @@ export const HomeProvider = ({ children }) => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [totalDiscount, setTotalDiscount] = useState(0);
   const [rightContent, setRightContent] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [holdBillData, setHoldBillData] = useState(null);
+  const [isQRCodeVisible, setIsQRCodeVisible] = useState(false); 
+  const [searchValue, setSearchValue] = useState('');
+  const [qrCodeScanned, setQrCodeScanned] = useState(false);
 
-
-  const handleAddItem = item => {
-    setSelectedItems([...selectedItems, item]);
+  const handleAddItem = (item) => {
+    const newItem = {
+      ...item, 
+      unique_id: `${item.item_id}-${new Date().getTime()}`, 
+      quantity: 1, 
+    };
+    setSelectedItems([...selectedItems, newItem]); 
   };
+  
 
   const removeItem = (index) => {
     const newItems = [...selectedItems];
@@ -21,10 +31,37 @@ export const HomeProvider = ({ children }) => {
     setSelectedItems(newItems);
   };
 
+  const removeItemHold = (index) => {
+    if (!holdBillData.items[index]) return; 
+  
+    const newItems = [...holdBillData.items];
+    newItems.splice(index, 1); 
+  
+    setHoldBillData({
+      ...holdBillData,
+      items: newItems, 
+    });
+  };
+  
+
   const increaseQuantity = (index) => {
     const newItems = [...selectedItems];
     newItems[index].quantity = (newItems[index].quantity || 1) + 1;
     setSelectedItems(newItems);
+  };
+
+  const increaseQuantityHold = (index) => {
+    if (!holdBillData.items[index]) return; 
+    let newItems = [...holdBillData.items];
+    if (newItems[index].quantity) {
+      newItems[index].quantity += 1;
+    } else {
+      newItems[index].quantity = 1; 
+    }
+    setHoldBillData({
+      ...holdBillData,
+      items: newItems,
+    });
   };
 
   const decreaseQuantity = (index) => {
@@ -35,7 +72,21 @@ export const HomeProvider = ({ children }) => {
     }
   };
 
-  const handleCustomerSelection = customer => {
+  const decreaseQuantityHold = (index) => {
+    if (!holdBillData.items[index]) return; 
+    let newItems = [...holdBillData.items];
+    if (newItems[index].quantity && newItems[index].quantity > 1) {
+      newItems[index].quantity -= 1;
+    } else {
+      newItems[index].quantity = 1; 
+    }
+    setHoldBillData({
+      ...holdBillData,
+      items: newItems,
+    });
+  };
+
+  const handleCustomerSelection = (customer) => {
     setCustomerDetails(customer);
     setCustomerSelected(true);
   };
@@ -43,12 +94,38 @@ export const HomeProvider = ({ children }) => {
   const resetCustomerSelection = () => {
     setCustomerDetails({});
     setCustomerSelected(false);
+    
   };
+  
 
   const setRightContentValue = (content) => {
     setRightContent(content);
   };
 
+  const updateHoldBillData = (data) => {
+    setHoldBillData(data); 
+  };
+
+  
+  const resetTransaction = () => {
+    setHoldBillData([]);
+    setSelectedItems([]);
+    setCustomerDetails({});
+    setCustomerSelected(false);
+    setTotalAmount(0);
+    setTotalDiscount(0);
+    setRightContent('');
+  };
+
+  const resetSelectedItems = () => {
+    setSelectedItems([]);
+  };
+
+  
+  const setHistoryDetails = (items, customer) => {
+    setSelectedItems(items);
+    setCustomerDetails(customer);
+  };
 
   return (
     <HomeContext.Provider
@@ -67,8 +144,24 @@ export const HomeProvider = ({ children }) => {
         setTotalAmount,
         setTotalDiscount,
         rightContent,
-        setRightContent: setRightContentValue,
-
+        setRightContent,
+        setRightContentValue,
+        resetTransaction,  
+        isAuthenticated,
+        setIsAuthenticated,
+        holdBillData,
+        updateHoldBillData,
+        resetSelectedItems,
+        setHistoryDetails,
+        increaseQuantityHold,
+        decreaseQuantityHold,
+        removeItemHold,
+        isQRCodeVisible,
+        setIsQRCodeVisible,
+        searchValue,
+        setSearchValue,
+        qrCodeScanned,
+        setQrCodeScanned,
       }}
     >
       {children}

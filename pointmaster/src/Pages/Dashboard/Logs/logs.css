@@ -1,0 +1,98 @@
+.logs-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 4px;
+  width: 98%;
+  margin-top: 16px;
+  margin-left: 24px;
+  height: calc(100vh - 75px); 
+}
+
+
+
+.divider {
+  border: none;
+  border-top: 2px solid #002465;
+  margin-bottom: 16px;
+  width: 98%;
+}
+
+.logs-table {
+  width: 90%;
+}
+ 
+.logs-container h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.logs-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.logs-table th, .logs-table td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.logs-table th {
+  background-color: #f4f4f4;
+}
+
+.logs-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.print-btn {
+  cursor: pointer;
+  background-color: #002465;
+}
+
+.print-btn:hover {
+  background-color: rgb(0, 0, 0) !important;
+}
+
+.item-details {
+  margin-bottom: 10px;
+}
+
+.item-header {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.item-info {
+  font-size: 14px;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 5px;
+  width: 225px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.value {
+  font-weight: bold;
+  color: #333;
+}
+
+.bill-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+

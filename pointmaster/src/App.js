@@ -1,39 +1,58 @@
-import React, { useState, useEffect } from 'react';
+import React, {  useEffect, useContext } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import MainLayout from './Components/Dashboard/MainLayout'; // Main dashboard layout
+import MainLayout from './Components/Dashboard/MainLayout'; 
 import Login from './Pages/Login/Login';
 import Landing from './Pages/Landing/Landing'; 
-import Home from './Pages/Home/Home'; // Home component
-import User from './Pages/User/User'; // User component
-import Logs from './Pages/Logs/Logs'; // Logs component
-import { HomeProvider } from './Context/HomeContext'; // Import HomeProvider
+import Home from './Pages/Dashboard/Home/Home'; 
+import Logs from './Pages/Dashboard/Logs/Logs'; 
+import { HomeContext } from './Context/HomeContext';
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { isAuthenticated, setIsAuthenticated, resetSelectedItems } = useContext(HomeContext);
 
   useEffect(() => {
-    const accessToken = localStorage.getItem('accessToken');
-    const tokenExpiration = localStorage.getItem('tokenExpiration');
-    
-    // Check if token exists and if it's expired
-    if (accessToken && tokenExpiration) {
-      const currentTime = new Date().getTime();
-      if (currentTime < tokenExpiration) {
-        setIsAuthenticated(true); // Token is valid
-      } else {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('tokenExpiration');
-        setIsAuthenticated(false); // Token expired, force login
+    const checkToken = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const accessTokenFromUrl = urlParams.get('token');
+      console.log(accessTokenFromUrl);
+
+      if (accessTokenFromUrl) {
+        localStorage.setItem('accessToken', accessTokenFromUrl);
+        const expirationTime = Date.now() + 3600000; 
+        localStorage.setItem('tokenExpiration', expirationTime);
       }
-    } else {
-      setIsAuthenticated(false); // No token, must log in
+
+      const accessToken = localStorage.getItem('accessToken');
+      console.log({ accessToken : accessToken });
+      const tokenExpiration = localStorage.getItem('tokenExpiration');
+
+      if (accessToken) {
+        const currentTime = Date.now();
+        if (currentTime < tokenExpiration) {
+          setIsAuthenticated(true); 
+        } else {
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('tokenExpiration');
+          setIsAuthenticated(false); 
+        }
+      } else {
+        setIsAuthenticated(false);
+      }
+    };
+
+    checkToken();
+  }, [setIsAuthenticated]);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      resetSelectedItems();  
     }
-  }, []);
+  }, [isAuthenticated, resetSelectedItems]);
 
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Landing />} />
+        <Route path="/" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Landing />} />
         
         <Route
           path="/login"
@@ -43,13 +62,10 @@ const App = () => {
         <Route
           path="/dashboard"
           element={isAuthenticated ? (
-            <HomeProvider> {/* Wrap MainLayout with HomeProvider */}
-              <MainLayout />
-            </HomeProvider>
+            <MainLayout />
           ) : <Navigate to="/login" />}
         >
           <Route path="" element={<Home />} />
-          <Route path="user" element={<User />} />
           <Route path="logs" element={<Logs />} />
         </Route>
 

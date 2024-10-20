@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./login.css";
 import { Form, Input, Button, Checkbox, message } from "antd";
 import {
@@ -9,49 +9,50 @@ import {
 } from "@ant-design/icons";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; 
+import baseUrl from "../../apiConfig";
 
 export default function Login({ setIsAuthenticated }) {
   const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
 
   const onFinish = (values) => {
-    const url = "http://localhost:3002/employee/login";
-    axios
-      .post(url, {
-        email: values.username,
-        password: values.password,
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          const accessToken = response.data.accessToken || response.data.token || response.data;
-          const expirationTime = new Date().getTime() + 30 * 60 * 1000; // Token expires in 30 minutes
-          
-          localStorage.setItem("accessToken", JSON.stringify(accessToken));
-          localStorage.setItem("tokenExpiration", expirationTime.toString()); // Store expiration as a string
-          
-          setIsAuthenticated(true);
-          navigate("/dashboard");
-        } else {
-          messageApi.open({
-            type: "error",
-            content: "Invalid credentials",
-          });
-        }
-      })
-      .catch(() => {
+  const url = `${baseUrl}:3002/employee/login`;
+  axios
+    .post(url, {
+      email: values.username,
+      password: values.password,
+    })
+    .then((response) => {
+      if (response.status === 200) {
+        const accessToken = response.data.accessToken || response.data.token || response.data;
+        const expirationTime = new Date().getTime() + 30 * 60 * 1000; 
+        
+        localStorage.setItem("accessToken", JSON.stringify(accessToken));
+        localStorage.setItem("tokenExpiration", expirationTime.toString()); 
+        
+        setIsAuthenticated(true);
+        navigate("/dashboard");
+      } else {
         messageApi.open({
           type: "error",
-          content: "Login failed",
+          content: "Invalid credentials",
         });
+      }
+    })
+    .catch(() => {
+      messageApi.open({
+        type: "error",
+        content: "Login failed",
       });
-  };
-  
+    });
+};
+
 
   return (
     <div className="login-container">
       {contextHolder}
       <div className="image-section">
-        <img src={`${process.env.PUBLIC_URL}Images/LogIn.png`} alt="Welcome" />
+        <img src={`${process.env.PUBLIC_URL}Images/Cashier login.jpg`} alt="Welcome" />
       </div>
       <div className="form-section">
         <h1>Welcome Back! <br /> Login to your account</h1>
