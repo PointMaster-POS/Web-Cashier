@@ -5,9 +5,6 @@ import PaymentMethods from '../../../Components/Dashboard/Home/PaymentMethods/Pa
 import { HomeContext } from '../../../Context/HomeContext';
 import './home.css';
 
-
-
-
 function Home() {
   const { rightContent } = useContext(HomeContext);
 
