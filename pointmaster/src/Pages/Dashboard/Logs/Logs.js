@@ -4,12 +4,10 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Table, Button, Modal, Space, Typography, message } from 'antd';
 import { PrinterOutlined } from '@ant-design/icons';
 import html2pdf from 'html2pdf.js';
-import { useNavigate } from 'react-router-dom'; // Use useNavigate instead of useHistory
+import { useNavigate } from 'react-router-dom'; 
 import './logs.css';
 import { HomeContext } from '../../../Context/HomeContext';
 import baseUrl from '../../../apiConfig';
-
-
 
 const { Title } = Typography;
 
