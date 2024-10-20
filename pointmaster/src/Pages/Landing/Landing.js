@@ -1,7 +1,6 @@
 import React, {useContext, useEffect} from "react";
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
-import {isAuthenticated} from "../../Context/HomeContext";
 import "./landing.css"; 
 import { HomeContext } from '../../Context/HomeContext';
 
@@ -13,10 +12,8 @@ const Landing = () => {
   const handleCheckToken = () => {
     const accessToken = localStorage.getItem("accessToken");
     const tokenExpiration = localStorage.getItem("tokenExpiration");
-    console.log("up to here ----->")
 
     if (accessToken) {
-      console.log("up to here ----->", accessToken)
       const currentTime = Date.now();
       if (currentTime < tokenExpiration) {
         setIsAuthenticated(true);
