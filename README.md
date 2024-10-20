@@ -1,8 +1,8 @@
 # Web-Cashier
 Frontend related to cashier in a business
 <body>
-    <h1>Customer Mobile Application</h1>
-    <p>This repository contains the source code for the Customer Mobile Application built using React Native.</p>
+    <h1>Cashier Web Application</h1>
+    <p>This repository contains the source code for the Cashier Web Application built using React.</p>
 
   <h2>Table of Contents</h2>
   <ul>
@@ -15,18 +15,18 @@ Frontend related to cashier in a business
 
   <h2 id="features">Features</h2>
   <ul>
-      <li>View and manage bills</li>
-      <li>Access loyalty programs</li>
-      <li>Review bill history</li>
-      <li>Redeem loyalty points</li>
-      <li>User-friendly interface</li>
+      <li>Create and hold bills</li>
+      <li>Assign a customer to the bill</li>
+      <li>Redeem loyalty points for customers</li>
+      <li>View transaction history</li>
+      <li>Payment processing with support for multiple methods (Cash, Card)</li>
   </ul>
 
   <h2 id="installation">Installation</h2>
   <p>To install and run the application, follow these steps:</p>
   <pre>
-      <code>git clone git@github.com:PointMaster-POS/mobile-costomer.git</code>
-      <code>cd customer-mobile-app</code>
+      <code>git clone git@github.com:PointMaster-POS/web-cashier.git</code>
+      <code>cd pointmaster</code>
       <code>npm install</code>
   </pre>
 
@@ -35,7 +35,6 @@ Frontend related to cashier in a business
     <pre>
         <code>npm start</code>
     </pre>
-    <p>Follow the on-screen instructions to use the app on your mobile device or simulator.</p>
 
   <h2 id="contributing">Contributing</h2>
   <p>We welcome contributions! If you would like to contribute to this project, please follow these steps:</p>
@@ -53,7 +52,7 @@ Frontend related to cashier in a business
   <h2>Contact</h2>
   <p>For any inquiries, please contact:</p>
   <p><strong>Your Name</strong></p>
-    <p>Email: <a href="mailto:himindukularathne@gmail.com">himindukularathne@gmail.com</a></p>
+    <p>Email: <a href="mailto:pavanikarunarathna21113@gmail.com">pavanikarunarathna21113@gmail.com</a></p>
 
   <h2>Acknowledgments</h2>
   <p>Thanks to all the contributors and libraries used in this project.</p>
