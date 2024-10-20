@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Modal, Input, Spin, Button } from 'antd';
+import { Modal, Input, Button } from 'antd';
 import { PlusOutlined, MinusOutlined, CloseOutlined, CheckOutlined, ArrowRightOutlined, PauseOutlined, QrcodeOutlined } from "@ant-design/icons";
 import axios from 'axios';
 import { notification } from 'antd';
@@ -38,10 +38,8 @@ export default function RightContent() {
   const [totalAmount, setLocalTotalAmount] = useState(0);
   const [totalDiscount, setLocalTotalDiscount] = useState(0); 
   const [isModalVisible, setIsModalVisible] = useState(false);
-  
   const [loading, setLoading] = useState(false); 
   
-  const [scanResult, setScanResult] = useState(null);
 
 
   useEffect(() => {
@@ -154,17 +152,10 @@ export default function RightContent() {
   const handleQRCodeScan = (result) => {
     if (result) {
       console.log("QR data:", result.text);
-  
-      // Set the scanned value to state, but do not call handleSearch here
       setSearchValue(result.text); 
-      
-  
-      // Log to see the result (note: searchValue won't update immediately here)
       console.log("Search value before effect:", result.text);
-  
-      // Only allow one scan per session
       if (!qrCodeScanned) {
-        setQrCodeScanned(true); // This flag ensures only one scan per session
+        setQrCodeScanned(true); 
       }
     }
   };
@@ -176,17 +167,17 @@ export default function RightContent() {
     }
   };
   
-  // Use useEffect to trigger handleSearch when searchValue and qrCodeScanned are set
+ 
   useEffect(() => {
     if (searchValue && qrCodeScanned) {
-      console.log("Updated searchValue:", searchValue); // This will log the correct updated value
-      handleSearch(); // Trigger search after searchValue is updated
+      console.log("Updated searchValue:", searchValue); 
+      handleSearch();
     }
-  }, [searchValue, qrCodeScanned]); // Effect triggers when either searchValue or qrCodeScanned changes
+  }, [searchValue, qrCodeScanned]); 
   
 
   const openModal = () => {
-    setQrCodeScanned(false); // Reset the scanned state when reopening the modal
+    setQrCodeScanned(false); 
     setIsQRCodeVisible(true);
   };
 
@@ -373,16 +364,6 @@ export default function RightContent() {
         </Button>
         </Modal>
 
-        {/* <Button onClick={handleQRCodeWait} style={{ marginLeft: '10px' }}>QR Code</Button> */}
-        {/* QR Code Reader */}
-        {/* <QrReader
-            delay={300}
-            onError={handleQRCodeError}
-            onScan={handleQRCodeScan}
-            style={{ width: '100%' }}
-          />
-        {isQRCodeWaiting && <Spin />} */}
-        
         {/* QR Code Scanner Modal */}
         <Modal
           title="Scan QR Code"
@@ -401,13 +382,12 @@ export default function RightContent() {
                   handleQRCodeError(error);
                 }
               }}
-              style={{ width: '100%' }} // Styling for the reader
+              style={{ width: '100%' }} 
             />
           ) : (
             <div>
               <h3>QR Code Scanned Successfully!</h3>
               <button onClick={() => setIsQRCodeVisible(false)}>Close</button>
-              {/* You can also call a function here to do something with the scanned data */}
             </div>
           )}
         </Modal>
