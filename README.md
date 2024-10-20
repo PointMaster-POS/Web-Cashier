@@ -1,5 +1,3 @@
-# Web-Cashier
-Frontend related to cashier in a business
 <body>
     <h1>Cashier Web Application</h1>
     <p>This repository contains the source code for the Cashier Web Application built using React.</p>
@@ -19,6 +17,7 @@ Frontend related to cashier in a business
       <li>Assign a customer to the bill</li>
       <li>Redeem loyalty points for customers</li>
       <li>View transaction history</li>
+      <li>Print bill</li>
       <li>Payment processing with support for multiple methods (Cash, Card)</li>
   </ul>
 
