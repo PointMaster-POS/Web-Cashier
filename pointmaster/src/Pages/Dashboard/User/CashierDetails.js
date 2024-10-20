@@ -15,7 +15,6 @@ const CashierDetails = () => {
   const navigate = useNavigate();
   const { setIsAuthenticated, isAuthenticated } = useContext(HomeContext);
 
-  // Fetch token from localStorage asynchronously
   const fetchToken = async () => {
     return localStorage.getItem('accessToken');
   };
@@ -53,7 +52,7 @@ const CashierDetails = () => {
     fetchCashierDetails();
   }, [isAuthenticated, navigate]);
 
-  // Handle logout
+
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
     setIsAuthenticated(false);
@@ -61,7 +60,6 @@ const CashierDetails = () => {
     navigate('/landing'); 
   };
 
-  // Destructure cashier details
   const {
     employee_name: name,
     employee_email: email,
