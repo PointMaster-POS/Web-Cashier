@@ -24,10 +24,10 @@ const Header = () => {
       setCurrentTime(now.toLocaleTimeString());
     };
 
-    updateCurrentTime(); // Initial call to set time immediately
+    updateCurrentTime(); 
     const intervalId = setInterval(updateCurrentTime, 1000);
 
-    return () => clearInterval(intervalId); // Clear the interval on unmount
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
@@ -36,17 +36,15 @@ const Header = () => {
     Point Master
   </Typography.Title>
   
-  {/* Right-aligned container for clock and avatar */}
   <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
     <div
       style={{
         display: "flex",
         alignItems: "center",
-        background: "#f0f2f5", // Subtle background color
+        background: "#f0f2f5", 
         borderRadius: "8px",
         padding: "10px 20px",
         marginRight: "18px",
-        // boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
       }}
     >
       <ClockCircleOutlined
@@ -63,7 +61,7 @@ const Header = () => {
     <Avatar
       icon={<UserOutlined />}
       size={48}
-      style={{ cursor: "pointer" }} // Combine styles into one object
+      style={{ cursor: "pointer" }} 
       onClick={handleProfileClick}
     />
   </div>

@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Button, Input } from 'antd';
-import {Modal} from 'antd';
 import { notification } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { HomeContext } from '../../../../Context/HomeContext';
@@ -13,7 +12,6 @@ export default function PaymentMethods() {
     customerDetails,
     totalAmount,
     totalDiscount,
-    points,
     selectedItems,
     resetTransaction,
     setRightContent,

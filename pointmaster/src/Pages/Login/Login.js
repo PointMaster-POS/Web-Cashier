@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./login.css";
 import { Form, Input, Button, Checkbox, message } from "antd";
 import {
@@ -25,10 +25,10 @@ export default function Login({ setIsAuthenticated }) {
     .then((response) => {
       if (response.status === 200) {
         const accessToken = response.data.accessToken || response.data.token || response.data;
-        const expirationTime = new Date().getTime() + 30 * 60 * 1000; // Token expires in 30 minutes
+        const expirationTime = new Date().getTime() + 30 * 60 * 1000; 
         
         localStorage.setItem("accessToken", JSON.stringify(accessToken));
-        localStorage.setItem("tokenExpiration", expirationTime.toString()); // Store expiration as a string
+        localStorage.setItem("tokenExpiration", expirationTime.toString()); 
         
         setIsAuthenticated(true);
         navigate("/dashboard");

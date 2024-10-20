@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, {  useEffect, useContext } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import MainLayout from './Components/Dashboard/MainLayout'; 
 import Login from './Pages/Login/Login';
@@ -17,9 +17,8 @@ const App = () => {
       console.log(accessTokenFromUrl);
 
       if (accessTokenFromUrl) {
-        // Set access token from URL
         localStorage.setItem('accessToken', accessTokenFromUrl);
-        const expirationTime = Date.now() + 3600000; // Example: set expiration for 1 hour
+        const expirationTime = Date.now() + 3600000; 
         localStorage.setItem('tokenExpiration', expirationTime);
       }
 
@@ -27,18 +26,17 @@ const App = () => {
       console.log({ accessToken : accessToken });
       const tokenExpiration = localStorage.getItem('tokenExpiration');
 
-      // Check if token exists and if it's expired
       if (accessToken) {
         const currentTime = Date.now();
         if (currentTime < tokenExpiration) {
-          setIsAuthenticated(true); // Token is valid
+          setIsAuthenticated(true); 
         } else {
           localStorage.removeItem('accessToken');
           localStorage.removeItem('tokenExpiration');
-          setIsAuthenticated(false); // Token expired, force login
+          setIsAuthenticated(false); 
         }
       } else {
-        setIsAuthenticated(false); // No token, must log in
+        setIsAuthenticated(false);
       }
     };
 
