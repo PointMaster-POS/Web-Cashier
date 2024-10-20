@@ -11,7 +11,7 @@ export default function LeftContent() {
   const [foodItems, setFoodItems] = useState([]);
 
 
-  // Fetch token from localStorage asynchronously
+  
   const fetchToken = async () => {
     return localStorage.getItem('accessToken');
   };
@@ -46,7 +46,7 @@ export default function LeftContent() {
       }
     };
   
-    if (isAuthenticated) { // Ensure fetching happens only if authenticated
+    if (isAuthenticated) { 
       fetchCategories();
     }
   }, [isAuthenticated]);
