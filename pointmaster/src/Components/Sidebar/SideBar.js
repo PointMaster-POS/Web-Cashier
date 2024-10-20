@@ -3,7 +3,6 @@ import { HomeOutlined, HistoryOutlined } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./sidebar.css";
-import { Color } from "antd/es/color-picker";
 
 const { Sider } = Layout;
 
