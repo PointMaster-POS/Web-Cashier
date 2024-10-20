@@ -32,14 +32,14 @@ export const HomeProvider = ({ children }) => {
   };
 
   const removeItemHold = (index) => {
-    if (!holdBillData.items[index]) return; // Check if item exists
+    if (!holdBillData.items[index]) return; 
   
     const newItems = [...holdBillData.items];
-    newItems.splice(index, 1); // Remove the item at the specified index
+    newItems.splice(index, 1); 
   
     setHoldBillData({
       ...holdBillData,
-      items: newItems, // Update the holdBillData with the new items array
+      items: newItems, 
     });
   };
   
@@ -51,12 +51,12 @@ export const HomeProvider = ({ children }) => {
   };
 
   const increaseQuantityHold = (index) => {
-    if (!holdBillData.items[index]) return; // Check if item exists
+    if (!holdBillData.items[index]) return; 
     let newItems = [...holdBillData.items];
     if (newItems[index].quantity) {
       newItems[index].quantity += 1;
     } else {
-      newItems[index].quantity = 1; // Set a default value if undefined
+      newItems[index].quantity = 1; 
     }
     setHoldBillData({
       ...holdBillData,
@@ -73,7 +73,7 @@ export const HomeProvider = ({ children }) => {
   };
 
   const decreaseQuantityHold = (index) => {
-    if (!holdBillData.items[index]) return; // Check if item exists
+    if (!holdBillData.items[index]) return; 
     let newItems = [...holdBillData.items];
     if (newItems[index].quantity && newItems[index].quantity > 1) {
       newItems[index].quantity -= 1;
@@ -103,7 +103,7 @@ export const HomeProvider = ({ children }) => {
   };
 
   const updateHoldBillData = (data) => {
-    setHoldBillData(data); // Function to update hold bill data
+    setHoldBillData(data); 
   };
 
   
@@ -121,7 +121,7 @@ export const HomeProvider = ({ children }) => {
     setSelectedItems([]);
   };
 
-  // New function to set history bill details
+  
   const setHistoryDetails = (items, customer) => {
     setSelectedItems(items);
     setCustomerDetails(customer);
